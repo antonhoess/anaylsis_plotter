@@ -128,7 +128,7 @@ Begin VB.Form Form1
          Left            =   720
          TabIndex        =   67
          Top             =   5280
-         Width           =   495
+         Width           =   735
          Begin VB.PictureBox Picture1 
             Height          =   855
             Left            =   480
@@ -144,8 +144,9 @@ Begin VB.Form Form1
                Height          =   255
                Index           =   11
                Left            =   1200
-               ScaleHeight     =   255
-               ScaleWidth      =   255
+               ScaleHeight     =   0.177
+               ScaleMode       =   5  'Zoll
+               ScaleWidth      =   0.177
                TabIndex        =   81
                Top             =   240
                Width           =   255
@@ -917,6 +918,14 @@ Begin VB.Form Form1
          Width           =   1455
       End
    End
+   Begin VB.Label Label20 
+      Caption         =   "Beim Proportionieren Graph weiterhin zeichnen lassen z.B., wenn Faktor 1 ist!"
+      Height          =   855
+      Left            =   6960
+      TabIndex        =   94
+      Top             =   3960
+      Width           =   3375
+   End
    Begin VB.Label Label18 
       Caption         =   "COL-Frame noch richtig der Breite anpassen"
       Height          =   375
@@ -926,10 +935,10 @@ Begin VB.Form Form1
       Width           =   2775
    End
    Begin VB.Image Image1 
-      Height          =   480
+      Height          =   120
       Left            =   0
       Top             =   0
-      Width           =   360
+      Width           =   120
    End
    Begin VB.Label Label25 
       Caption         =   "Bei Weiter in Form2 überprüfen, ob kommende Zhalen schon eingegeben wurden"
@@ -948,7 +957,7 @@ Begin VB.Form Form1
       Width           =   2175
    End
    Begin VB.Label Label9 
-      Caption         =   "Bei Trace Cursorposition aktualisieren"
+      Caption         =   "Bei Trace Cursorposition aktualisieren (vielleicht über getcursor pos!)"
       Height          =   495
       Left            =   6240
       TabIndex        =   63
@@ -1417,6 +1426,11 @@ Private Sub Command5_Click()
 On Error Resume Next
 Form1.Cls
 Form1.ScaleMode = 0
+Picture1.ScaleMode = 0
+For i = 0 To Picture2.Count
+Picture2(i).ScaleMode = 0
+Next i
+Picture3.ScaleMode = 0
 Form1.ScaleWidth = Text4.Text
 If Check1.Value = 0 Then
 Form1.ScaleHeight = Text5.Text
@@ -1455,6 +1469,11 @@ End Sub
 
 Private Sub FlatScrollBar1_Change()
 Text20.Text = -FlatScrollBar1.Value + 11
+End Sub
+
+Private Sub Form_Activate()
+Text4.Text = Int(Me.ScaleWidth * 100) / 100
+Text5.Text = Int(Me.ScaleHeight * 100) / 100
 End Sub
 
 '
@@ -1649,6 +1668,7 @@ End Sub
 
 Private Sub Picture3_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Frame6.Width = (Picture1.ScaleWidth + Picture3.ScaleWidth) / Form1.ScaleWidth * Screen.TwipsPerPixelX * 1280
+'Frame6.Width = (Picture3.ScaleWidth) / Form1.ScaleWidth * Screen.TwipsPerPixelX * 1280
 End Sub
 
 Private Sub Picture3_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
