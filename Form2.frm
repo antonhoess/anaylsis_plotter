@@ -11,13 +11,21 @@ Begin VB.Form Form2
    ScaleHeight     =   1530
    ScaleWidth      =   2295
    StartUpPosition =   3  'Windows-Standard
+   Begin VB.CommandButton Command3 
+      Caption         =   "Ende"
+      Height          =   375
+      Left            =   1680
+      TabIndex        =   4
+      Top             =   1080
+      Width           =   495
+   End
    Begin VB.CommandButton Command2 
       Caption         =   "Zurück"
       Height          =   375
-      Left            =   1200
+      Left            =   960
       TabIndex        =   3
       Top             =   1080
-      Width           =   975
+      Width           =   735
    End
    Begin VB.CommandButton Command1 
       Caption         =   "Eingeben"
@@ -26,7 +34,7 @@ Begin VB.Form Form2
       Left            =   120
       TabIndex        =   2
       Top             =   1080
-      Width           =   975
+      Width           =   855
    End
    Begin VB.TextBox Text1 
       Height          =   375
@@ -51,6 +59,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Public GGN   '=GradGegenNull
+Dim T
 
 Private Sub Command1_Click()
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
@@ -68,9 +77,14 @@ Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten Grad ein!"
 End If
 End Sub
 
+Private Sub Command3_Click()
+For T = GGN To Grad + 1
+A(GGN) = 0
+Next T
+Unload Me
+End Sub
+
 Private Sub Form_Load()
 GGN = 0
 ReDim A(Grad + 1)
 End Sub
-
-' *** Fragen, ob alle restlichen Koeffizienten beim schließen zu Null gemacht werden sollen
