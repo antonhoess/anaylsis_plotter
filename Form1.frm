@@ -15,6 +15,14 @@ Begin VB.Form Form1
    ScaleMode       =   5  'Zoll
    ScaleWidth      =   6.417
    StartUpPosition =   3  'Windows-Standard
+   Begin VB.TextBox Text6 
+      Height          =   375
+      Left            =   3360
+      TabIndex        =   23
+      Text            =   "Text6"
+      Top             =   10320
+      Width           =   1215
+   End
    Begin VB.CommandButton Command6 
       Caption         =   "Beenden"
       Height          =   375
@@ -168,12 +176,12 @@ Begin VB.Form Form1
       Width           =   1095
    End
    Begin VB.Label Label10 
-      Caption         =   "Alles in Abhängigkeit der Bildschirmauflösung stellen"
-      Height          =   735
-      Left            =   2760
-      TabIndex        =   23
-      Top             =   6360
-      Width           =   3615
+      Caption         =   "Arrays in Datei speichern und aus Datei laden"
+      Height          =   855
+      Left            =   2400
+      TabIndex        =   24
+      Top             =   3120
+      Width           =   2175
    End
    Begin VB.Label Label9 
       Caption         =   "Bei Change Grapg neu zeichnen"
@@ -275,11 +283,12 @@ End Type
 Dim aX, aY, dx, dy 'Dim aX%, aY%, dx%, dy%
 
 Private Sub Check1_Click()
+Text6.Text = (Screen.Width / Screen.TwipsPerPixelX)
 If Check1.Value = 0 Then
 Text5.Enabled = True
 Else
 Text5.Enabled = False
-Text5.Text = Int(Text4.Text / 1280 * 1002 * 100) / 100
+Text5.Text = Int(Text4.Text / (Screen.Width / Screen.TwipsPerPixelX) * (Screen.Height / Screen.TwipsPerPixelY - 22) * 100) / 100
 End If
 End Sub
 
@@ -340,9 +349,9 @@ Form1.ScaleWidth = Text4.Text
 If Check1.Value = 0 Then
 Form1.ScaleHeight = Text5.Text
 Else
-Form1.ScaleHeight = Int(Text4.Text / 1280 * 1002 * 100) / 100
+Form1.ScaleHeight = Int(Text4.Text / (Screen.Width / Screen.TwipsPerPixelX) * (Screen.Height / Screen.TwipsPerPixelY - 22) * 100) / 100
 End If
-' *** Rastergröße je näch größe um das 10-fache vergrößern oder verkleinern
+' *** RastergrÃ¶ÃŸe je nÃ¤ch grÃ¶ÃŸe um das 10-fache vergrÃ¶ÃŸern oder verkleinern
 Call Graph
 Call Raster
 End Sub
@@ -391,7 +400,7 @@ End If
 'If aY < Form1.ScaleHeight Then aY = Form1.ScaleHeight
       'aY = Pt.Y
 
-If B = True Then Call SetCursorPos(x / Form1.ScaleWidth * 1280, aY / Form1.ScaleHeight * 1002 + 20)
+If B = True Then Call SetCursorPos(x / Form1.ScaleWidth * (Screen.Width / Screen.TwipsPerPixelX), aY / Form1.ScaleHeight * (Screen.Height / Screen.TwipsPerPixelY - 22) + 20)
 Label1.Caption = Int((x - Form1.ScaleWidth / 2) * 100) / 100
 Label2.Caption = -Int((y - Form1.ScaleHeight / 2) * 100) / 100
 aY = 0
@@ -402,12 +411,12 @@ Form1.Cls
 Call Nullpunkt
 Call Raster
 End Sub
-
-Private Sub Slider1_Change()
-Form1.Cls
-Call Raster
-Call Graph
-End Sub
+'
+'Private Sub Slider1_Change()
+'Form1.Cls
+''Call Raster
+'Call Graph
+'End Sub
 
 Private Sub Slider1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
 If Faktor <> Slider1.Value Then
@@ -421,7 +430,7 @@ Next G
 
 x = 0
 
-Call Raster
+'Call Raster
 Call Graph
 
 End If
@@ -480,12 +489,12 @@ End Function
 Private Function Graph()
 On Error Resume Next
 x = -100
-Form1.DrawWidth = 3
+Form1.DrawWidth = 1 '3
 
-For X1 = 1 To 1280
-V = (X1 / 1280 * Form1.ScaleWidth - Form1.ScaleWidth / 2)
+For X1 = 1 To (Screen.Width / Screen.TwipsPerPixelX)
+V = (X1 / (Screen.Width / Screen.TwipsPerPixelX) * Form1.ScaleWidth - Form1.ScaleWidth / 2)
 
-I = X1 / 1280 * Form1.ScaleWidth
+I = X1 / (Screen.Width / Screen.TwipsPerPixelX) * Form1.ScaleWidth
 
 For G = 0 To Grad
 Y1 = Y1 + A(G) * V ^ G
@@ -500,7 +509,7 @@ End If
 End If
 
 y = Y1
-x = (X1 - 0) / 1280 * Form1.ScaleWidth
+x = (X1 - 0) / (Screen.Width / Screen.TwipsPerPixelX) * Form1.ScaleWidth
 Y1 = 0
 Next X1
 Form1.DrawWidth = 1
@@ -513,7 +522,7 @@ End Sub
 Private Sub Text4_KeyPress(KeyAscii As Integer)
 If KeyAscii = vbKeyReturn Then
 If Check1.Value = 1 Then
-Text5.Text = Int(Text4.Text / 1280 * 1002 * 100) / 100
+Text5.Text = Int(Text4.Text / (Screen.Width / Screen.TwipsPerPixelX) * (Screen.Height / Screen.TwipsPerPixelY - 22) * 100) / 100
 End If
 End If
 End Sub
@@ -521,6 +530,8 @@ End Sub
 Private Sub Text4_LostFocus()
 If Check1.Value = 0 Then
 Else
-Text5.Text = Int(Text4.Text / 1280 * 1002 * 100) / 100 '*** vielleicht als Konstante definieren
+Text5.Text = Int(Text4.Text / (Screen.Width / Screen.TwipsPerPixelX) * (Screen.Height / Screen.TwipsPerPixelY - 22) * 100) / 100 '*** vielleicht als Konstante definieren
 End If
 End Sub
+
+' *** BildschirmauflÃ¶sung nur einmal am Anfang erechnen und als Konstante Ã¼bergeben --> schnelleres Zeichnen des Graphen
