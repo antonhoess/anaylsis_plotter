@@ -47,16 +47,24 @@ Begin VB.Form Form2
    Begin VB.TextBox Text1 
       Height          =   375
       Left            =   0
-      TabIndex        =   1
+      TabIndex        =   0
       Top             =   600
       Width           =   2295
+   End
+   Begin VB.Label Label2 
+      Caption         =   "Nenner und Zähler auch noch beschreiben"
+      Height          =   255
+      Left            =   720
+      TabIndex        =   6
+      Top             =   120
+      Width           =   1575
    End
    Begin VB.Label Label1 
       Alignment       =   2  'Zentriert
       Caption         =   "Geben Sie den Koeffizienten für den 0-ten Grad ein!"
       Height          =   375
       Left            =   120
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   120
       Width           =   2175
    End
@@ -71,76 +79,12 @@ Dim T
 
 '*** Bei Form2.Load und bei Eingeben Textfeld aktivieren, Text aktualisieren
 
-'Private Sub Command1_Click()
-'If Grad - GGN = 0 Then
-'If GRF = False Then
-''Unload Me
-'Else
-'GRF = False
-'Grad = Form1.Text14.Text
-'GGN = 0
-'End If
-'End If
-'
-''If Grad - GGN = -1 Then
-''If GRF = False Then
-''Unload Me
-''End If
-''End If
-'
-''Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
-'If NV = False Then
-'If GRF = True Then
-'Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
-'A(GGN) = Text1.Text
-'GGN = GGN + 1
-'Else
-'Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Grad ein!"
-'D(GGN) = Form1.Text14.Text
-'GGN = GGN + 1
-'End If
-'Else
-'Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
-'A(GGN) = Text1.Text
-'GGN = GGN + 1
-'End If
-'
-''If NV = False Then
-''If Grad - GGN = 0 Then
-''If GRF = False Then
-''GGN = 0
-''End If
-''End If
-''End If
-'
-''GGN = GGN + 1
-''If Grad - GGN = -1 Then Unload Me
-'
-''''If Grad - GGN = -1 Then
-''''If GRF = False Then
-''''Unload Me
-''''Else
-''''GRF = False
-''''Grad = Form1.Text14.Text
-''''GGN = 0
-''''End If
-''''End If
-'
-'''If NV = False Then
-'''If Grad - GGN = 0 Then
-'''If GRF = False Then
-'''GGN = 0
-'''End If
-'''End If
-'''End If
-'End Sub
-
 Private Sub Command1_Click()
-'Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
-'A(GGN) = Text1.Text
-'GGN = GGN + 1
-'If Grad - GGN = -1 Then Unload Me
-
+If Form2.Visible = True Then
+Text1.SetFocus
+Text1.SelStart = 0
+Text1.SelLength = Len(Text1.Text)
+End If
 
 If NV = True Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
@@ -148,12 +92,17 @@ A(GGN) = Text1.Text
 GGN = GGN + 1
 Else
 If GRF = True Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
 A(GGN) = Text1.Text
 GGN = GGN + 1
+If GGN = Grad + 1 Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Grad ein!"
 Else
-If GGN = 0 Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Grad ein!"
+End If
+
+Else
+If GGN = Grad Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Grad ein!"
 Else
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
 End If
@@ -214,6 +163,11 @@ GRF = False
 End If
 
 If Form1.Check5.Value = 1 Then
+Text1.SetFocus
+Text1.SetFocus
+Text1.SelStart = 0
+Text1.SelLength = Len(Text1.Text)
+
 'Form dauerhaft in den Vordergrund setzen
 Call SetWindowPos(Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, 3)
 Else
@@ -224,4 +178,6 @@ End If
 GGN = 0
 ReDim A(Grad + 1)
 ReDim D(Form1.Text14.Text + 14)
+
+
 End Sub
