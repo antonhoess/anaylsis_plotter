@@ -1,44 +1,55 @@
 VERSION 5.00
 Begin VB.Form Form2 
+   BackColor       =   &H00C0FFFF&
+   BorderStyle     =   1  'Fest Einfach
    Caption         =   "Koeffizienten"
    ClientHeight    =   1965
-   ClientLeft      =   60
-   ClientTop       =   345
+   ClientLeft      =   45
+   ClientTop       =   330
    ClientWidth     =   2295
    ControlBox      =   0   'False
    FillStyle       =   0  'Ausgefüllt
    LinkTopic       =   "Form2"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
    ScaleHeight     =   1965
    ScaleWidth      =   2295
    StartUpPosition =   3  'Windows-Standard
    Begin VB.CommandButton Command3 
+      BackColor       =   &H008080FF&
       Caption         =   "Ende"
       Height          =   375
       Left            =   1680
+      Style           =   1  'Grafisch
       TabIndex        =   5
       TabStop         =   0   'False
       Top             =   1560
       Width           =   495
    End
    Begin VB.CommandButton Command4 
+      BackColor       =   &H0080FF80&
       Caption         =   "Weiter"
       Height          =   375
       Left            =   840
+      Style           =   1  'Grafisch
       TabIndex        =   4
       TabStop         =   0   'False
       Top             =   1560
       Width           =   735
    End
    Begin VB.CommandButton Command2 
+      BackColor       =   &H0000C0C0&
       Caption         =   "Zurück"
       Height          =   375
       Left            =   120
+      Style           =   1  'Grafisch
       TabIndex        =   3
       TabStop         =   0   'False
       Top             =   1560
       Width           =   735
    End
    Begin VB.CommandButton Command1 
+      BackColor       =   &H00FFFF00&
       Caption         =   "Eingeben"
       Default         =   -1  'True
       Height          =   375
@@ -59,6 +70,7 @@ Begin VB.Form Form2
    End
    Begin VB.Label Label1 
       Alignment       =   2  'Zentriert
+      BackStyle       =   0  'Transparent
       Caption         =   "Geben Sie den Koeffizienten für den 0-ten Grad ein!"
       Height          =   375
       Left            =   120
@@ -280,6 +292,120 @@ End Sub
 'Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 'If KeyCode = vbKeyF1 Then Unload Me
 'End Sub
+
+Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
+Select Case KeyCode
+
+Case vbKeyLeft
+
+'If GGN <> 0 Then KZ2 = KZ2 - 1
+If NV = True Then
+If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
+If GGN <> 0 Then
+KZ2 = KZ2 - 1
+GGN = GGN - 1
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten Grad ein!"
+ Text1.Text = A(GGN)
+End If
+Else
+If GRF = True Then
+If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
+If Sprung = True Then Sprung = False: GGN = Grad + 1: Grad = Grad + 1 '***
+If GGN <> 0 Then
+KZ2 = KZ2 - 1
+GGN = GGN - 1
+Text1.Text = A(GGN)
+End If
+If GGN = 0 Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+Else
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
+End If
+Else
+If GGN <> 0 Then
+KZ2 = KZ2 - 1
+GGN = GGN - 1
+Text1.Text = D(GGN)
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Nenner-Grad ein!"
+Else 'If GGN = 0 Then
+'Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+If Grad <> 1 Then
+GGN = Grad + 1
+GRF = True
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
+Text1.Text = A(GGN + 0) '+1
+Sprung = True
+Else
+GGN = Grad + 1
+GRF = True
+Label1.Caption = "Geben Sie den Koeffizienten für den 0-ten Zähler-Grad ein!"
+Text1.Text = A(0)
+Sprung = True
+End If
+End If
+End If
+End If
+
+
+Case vbKeyRight
+
+If NV = True Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
+If KZ2 < KZ Then
+Text1.Text = A(GGN)
+Else
+A(GGN) = 0
+Text1.Text = 0
+End If
+GGN = GGN + 1
+Else
+If GRF = True Then
+A(GGN) = 0
+Text1.Text = 0
+GGN = GGN + 1
+If GGN = Grad + 1 Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+Else
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
+End If
+
+Else
+If GGN = Grad Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+Else
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
+End If
+If KZ2 < KZ Then
+Text1.Text = D(GGN)
+Else
+D(GGN) = 0
+Text1.Text = 0
+End If
+GGN = GGN + 1
+End If
+End If
+
+Text1.SetFocus
+Text1.SelStart = 0
+Text1.SelLength = Len(Text1.Text)
+
+If Grad - GGN = -1 Then
+If NV = True Then
+Unload Me
+Else
+If GRF = True Then
+GRF = False
+GGN = 0
+Grad = Form1.Text14.Text
+Else
+Unload Me
+End If
+End If
+End If
+
+
+End Select
+End Sub
 
 Private Sub Form_Load()
 Form2.KeyPreview = True

@@ -1,17 +1,18 @@
 VERSION 5.00
 Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "comctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form Form1 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00FFFFFF&
-   Caption         =   "Form1"
+   Caption         =   "Analysis"
    ClientHeight    =   12555
    ClientLeft      =   60
    ClientTop       =   345
    ClientWidth     =   12990
    ControlBox      =   0   'False
    ForeColor       =   &H00FF0000&
+   Icon            =   "Form1.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   8.719
    ScaleMode       =   5  'Zoll
@@ -21,16 +22,11 @@ Begin VB.Form Form1
       Caption         =   "Ende"
       Height          =   375
       Left            =   0
-      TabIndex        =   102
+      TabIndex        =   103
+      TabStop         =   0   'False
       Top             =   2160
+      Visible         =   0   'False
       Width           =   3015
-   End
-   Begin MSComDlg.CommonDialog CommonDialog1 
-      Left            =   4800
-      Top             =   5520
-      _ExtentX        =   847
-      _ExtentY        =   847
-      _Version        =   393216
    End
    Begin VB.Timer Timer3 
       Left            =   4320
@@ -53,59 +49,115 @@ Begin VB.Form Form1
       TabIndex        =   0
       Top             =   2520
       Width           =   9615
+      Begin VB.TextBox Text23 
+         Height          =   375
+         Left            =   8640
+         TabIndex        =   117
+         Top             =   6120
+         Width           =   735
+      End
+      Begin VB.TextBox Text22 
+         Height          =   375
+         Left            =   8640
+         TabIndex        =   116
+         Top             =   5400
+         Width           =   735
+      End
+      Begin VB.CommandButton Command22 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Integral errechnen"
+         Height          =   375
+         Left            =   6480
+         Style           =   1  'Grafisch
+         TabIndex        =   115
+         Top             =   5280
+         Width           =   1815
+      End
+      Begin VB.TextBox Text21 
+         Height          =   285
+         Left            =   7680
+         TabIndex        =   114
+         Text            =   "0"
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.TextBox Text19 
+         Height          =   285
+         Left            =   6720
+         TabIndex        =   113
+         Text            =   "0"
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.CheckBox Check7 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Graph erklicken"
+         Height          =   375
+         Left            =   4800
+         TabIndex        =   73
+         Top             =   5400
+         Width           =   2055
+      End
       Begin VB.ListBox List1 
          Height          =   2400
          Left            =   4680
-         TabIndex        =   101
-         Top             =   600
+         TabIndex        =   66
+         TabStop         =   0   'False
+         Top             =   6480
          Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List2 
          Height          =   2400
-         Left            =   5400
-         TabIndex        =   100
-         Top             =   600
+         Left            =   5280
+         TabIndex        =   67
+         TabStop         =   0   'False
+         Top             =   6480
          Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List3 
          Height          =   2400
-         Left            =   6360
-         TabIndex        =   99
-         Top             =   600
+         Left            =   5880
+         TabIndex        =   68
+         TabStop         =   0   'False
+         Top             =   6480
          Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List4 
          Height          =   2400
-         Left            =   7080
-         TabIndex        =   98
-         Top             =   600
+         Left            =   6480
+         TabIndex        =   69
+         TabStop         =   0   'False
+         Top             =   6480
          Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List5 
          Height          =   2400
-         Left            =   7920
-         TabIndex        =   97
-         Top             =   600
+         Left            =   7080
+         TabIndex        =   70
+         TabStop         =   0   'False
+         Top             =   6480
          Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List6 
          Height          =   2400
-         Left            =   8640
-         TabIndex        =   96
-         Top             =   600
+         Left            =   7680
+         TabIndex        =   71
+         TabStop         =   0   'False
+         Top             =   6480
          Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List8 
          Height          =   2400
-         Left            =   5880
-         TabIndex        =   95
-         Top             =   600
+         Left            =   8280
+         TabIndex        =   72
+         TabStop         =   0   'False
+         Top             =   6480
          Visible         =   0   'False
          Width           =   615
       End
@@ -114,20 +166,27 @@ Begin VB.Form Form1
          Caption         =   "Eigenschaften"
          Height          =   4935
          Left            =   4680
-         TabIndex        =   83
+         TabIndex        =   100
          Top             =   240
          Width           =   4815
+         Begin MSComDlg.CommonDialog CommonDialog1 
+            Left            =   480
+            Top             =   1680
+            _ExtentX        =   847
+            _ExtentY        =   847
+            _Version        =   393216
+         End
          Begin VB.TextBox Text17 
             Height          =   375
             Left            =   120
-            TabIndex        =   92
+            TabIndex        =   59
             Top             =   960
             Width           =   4575
          End
          Begin VB.TextBox Text18 
             Height          =   375
             Left            =   120
-            TabIndex        =   91
+            TabIndex        =   60
             Top             =   1560
             Width           =   4575
          End
@@ -138,42 +197,42 @@ Begin VB.Form Form1
             Height          =   615
             Left            =   120
             Style           =   1  'Grafisch
-            TabIndex        =   90
+            TabIndex        =   57
             Top             =   240
             Width           =   2895
          End
          Begin VB.ListBox List12 
             Height          =   2400
             Left            =   3360
-            TabIndex        =   89
+            TabIndex        =   65
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox List11 
             Height          =   2400
             Left            =   2640
-            TabIndex        =   88
+            TabIndex        =   64
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox List10 
             Height          =   2400
             Left            =   1800
-            TabIndex        =   87
+            TabIndex        =   63
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox List9 
             Height          =   2400
             Left            =   1080
-            TabIndex        =   86
+            TabIndex        =   62
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox List7 
             Height          =   2400
             Left            =   120
-            TabIndex        =   85
+            TabIndex        =   61
             Top             =   2400
             Width           =   615
          End
@@ -184,7 +243,7 @@ Begin VB.Form Form1
             Height          =   615
             Left            =   3120
             Style           =   1  'Grafisch
-            TabIndex        =   84
+            TabIndex        =   58
             Top             =   240
             Width           =   1575
          End
@@ -193,7 +252,7 @@ Begin VB.Form Form1
             Caption         =   "NS       Vielfachheit   Pole          Ordnung"
             Height          =   255
             Left            =   1080
-            TabIndex        =   94
+            TabIndex        =   102
             Top             =   2160
             Width           =   2895
          End
@@ -202,13 +261,13 @@ Begin VB.Form Form1
             Caption         =   "Def.-lücken"
             Height          =   255
             Left            =   120
-            TabIndex        =   93
+            TabIndex        =   101
             Top             =   2160
             Width           =   975
          End
          Begin VB.Line Line1 
-            X1              =   120
-            X2              =   4320
+            X1              =   240
+            X2              =   4440
             Y1              =   1440
             Y2              =   1440
          End
@@ -219,7 +278,7 @@ Begin VB.Form Form1
          Height          =   495
          Left            =   2040
          Style           =   1  'Grafisch
-         TabIndex        =   82
+         TabIndex        =   26
          Top             =   4680
          Width           =   2175
       End
@@ -229,14 +288,14 @@ Begin VB.Form Form1
          Height          =   255
          Left            =   2520
          Style           =   1  'Grafisch
-         TabIndex        =   80
+         TabIndex        =   55
          Top             =   8400
          Width           =   1815
       End
       Begin VB.TextBox Text15 
          Height          =   285
          Left            =   1920
-         TabIndex        =   78
+         TabIndex        =   53
          Top             =   8400
          Width           =   495
       End
@@ -246,7 +305,7 @@ Begin VB.Form Form1
          Height          =   495
          Left            =   120
          Style           =   1  'Grafisch
-         TabIndex        =   77
+         TabIndex        =   52
          Top             =   8400
          Width           =   1335
       End
@@ -254,14 +313,14 @@ Begin VB.Form Form1
          Height          =   285
          Left            =   1920
          Locked          =   -1  'True
-         TabIndex        =   76
+         TabIndex        =   54
          Top             =   8640
          Width           =   495
       End
       Begin VB.TextBox Text20 
          Height          =   285
          Left            =   600
-         TabIndex        =   75
+         TabIndex        =   44
          Text            =   "1"
          Top             =   6840
          Width           =   615
@@ -269,7 +328,7 @@ Begin VB.Form Form1
       Begin MSComCtl2.FlatScrollBar FlatScrollBar1 
          Height          =   495
          Left            =   600
-         TabIndex        =   73
+         TabIndex        =   97
          Top             =   7200
          Width           =   615
          _ExtentX        =   1085
@@ -286,7 +345,7 @@ Begin VB.Form Form1
          Caption         =   "COL"
          Height          =   1095
          Left            =   720
-         TabIndex        =   57
+         TabIndex        =   95
          Top             =   5280
          Width           =   495
          Begin VB.PictureBox Picture1 
@@ -295,7 +354,7 @@ Begin VB.Form Form1
             ScaleHeight     =   0.552
             ScaleMode       =   5  'Zoll
             ScaleWidth      =   1.01
-            TabIndex        =   59
+            TabIndex        =   96
             Top             =   240
             Width           =   1510
             Begin VB.PictureBox Picture2 
@@ -306,7 +365,8 @@ Begin VB.Form Form1
                Left            =   720
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   69
+               TabIndex        =   37
+               TabStop         =   0   'False
                Top             =   240
                Width           =   255
             End
@@ -319,7 +379,8 @@ Begin VB.Form Form1
                ScaleHeight     =   0.177
                ScaleMode       =   5  'Zoll
                ScaleWidth      =   0.177
-               TabIndex        =   71
+               TabIndex        =   39
+               TabStop         =   0   'False
                Top             =   240
                Width           =   255
             End
@@ -331,7 +392,8 @@ Begin VB.Form Form1
                Left            =   960
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   70
+               TabIndex        =   38
+               TabStop         =   0   'False
                Top             =   240
                Width           =   255
             End
@@ -343,7 +405,8 @@ Begin VB.Form Form1
                Left            =   480
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   68
+               TabIndex        =   36
+               TabStop         =   0   'False
                Top             =   240
                Width           =   255
             End
@@ -355,7 +418,8 @@ Begin VB.Form Form1
                Left            =   240
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   67
+               TabIndex        =   35
+               TabStop         =   0   'False
                Top             =   240
                Width           =   255
             End
@@ -367,7 +431,8 @@ Begin VB.Form Form1
                Left            =   0
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   66
+               TabIndex        =   34
+               TabStop         =   0   'False
                Top             =   240
                Width           =   255
             End
@@ -379,7 +444,8 @@ Begin VB.Form Form1
                Left            =   1200
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   65
+               TabIndex        =   33
+               TabStop         =   0   'False
                Top             =   0
                Width           =   255
             End
@@ -391,7 +457,8 @@ Begin VB.Form Form1
                Left            =   960
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   64
+               TabIndex        =   32
+               TabStop         =   0   'False
                Top             =   0
                Width           =   255
             End
@@ -403,7 +470,8 @@ Begin VB.Form Form1
                Left            =   720
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   63
+               TabIndex        =   31
+               TabStop         =   0   'False
                Top             =   0
                Width           =   255
             End
@@ -415,7 +483,8 @@ Begin VB.Form Form1
                Left            =   480
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   62
+               TabIndex        =   30
+               TabStop         =   0   'False
                Top             =   0
                Width           =   255
             End
@@ -427,7 +496,8 @@ Begin VB.Form Form1
                Left            =   240
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   61
+               TabIndex        =   29
+               TabStop         =   0   'False
                Top             =   0
                Width           =   255
             End
@@ -439,7 +509,8 @@ Begin VB.Form Form1
                Left            =   0
                ScaleHeight     =   255
                ScaleWidth      =   255
-               TabIndex        =   60
+               TabIndex        =   28
+               TabStop         =   0   'False
                Top             =   0
                Width           =   255
             End
@@ -450,7 +521,7 @@ Begin VB.Form Form1
                Caption         =   "SELECT  "
                Height          =   375
                Left            =   0
-               TabIndex        =   72
+               TabIndex        =   75
                Top             =   480
                Width           =   1575
             End
@@ -462,7 +533,8 @@ Begin VB.Form Form1
             ScaleHeight     =   0.552
             ScaleMode       =   5  'Zoll
             ScaleWidth      =   0.344
-            TabIndex        =   58
+            TabIndex        =   27
+            TabStop         =   0   'False
             Top             =   240
             Width           =   550
          End
@@ -470,11 +542,10 @@ Begin VB.Form Form1
       Begin VB.CommandButton Command12 
          BackColor       =   &H0080C0FF&
          Caption         =   "Differentieren"
-         Enabled         =   0   'False
          Height          =   255
          Left            =   2520
          Style           =   1  'Grafisch
-         TabIndex        =   30
+         TabIndex        =   56
          Top             =   8760
          Width           =   1815
       End
@@ -482,9 +553,9 @@ Begin VB.Form Form1
          Enabled         =   0   'False
          Height          =   285
          Left            =   1320
-         TabIndex        =   50
+         TabIndex        =   12
          Text            =   "0"
-         Top             =   3360
+         Top             =   3480
          Width           =   495
       End
       Begin VB.CheckBox Check6 
@@ -493,16 +564,16 @@ Begin VB.Form Form1
          Height          =   435
          Left            =   720
          Style           =   1  'Grafisch
-         TabIndex        =   49
-         Top             =   2880
+         TabIndex        =   11
+         Top             =   3000
          Width           =   1095
       End
       Begin VB.TextBox Text1 
          Height          =   285
          Left            =   1320
-         TabIndex        =   48
+         TabIndex        =   10
          Text            =   "0"
-         Top             =   2640
+         Top             =   2760
          Width           =   495
       End
       Begin VB.Frame Frame5 
@@ -511,8 +582,8 @@ Begin VB.Form Form1
          Enabled         =   0   'False
          Height          =   1095
          Left            =   600
-         TabIndex        =   44
-         Top             =   1560
+         TabIndex        =   6
+         Top             =   1680
          Width           =   1335
          Begin VB.CommandButton Command1 
             BackColor       =   &H0080C0FF&
@@ -521,7 +592,7 @@ Begin VB.Form Form1
             Height          =   255
             Left            =   120
             Style           =   1  'Grafisch
-            TabIndex        =   47
+            TabIndex        =   7
             Top             =   240
             Width           =   1095
          End
@@ -531,7 +602,7 @@ Begin VB.Form Form1
             Height          =   255
             Left            =   120
             Style           =   1  'Grafisch
-            TabIndex        =   46
+            TabIndex        =   8
             Top             =   480
             Width           =   1095
          End
@@ -541,7 +612,7 @@ Begin VB.Form Form1
             Height          =   255
             Left            =   120
             Style           =   1  'Grafisch
-            TabIndex        =   45
+            TabIndex        =   9
             Top             =   720
             Width           =   1095
          End
@@ -549,10 +620,9 @@ Begin VB.Form Form1
       Begin VB.Frame Frame4 
          BackColor       =   &H0080C0FF&
          Caption         =   "Grad    Koeffizient"
-         Enabled         =   0   'False
-         Height          =   855
+         Height          =   975
          Left            =   600
-         TabIndex        =   38
+         TabIndex        =   87
          Top             =   240
          Width           =   1455
          Begin VB.OptionButton Option2 
@@ -560,9 +630,9 @@ Begin VB.Form Form1
             Caption         =   "N"
             Enabled         =   0   'False
             Height          =   255
-            Left            =   600
-            TabIndex        =   42
-            Top             =   480
+            Left            =   720
+            TabIndex        =   4
+            Top             =   600
             Width           =   375
          End
          Begin VB.OptionButton Option1 
@@ -570,15 +640,15 @@ Begin VB.Form Form1
             Caption         =   "Z"
             Height          =   255
             Left            =   120
-            TabIndex        =   41
-            Top             =   480
+            TabIndex        =   3
+            Top             =   600
             Value           =   -1  'True
             Width           =   375
          End
          Begin VB.TextBox Text2 
             Height          =   285
             Left            =   720
-            TabIndex        =   40
+            TabIndex        =   2
             Text            =   "0"
             Top             =   240
             Width           =   495
@@ -586,7 +656,7 @@ Begin VB.Form Form1
          Begin VB.TextBox Text3 
             Height          =   285
             Left            =   120
-            TabIndex        =   39
+            TabIndex        =   1
             Text            =   "0"
             Top             =   240
             Width           =   375
@@ -597,26 +667,24 @@ Begin VB.Form Form1
             Caption         =   "="
             Height          =   255
             Left            =   480
-            TabIndex        =   43
+            TabIndex        =   88
             Top             =   240
             Width           =   255
          End
       End
       Begin VB.CommandButton Command16 
          Caption         =   "-"
-         Enabled         =   0   'False
          Height          =   255
          Left            =   120
-         TabIndex        =   34
+         TabIndex        =   85
          Top             =   8040
          Width           =   375
       End
       Begin VB.CommandButton Command15 
          Caption         =   "+"
-         Enabled         =   0   'False
          Height          =   255
          Left            =   120
-         TabIndex        =   33
+         TabIndex        =   84
          Top             =   240
          Width           =   375
       End
@@ -627,7 +695,7 @@ Begin VB.Form Form1
          Height          =   495
          Left            =   2880
          Style           =   1  'Grafisch
-         TabIndex        =   31
+         TabIndex        =   49
          Top             =   6480
          Width           =   1455
       End
@@ -635,10 +703,10 @@ Begin VB.Form Form1
          BackColor       =   &H0080C0FF&
          Caption         =   "Koeffizienten"
          Height          =   255
-         Left            =   720
+         Left            =   600
          Style           =   1  'Grafisch
-         TabIndex        =   25
-         Top             =   1200
+         TabIndex        =   5
+         Top             =   1320
          Width           =   1215
       End
       Begin VB.Frame Frame1 
@@ -646,7 +714,7 @@ Begin VB.Form Form1
          Caption         =   "Proportionalität"
          Height          =   1935
          Left            =   2040
-         TabIndex        =   18
+         TabIndex        =   21
          Top             =   2640
          Width           =   2175
          Begin VB.CheckBox Check1 
@@ -655,7 +723,7 @@ Begin VB.Form Form1
             Height          =   375
             Left            =   120
             Style           =   1  'Grafisch
-            TabIndex        =   22
+            TabIndex        =   25
             Top             =   1440
             Value           =   1  'Aktiviert
             Width           =   1935
@@ -666,7 +734,7 @@ Begin VB.Form Form1
             Height          =   495
             Left            =   120
             Style           =   1  'Grafisch
-            TabIndex        =   21
+            TabIndex        =   24
             Top             =   960
             Width           =   1935
          End
@@ -674,7 +742,7 @@ Begin VB.Form Form1
             Enabled         =   0   'False
             Height          =   285
             Left            =   1440
-            TabIndex        =   20
+            TabIndex        =   23
             Text            =   "10"
             Top             =   600
             Width           =   615
@@ -682,7 +750,7 @@ Begin VB.Form Form1
          Begin VB.TextBox Text4 
             Height          =   285
             Left            =   1440
-            TabIndex        =   19
+            TabIndex        =   22
             Text            =   "13"
             Top             =   240
             Width           =   615
@@ -692,7 +760,7 @@ Begin VB.Form Form1
             Caption         =   "Längeneinheiten"
             Height          =   255
             Left            =   120
-            TabIndex        =   24
+            TabIndex        =   78
             Top             =   720
             Width           =   1215
          End
@@ -701,7 +769,7 @@ Begin VB.Form Form1
             Caption         =   "Breiteneinheiten"
             Height          =   255
             Left            =   120
-            TabIndex        =   23
+            TabIndex        =   77
             Top             =   360
             Width           =   1215
          End
@@ -712,7 +780,7 @@ Begin VB.Form Form1
          Height          =   615
          Left            =   2880
          Style           =   1  'Grafisch
-         TabIndex        =   17
+         TabIndex        =   50
          Top             =   7080
          Width           =   1455
       End
@@ -723,8 +791,9 @@ Begin VB.Form Form1
          Height          =   375
          Left            =   600
          Style           =   1  'Grafisch
-         TabIndex        =   16
-         Top             =   4320
+         TabIndex        =   13
+         TabStop         =   0   'False
+         Top             =   4440
          Width           =   1335
       End
       Begin VB.CommandButton Command8 
@@ -734,7 +803,8 @@ Begin VB.Form Form1
          Height          =   375
          Left            =   600
          Style           =   1  'Grafisch
-         TabIndex        =   15
+         TabIndex        =   14
+         TabStop         =   0   'False
          Top             =   4800
          Width           =   1335
       End
@@ -744,14 +814,14 @@ Begin VB.Form Form1
          Height          =   615
          Left            =   2880
          Style           =   1  'Grafisch
-         TabIndex        =   14
+         TabIndex        =   17
          Top             =   720
          Width           =   1575
       End
       Begin VB.TextBox Text7 
          Height          =   285
          Left            =   2280
-         TabIndex        =   13
+         TabIndex        =   15
          Text            =   "0"
          Top             =   720
          Width           =   495
@@ -759,7 +829,7 @@ Begin VB.Form Form1
       Begin VB.TextBox Text8 
          Height          =   285
          Left            =   2280
-         TabIndex        =   12
+         TabIndex        =   16
          Text            =   "0"
          Top             =   1080
          Width           =   495
@@ -767,7 +837,7 @@ Begin VB.Form Form1
       Begin VB.TextBox Text9 
          Height          =   285
          Left            =   3720
-         TabIndex        =   11
+         TabIndex        =   18
          Text            =   "1"
          Top             =   1440
          Width           =   735
@@ -778,7 +848,7 @@ Begin VB.Form Form1
          Height          =   375
          Left            =   2040
          Style           =   1  'Grafisch
-         TabIndex        =   10
+         TabIndex        =   20
          Top             =   2160
          Width           =   2415
       End
@@ -788,7 +858,7 @@ Begin VB.Form Form1
          Height          =   495
          Left            =   1320
          Style           =   1  'Grafisch
-         TabIndex        =   9
+         TabIndex        =   40
          Top             =   5280
          Value           =   1  'Aktiviert
          Width           =   1335
@@ -796,7 +866,7 @@ Begin VB.Form Form1
       Begin VB.TextBox Text10 
          Height          =   285
          Left            =   3720
-         TabIndex        =   8
+         TabIndex        =   19
          Text            =   "1"
          Top             =   1800
          Width           =   735
@@ -807,7 +877,7 @@ Begin VB.Form Form1
          Height          =   495
          Left            =   2880
          Style           =   1  'Grafisch
-         TabIndex        =   7
+         TabIndex        =   42
          Top             =   5280
          Value           =   1  'Aktiviert
          Width           =   1455
@@ -818,7 +888,7 @@ Begin VB.Form Form1
          Height          =   495
          Left            =   1320
          Style           =   1  'Grafisch
-         TabIndex        =   6
+         TabIndex        =   41
          Top             =   5880
          Value           =   1  'Aktiviert
          Width           =   1335
@@ -829,7 +899,7 @@ Begin VB.Form Form1
          Height          =   495
          Left            =   2880
          Style           =   1  'Grafisch
-         TabIndex        =   5
+         TabIndex        =   43
          Top             =   5880
          Width           =   1455
       End
@@ -838,7 +908,7 @@ Begin VB.Form Form1
          Caption         =   "Intervall"
          Height          =   1335
          Left            =   1200
-         TabIndex        =   2
+         TabIndex        =   76
          Top             =   6480
          Width           =   1455
          Begin VB.TextBox Text13 
@@ -846,7 +916,7 @@ Begin VB.Form Form1
             Height          =   285
             Left            =   840
             Locked          =   -1  'True
-            TabIndex        =   36
+            TabIndex        =   48
             Top             =   840
             Width           =   495
          End
@@ -855,14 +925,14 @@ Begin VB.Form Form1
             Height          =   285
             Left            =   240
             Locked          =   -1  'True
-            TabIndex        =   35
+            TabIndex        =   47
             Top             =   840
             Width           =   495
          End
          Begin VB.TextBox Text11 
             Height          =   285
             Left            =   240
-            TabIndex        =   4
+            TabIndex        =   45
             Text            =   "-1000"
             Top             =   240
             Width           =   495
@@ -870,7 +940,7 @@ Begin VB.Form Form1
          Begin VB.TextBox Text12 
             Height          =   285
             Left            =   840
-            TabIndex        =   3
+            TabIndex        =   46
             Text            =   "1000"
             Top             =   240
             Width           =   495
@@ -881,7 +951,7 @@ Begin VB.Form Form1
             Enabled         =   0   'False
             Height          =   255
             Left            =   120
-            TabIndex        =   37
+            TabIndex        =   86
             Top             =   600
             Width           =   1215
          End
@@ -892,31 +962,30 @@ Begin VB.Form Form1
          Height          =   375
          Left            =   600
          Style           =   1  'Grafisch
-         TabIndex        =   1
+         TabIndex        =   51
          Top             =   7920
          Width           =   3735
       End
       Begin ComctlLib.Slider Slider1 
          Height          =   7695
          Left            =   120
-         TabIndex        =   32
+         TabIndex        =   83
          Top             =   360
          Width           =   375
          _ExtentX        =   661
          _ExtentY        =   13573
          _Version        =   327682
          BorderStyle     =   1
-         Enabled         =   0   'False
          Orientation     =   1
-         Min             =   -1000
-         Max             =   1000
+         Min             =   -10000
+         Max             =   10000
          TickStyle       =   3
       End
       Begin MSComCtl2.MonthView MonthView1 
          Height          =   2370
          Left            =   5640
-         TabIndex        =   81
-         Top             =   6000
+         TabIndex        =   74
+         Top             =   6240
          Width           =   2490
          _ExtentX        =   4392
          _ExtentY        =   4180
@@ -931,12 +1000,52 @@ Begin VB.Form Form1
          TrailingForeColor=   8454016
          CurrentDate     =   37576
       End
+      Begin VB.Label Label32 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Betrag"
+         Height          =   195
+         Left            =   8640
+         TabIndex        =   121
+         Top             =   5880
+         Width           =   465
+      End
+      Begin VB.Label Label31 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Summe"
+         Height          =   195
+         Left            =   8640
+         TabIndex        =   120
+         Top             =   5160
+         Width           =   525
+      End
+      Begin VB.Label Label26 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "b"
+         Height          =   195
+         Left            =   7440
+         TabIndex        =   119
+         Top             =   5760
+         Width           =   90
+      End
+      Begin VB.Label Label25 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "a"
+         Height          =   195
+         Left            =   6480
+         TabIndex        =   118
+         Top             =   5760
+         Width           =   90
+      End
       Begin VB.Label Label22 
          BackStyle       =   0  'Transparent
          Caption         =   "X= Y="
          Height          =   375
          Left            =   1560
-         TabIndex        =   79
+         TabIndex        =   99
          Top             =   8520
          Width           =   255
       End
@@ -945,7 +1054,7 @@ Begin VB.Form Form1
          Caption         =   "Dicke"
          Height          =   255
          Left            =   720
-         TabIndex        =   74
+         TabIndex        =   98
          Top             =   6600
          Width           =   495
       End
@@ -955,8 +1064,8 @@ Begin VB.Form Form1
          Enabled         =   0   'False
          Height          =   255
          Left            =   720
-         TabIndex        =   56
-         Top             =   3360
+         TabIndex        =   94
+         Top             =   3480
          Width           =   615
       End
       Begin VB.Label Label1 
@@ -964,8 +1073,8 @@ Begin VB.Form Form1
          Caption         =   "0"
          Height          =   255
          Left            =   1080
-         TabIndex        =   55
-         Top             =   3840
+         TabIndex        =   93
+         Top             =   3960
          Width           =   615
       End
       Begin VB.Label Label2 
@@ -973,8 +1082,8 @@ Begin VB.Form Form1
          Caption         =   "0"
          Height          =   255
          Left            =   1080
-         TabIndex        =   54
-         Top             =   4080
+         TabIndex        =   92
+         Top             =   4200
          Width           =   615
       End
       Begin VB.Label Label3 
@@ -982,8 +1091,8 @@ Begin VB.Form Form1
          Caption         =   "Grad(Z)"
          Height          =   255
          Left            =   720
-         TabIndex        =   53
-         Top             =   2640
+         TabIndex        =   91
+         Top             =   2760
          Width           =   615
       End
       Begin VB.Label Label4 
@@ -991,8 +1100,8 @@ Begin VB.Form Form1
          Caption         =   "X Y"
          Height          =   375
          Left            =   840
-         TabIndex        =   52
-         Top             =   3840
+         TabIndex        =   90
+         Top             =   3960
          Width           =   135
       End
       Begin VB.Label Label14 
@@ -1009,8 +1118,8 @@ Begin VB.Form Form1
          EndProperty
          Height          =   255
          Left            =   840
-         TabIndex        =   51
-         Top             =   3600
+         TabIndex        =   89
+         Top             =   3720
          Width           =   1095
       End
       Begin VB.Label Label19 
@@ -1029,7 +1138,7 @@ Begin VB.Form Form1
          EndProperty
          Height          =   375
          Left            =   2400
-         TabIndex        =   29
+         TabIndex        =   82
          Top             =   240
          Width           =   2175
       End
@@ -1038,7 +1147,7 @@ Begin VB.Form Form1
          Caption         =   "X  Y"
          Height          =   615
          Left            =   2160
-         TabIndex        =   28
+         TabIndex        =   81
          Top             =   720
          Width           =   135
       End
@@ -1056,7 +1165,7 @@ Begin VB.Form Form1
          EndProperty
          Height          =   255
          Left            =   2040
-         TabIndex        =   27
+         TabIndex        =   80
          Top             =   1440
          Width           =   1455
       End
@@ -1074,74 +1183,91 @@ Begin VB.Form Form1
          EndProperty
          Height          =   255
          Left            =   2040
-         TabIndex        =   26
+         TabIndex        =   79
          Top             =   1800
          Width           =   1455
       End
+   End
+   Begin VB.Label Label34 
+      Caption         =   "Bei Koeffizienteneingabe mit Umschalt-Taste und Pfeiltasten arbeiten"
+      Height          =   255
+      Left            =   4800
+      TabIndex        =   123
+      Top             =   2280
+      Visible         =   0   'False
+      Width           =   2535
+   End
+   Begin VB.Label Label33 
+      Caption         =   "Integral schraffieren"
+      Height          =   255
+      Left            =   3000
+      TabIndex        =   122
+      Top             =   2160
+      Visible         =   0   'False
+      Width           =   1455
+   End
+   Begin VB.Label Label9 
+      Caption         =   " y =(x^7+x^6-17x^5-25x^4+44x^3+44x^2-48x) /(x^5-x^4-13x^3+13x^2+36x-36)"
+      Height          =   495
+      Left            =   2760
+      TabIndex        =   112
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   4455
    End
    Begin VB.Label Label5 
       Caption         =   "Einstellungen speichern"
       Height          =   255
       Left            =   0
-      TabIndex        =   113
+      TabIndex        =   111
       Top             =   720
+      Visible         =   0   'False
       Width           =   2175
    End
    Begin VB.Label Label10 
       Caption         =   "Arrays in Datei speichern und aus Datei laden"
       Height          =   375
       Left            =   0
-      TabIndex        =   112
+      TabIndex        =   110
       Top             =   0
+      Visible         =   0   'False
       Width           =   2175
    End
    Begin VB.Label Label16 
       Caption         =   "evtl abschnittsweise Definition"
       Height          =   255
       Left            =   0
-      TabIndex        =   111
+      TabIndex        =   109
       Top             =   960
+      Visible         =   0   'False
       Width           =   2175
    End
    Begin VB.Label Label11 
       Caption         =   "Proportional bei Raster nach Breite von Form1 angleichen, denn ansonsten stimmt es nicht überein"
       Height          =   375
       Left            =   0
-      TabIndex        =   110
+      TabIndex        =   108
       Top             =   360
+      Visible         =   0   'False
       Width           =   2175
    End
    Begin VB.Label Label24 
       Caption         =   "Form1.BorderStyle=0 (evtl.)"
       Height          =   255
       Left            =   2160
-      TabIndex        =   109
+      TabIndex        =   107
       Top             =   0
+      Visible         =   0   'False
       Width           =   2175
    End
    Begin VB.Label Label23 
       Caption         =   "Bei Bruch mehr als nur einaml differenzieren"
       Height          =   375
       Left            =   0
-      TabIndex        =   108
-      Top             =   1200
-      Width           =   2175
-   End
-   Begin VB.Label Label9 
-      Caption         =   "Bei Trace Cursorposition aktualisieren (vielleicht über getcursor pos!)"
-      Height          =   255
-      Left            =   2160
-      TabIndex        =   107
-      Top             =   240
-      Width           =   4935
-   End
-   Begin VB.Label Label26 
-      Caption         =   "bei form2 mit links und rechts-Pfeiltasten bewegen"
-      Height          =   255
-      Left            =   2160
       TabIndex        =   106
-      Top             =   480
-      Width           =   3855
+      Top             =   1200
+      Visible         =   0   'False
+      Width           =   2175
    End
    Begin VB.Label Label20 
       Caption         =   "Beim Proportionieren Graph weiterhin zeichnen lassen z.B., wenn Faktor 1 ist!"
@@ -1149,29 +1275,23 @@ Begin VB.Form Form1
       Left            =   0
       TabIndex        =   105
       Top             =   1560
+      Visible         =   0   'False
       Width           =   2175
    End
    Begin VB.Label Label18 
       Caption         =   "Über Ableitung Wendepunkte, Extremwerte und über Horner-Schema Nullpunkte, Definitionslücken, Pole, hebbare Lücken errechnen.Nicht nur mir ganzzahligen Exponenten arbeiten, sondern über ein zweites Array einmal Koeffizienten und über das zweite die Exponenten speichern und ganz normal in der Schleife durchrechnen lassen - das gleiche glit dann auch für das Differenzieren"
       Height          =   1455
-      Left            =   2160
+      Left            =   2640
       TabIndex        =   104
       Top             =   720
+      Visible         =   0   'False
       Width           =   4335
    End
-   Begin VB.Label Label25 
-      Caption         =   "Bei Definitionslücke dieses Pixel überspringen (vorher überprüfen lassen)"
-      Height          =   615
-      Left            =   7080
-      TabIndex        =   103
-      Top             =   960
-      Width           =   3135
-   End
    Begin VB.Image Image1 
-      Height          =   120
+      Height          =   240
       Left            =   0
       Top             =   0
-      Width           =   120
+      Width           =   240
    End
 End
 Attribute VB_Name = "Form1"
@@ -1179,7 +1299,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, SliderValue, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, J, H, K(), L(), Faktor2, Grad1, Grad2, Grad3, A1, A2
+Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, SliderValue, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, J, H, K(), L(), Faktor2, Grad1, Grad2, Grad3, A1, A2, DefL, IntVal, IntVal1, IntVal2
 
 Option Explicit
 
@@ -1282,6 +1402,10 @@ Label21.Enabled = False
 Text14.Enabled = False
 End If
 
+End Sub
+
+Private Sub Check7_Click()
+Frame5.Enabled = True
 End Sub
 
 Private Sub Command10_Click()
@@ -1676,6 +1800,7 @@ End Sub
 
 
 Private Sub Command21_Click()
+' *** Das ganze '0.0001' kann wahrscheinlich weggelassen werden, da Definitionslücken ja jetzt übersprungen werden
 On Error Resume Next
 Form1.DrawWidth = 3
 If NV = False Then
@@ -1772,6 +1897,24 @@ Y2 = 0
 Next I
 
 End If '****************************************
+End Sub
+
+Private Sub Command22_Click()
+On Error Resume Next
+If NV = True Then
+IntVal = 0
+IntVal1 = 0
+IntVal2 = 0
+For I = 0 To Grad
+'IntVal1 = IntVal1 + Text19.Text / (I + 1) * A(I) ^ (I + 1)
+'IntVal2 = IntVal2 + Text21.Text / (I + 1) * A(I) ^ (I + 1)
+IntVal1 = IntVal1 + A(I) / (I + 1) * Text19.Text ^ (I + 1)
+IntVal2 = IntVal2 + A(I) / (I + 1) * Text21.Text ^ (I + 1)
+Next I
+IntVal = IntVal2 - IntVal1
+Text22.Text = IntVal
+Text23.Text = Abs(IntVal1) + Abs(IntVal2)
+End If
 End Sub
 
 Private Sub Command4_Click()
@@ -1887,6 +2030,96 @@ End Sub
 Private Sub Form_Activate()
 Text4.Text = Int(Me.ScaleWidth * 100) / 100
 Text5.Text = Int(Me.ScaleHeight * 100) / 100
+
+Dimension = 0
+ReDim C1(0 To 1000)
+ReDim D1(0 To 1000)
+End Sub
+
+Private Sub Form_Click()
+On Error Resume Next
+If Check7.Value = 1 Then
+
+C1(Dimension) = Label1.Caption
+D1(Dimension) = Label2.Caption
+
+ReDim M(1 To Dimension + 2, 1 To Dimension + 1)
+
+For U = 1 To Dimension + 1
+For I = 1 To Dimension + 1
+M(Dimension + 2 - I, U) = C1(U - 1) ^ (I - 1)
+Next I
+Next U
+
+For I = 1 To Dimension + 1
+M(Dimension + 2, I) = D1(I - 1)
+Next I
+
+Dimension = Dimension + 1
+
+
+For I = 1 To Dimension + 1
+For U = I + 1 To Dimension
+Factor = -(M(I, U) / M(I, I)) '  -(A(U, I)
+For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
+M(S, U) = M(S, I) * Factor + M(S, U)
+Next S
+Next U
+Next I
+
+For U = 1 To Dimension
+Factor = M(U, U)
+For I = 1 To Dimension + 1
+M(I, U) = M(I, U) / Factor
+Next I
+Next U
+
+
+ReDim O(Dimension + 1, Dimension)
+For I = 1 To Dimension
+For U = 1 To Dimension
+O(Dimension + 1 - I, Dimension + 1 - U) = M(I, U)
+Next U
+Next I
+
+For U = 1 To Dimension
+O(Dimension + 1, Dimension + 1 - U) = M(Dimension + 1, U)
+Next U
+
+For I = 1 To Dimension + 1
+For U = 1 To Dimension
+M(I, U) = O(I, U)
+Next U
+Next I
+
+For I = 1 To Dimension '+ 1
+For U = I + 1 To Dimension
+Factor = -(M(I, U) / M(I, I)) '  -(m(U, I)
+For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
+M(S, U) = M(S, I) * Factor + M(S, U)
+Next S
+Next U
+Next I
+
+For I = 1 To Dimension
+O(Dimension + 1, I) = M(Dimension + 1, I)
+Next I
+
+For I = 1 To Dimension
+O(Dimension + 1, Dimension + 1 - I) = M(Dimension + 1, I)
+Next I
+
+Text1.Text = Dimension
+ReDim A(0 To Dimension - 1)
+For I = 1 To Dimension '+ 1
+'A(I - 1) = M(Dimension + 1, Dimension + 1 - I)
+A(I - 1) = M(Dimension + 1, I)
+Next I
+
+NV = True ' *** Für definitionslückenüberprüfung
+Call Graph
+End If
+
 End Sub
 
 '
@@ -1909,6 +2142,8 @@ End Sub
 
 Private Sub Form_Load()
 Me.WindowState = 2
+Image1.Width = Me.Width
+Image1.Height = Me.Width
 If Check5.Value = 1 Then
 'Form dauerhaft in den Vordergrund setzen
 Call SetWindowPos(Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, 3)
@@ -1980,11 +2215,14 @@ End If
 If B = True Then
 Call SetCursorPos(X / Form1.ScaleWidth * STPX, (aY - KSY) / Form1.ScaleHeight * (STPY) + 20)
 Call GetCursorPos(Pt)
-Label1.Caption = Pt.X
-Label2.Caption = Pt.Y
+'Label1.Caption = Pt.X
+'Label2.Caption = Pt.Y
+Label1.Caption = Int((X - Form1.ScaleWidth / 2 + KSX) * 100) / 100
+Label2.Caption = -Int((Y - Form1.ScaleHeight / 2 + KSY) * 100 + 1) / 100 '***
 aY = 0
 aY2 = 0
 End If
+DoEvents
 End Sub
 
 Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -2212,6 +2450,16 @@ X = -100
 Form1.DrawWidth = Text20.Text
 Form1.ForeColor = Picture3.BackColor
 For X1 = 1 + KSX * STPX / Form1.ScaleWidth To STPX + KSX * STPX / Form1.ScaleWidth
+If NV = False Then '***
+V = (X1 / STPX * Form1.ScaleWidth - Form1.ScaleWidth / 2) '***
+DefL = 0 '***
+For G = 0 To Grad2 '***
+DefL = DefL + D(G) * V ^ G '***
+Next G '*** Überprüfung aud Definitionslücke
+Else '***
+DefL = 1 '***
+End If '***
+If DefL <> 0 Then '***
 V = (X1 / STPX * Form1.ScaleWidth - Form1.ScaleWidth / 2)
 
 I = X1 / STPX * Form1.ScaleWidth
@@ -2249,6 +2497,7 @@ Y = Y1
 X = (X1 - 0) / STPX * Form1.ScaleWidth
 Y1 = 0
 Y2 = 0
+End If '***
 Next X1
 Form1.DrawWidth = 1
 End Function
