@@ -170,17 +170,17 @@ End Function
 'benutze diese Funktion. Sie ermittelt die Dimensionen mit der Brechstangen-
 'Methode :-)
 Private Function DimensionBrechstange(ByRef avarArray As Variant) As Long
-    Dim i As Long
+    Dim I As Long
     Dim tmpBound As Integer
     
     On Error Resume Next
     Do
-        i = i + 1
-        tmpBound = UBound(avarArray, i)
+        I = I + 1
+        tmpBound = UBound(avarArray, I)
     Loop Until Err
     Err.Clear
     
-    DimensionBrechstange = i - 1
+    DimensionBrechstange = I - 1
 End Function
 
 
