@@ -1,30 +1,38 @@
 VERSION 5.00
 Begin VB.Form Form2 
    Caption         =   "Koeffizienten"
-   ClientHeight    =   1530
+   ClientHeight    =   1965
    ClientLeft      =   60
    ClientTop       =   345
    ClientWidth     =   2295
    ControlBox      =   0   'False
    FillStyle       =   0  'Ausgefüllt
    LinkTopic       =   "Form2"
-   ScaleHeight     =   1530
+   ScaleHeight     =   1965
    ScaleWidth      =   2295
    StartUpPosition =   3  'Windows-Standard
    Begin VB.CommandButton Command3 
       Caption         =   "Ende"
       Height          =   375
       Left            =   1680
-      TabIndex        =   4
-      Top             =   1080
+      TabIndex        =   5
+      Top             =   1560
       Width           =   495
+   End
+   Begin VB.CommandButton Command4 
+      Caption         =   "Weiter"
+      Height          =   375
+      Left            =   840
+      TabIndex        =   4
+      Top             =   1560
+      Width           =   735
    End
    Begin VB.CommandButton Command2 
       Caption         =   "Zurück"
       Height          =   375
-      Left            =   960
+      Left            =   120
       TabIndex        =   3
-      Top             =   1080
+      Top             =   1560
       Width           =   735
    End
    Begin VB.CommandButton Command1 
@@ -34,7 +42,7 @@ Begin VB.Form Form2
       Left            =   120
       TabIndex        =   2
       Top             =   1080
-      Width           =   855
+      Width           =   2055
    End
    Begin VB.TextBox Text1 
       Height          =   375
@@ -84,7 +92,23 @@ Next T
 Unload Me
 End Sub
 
+Private Sub Command4_Click()
+Text1.Text = 0
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
+A(GGN) = 0
+GGN = GGN + 1
+If Grad - GGN = -1 Then Unload Me
+End Sub
+
 Private Sub Form_Load()
+If Form1.Check5.Value = 1 Then
+'Form dauerhaft in den Vordergrund setzen
+Call SetWindowPos(Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, 3)
+Else
+'Form dauerhaft in den Vordergrund setzen
+Call SetWindowPos(Me.hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, 3)
+End If
+
 GGN = 0
 ReDim A(Grad + 1)
 End Sub
