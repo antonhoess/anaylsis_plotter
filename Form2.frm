@@ -1,25 +1,32 @@
 VERSION 5.00
 Begin VB.Form Form2 
-   BorderStyle     =   3  'Fester Dialog
    Caption         =   "Koeffizienten"
    ClientHeight    =   1530
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientLeft      =   60
+   ClientTop       =   345
    ClientWidth     =   2295
+   ControlBox      =   0   'False
+   FillStyle       =   0  'Ausgefüllt
    LinkTopic       =   "Form2"
-   MaxButton       =   0   'False
-   MinButton       =   0   'False
    ScaleHeight     =   1530
    ScaleWidth      =   2295
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows-Standard
+   Begin VB.CommandButton Command2 
+      Caption         =   "Zurück"
+      Height          =   375
+      Left            =   1200
+      TabIndex        =   3
+      Top             =   1080
+      Width           =   975
+   End
    Begin VB.CommandButton Command1 
       Caption         =   "Eingeben"
+      Default         =   -1  'True
       Height          =   375
       Left            =   120
       TabIndex        =   2
       Top             =   1080
-      Width           =   2055
+      Width           =   975
    End
    Begin VB.TextBox Text1 
       Height          =   375
@@ -43,8 +50,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public B, GGN  '=GradGegenNull
-'Dim A()
+Public GGN   '=GradGegenNull
 
 Private Sub Command1_Click()
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
@@ -53,7 +59,18 @@ GGN = GGN + 1
 If Grad - GGN = -1 Then Unload Me
 End Sub
 
+Private Sub Command2_Click()
+If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
+If GGN <> 0 Then
+GGN = GGN - 1
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten Grad ein!"
+ Text1.Text = A(GGN)
+End If
+End Sub
+
 Private Sub Form_Load()
 GGN = 0
 ReDim A(Grad + 1)
 End Sub
+
+' *** Fragen, ob alle restlichen Koeffizienten beim schließen zu Null gemacht werden sollen
