@@ -89,12 +89,12 @@ End If
 
 If NV = True Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
-A(GGN, PolyCount) = Text1.Text
+A(GGN) = Text1.Text
 GGN = GGN + 1
 Else
 If GRF = True Then
 If Grad <> 1 Then
-A(GGN, PolyCount) = Text1.Text
+A(GGN) = Text1.Text
 Else
 GGN = 1
 Text1.Text = A(GGN - 1)
@@ -113,33 +113,21 @@ Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad 
 Else
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
 End If
-D(GGN, PolyCount) = Text1.Text
+D(GGN) = Text1.Text
 GGN = GGN + 1
 End If
 End If
 
 If Grad - GGN = -1 Then
 If NV = True Then
-If PolyCount = Poly - 1 Then
 Unload Me
-End If
 Else
 If GRF = True Then
 GRF = False
 GGN = 0
 Grad = Form1.Text14.Text
 Else
-If Poly = PolyCount - 1 Then
 Unload Me
-Else
-PolyCount = PolyCount + 1
-GGN = 0
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
-Beep
-Beep
-KZ = 0
-If NV = False Then GRF = True
-End If
 End If
 End If
 End If
@@ -154,7 +142,7 @@ If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten Grad ein!"
- Text1.Text = A(GGN, PolyCount)
+ Text1.Text = A(GGN)
 End If
 Else
 If GRF = True Then
@@ -163,7 +151,7 @@ If Sprung = True Then Sprung = False: GGN = Grad + 1: Grad = Grad + 1 '***
 If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
-Text1.Text = A(GGN, PolyCount)
+Text1.Text = A(GGN)
 End If
 If GGN = 0 Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
@@ -174,7 +162,7 @@ Else
 If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
-Text1.Text = D(GGN, PolyCount)
+Text1.Text = D(GGN)
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Nenner-Grad ein!"
 Else 'If GGN = 0 Then
 'Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
@@ -182,13 +170,13 @@ If Grad <> 1 Then
 GGN = Grad + 1
 GRF = True
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
-Text1.Text = A(GGN + 0, PolyCount) '+1
+Text1.Text = A(GGN + 0) '+1
 Sprung = True
 Else
 GGN = Grad + 1
 GRF = True
 Label1.Caption = "Geben Sie den Koeffizienten für den 0-ten Zähler-Grad ein!"
-Text1.Text = A(0, PolyCount)
+Text1.Text = A(0)
 Sprung = True
 End If
 End If
@@ -200,21 +188,21 @@ End Sub
 Private Sub Command3_Click()
 If NV = True Then
 For T = GGN To Grad + 1
-A(GGN, PolyCount) = 0
+A(GGN) = 0
 Next T
 Else
 If GRF = True Then
 For T = GGN To Grad + 1
-A(GGN, PolyCount) = True
+A(GGN) = True
 Next T
 Grad = Form1.Text14.Text
 For T = GGN To Grad + 1
-D(GGN, PolyCount) = True
+D(GGN) = True
 Next T
 Else
 Grad = Form1.Text14.Text
 For T = GGN To Grad + 1
-D(GGN, PolyCount) = 0
+D(GGN) = 0
 Next T
 End If
 End If
@@ -227,15 +215,15 @@ Private Sub Command4_Click()
 If NV = True Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
 If KZ2 < KZ Then
-Text1.Text = A(GGN, PolyCount)
+Text1.Text = A(GGN)
 Else
-A(GGN, PolyCount) = 0
+A(GGN) = 0
 Text1.Text = 0
 End If
 GGN = GGN + 1
 Else
 If GRF = True Then
-A(GGN, PolyCount) = 0
+A(GGN) = 0
 Text1.Text = 0
 GGN = GGN + 1
 If GGN = Grad + 1 Then
@@ -251,9 +239,9 @@ Else
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
 End If
 If KZ2 < KZ Then
-Text1.Text = D(GGN, PolyCount)
+Text1.Text = D(GGN)
 Else
-D(GGN, PolyCount) = 0
+D(GGN) = 0
 Text1.Text = 0
 End If
 GGN = GGN + 1
@@ -266,18 +254,14 @@ Text1.SelLength = Len(Text1.Text)
 
 If Grad - GGN = -1 Then
 If NV = True Then
-If PolyCount = Poly - 1 Then
 Unload Me
-End If
 Else
 If GRF = True Then
 GRF = False
 GGN = 0
 Grad = Form1.Text14.Text
 Else
-If PolyCount = Poly - 1 Then
 Unload Me
-End If
 End If
 End If
 End If
@@ -314,9 +298,9 @@ Call SetWindowPos(Me.hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, 3)
 End If
 
 GGN = 0
-PolyCount = 1
-ReDim A(Grad + 1, 1 To PolyCount)
-ReDim D(Form1.Text14.Text + 14, 1 To PolyCount)
+ReDim A(Grad + 1)
+ReDim D(Form1.Text14.Text + 14)
+
 If NV = False Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Zähler-Grad ein!"
 Else
