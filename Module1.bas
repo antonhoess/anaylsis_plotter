@@ -1,5 +1,5 @@
 Attribute VB_Name = "Module1"
-Public A(), Grad, D(), GRF As Boolean, NV As Boolean
+Public A(), Grad, D(), GRF As Boolean, NV As Boolean, Grad2
 
 Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Const HWND_TOPMOST = -1
