@@ -294,6 +294,7 @@ End Sub
 'End Sub
 
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
+If Shift = 1 Then
 Select Case KeyCode
 
 Case vbKeyLeft
@@ -405,6 +406,7 @@ End If
 
 
 End Select
+End If
 End Sub
 
 Private Sub Form_Load()
