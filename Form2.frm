@@ -51,14 +51,6 @@ Begin VB.Form Form2
       Top             =   600
       Width           =   2295
    End
-   Begin VB.Label Label2 
-      Caption         =   "Nenner und Zähler auch noch beschreiben"
-      Height          =   255
-      Left            =   720
-      TabIndex        =   6
-      Top             =   120
-      Width           =   1575
-   End
    Begin VB.Label Label1 
       Alignment       =   2  'Zentriert
       Caption         =   "Geben Sie den Koeffizienten für den 0-ten Grad ein!"
@@ -74,10 +66,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public GGN   '=GradGegenNull
+Public GGN
 Dim T
-
-'*** Bei Form2.Load und bei Eingeben Textfeld aktivieren, Text aktualisieren
 
 Private Sub Command1_Click()
 If Form2.Visible = True Then
@@ -95,16 +85,16 @@ If GRF = True Then
 A(GGN) = Text1.Text
 GGN = GGN + 1
 If GGN = Grad + 1 Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
 Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
 End If
 
 Else
 If GGN = Grad Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
 Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
 End If
 D(GGN) = Text1.Text
 GGN = GGN + 1
@@ -155,6 +145,14 @@ GGN = GGN + 1
 If Grad - GGN = -1 Then Unload Me
 End Sub
 
+Private Sub Form_Activate()
+
+Text1.SetFocus
+Text1.SelStart = 0
+Text1.SelLength = Len(Text1.Text)
+
+End Sub
+
 Private Sub Form_Load()
 If Form1.Check6.Value = 1 Then
 GRF = True
@@ -163,11 +161,6 @@ GRF = False
 End If
 
 If Form1.Check5.Value = 1 Then
-Text1.SetFocus
-Text1.SetFocus
-Text1.SelStart = 0
-Text1.SelLength = Len(Text1.Text)
-
 'Form dauerhaft in den Vordergrund setzen
 Call SetWindowPos(Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, 3)
 Else
@@ -179,5 +172,9 @@ GGN = 0
 ReDim A(Grad + 1)
 ReDim D(Form1.Text14.Text + 14)
 
-
+If NV = False Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Zähler-Grad ein!"
+Else
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Grad ein!"
+End If
 End Sub
