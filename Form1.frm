@@ -15,7 +15,7 @@ Begin VB.Form Form1
    Icon            =   "Form1.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   8.719
-   ScaleMode       =   5  'Zoll
+   ScaleMode       =   0  'Benutzer
    ScaleWidth      =   9.021
    StartUpPosition =   3  'Windows-Standard
    Begin VB.CommandButton Command18 
@@ -37,7 +37,6 @@ Begin VB.Form Form1
       Top             =   2280
    End
    Begin VB.Timer Timer1 
-      Interval        =   100
       Left            =   3600
       Top             =   2280
    End
@@ -48,18 +47,56 @@ Begin VB.Form Form1
       Left            =   0
       TabIndex        =   0
       Top             =   2520
-      Width           =   9615
+      Width           =   12135
+      Begin VB.ListBox List16 
+         Height          =   2400
+         Left            =   10680
+         TabIndex        =   124
+         Top             =   6480
+         Width           =   615
+      End
+      Begin VB.ListBox List15 
+         Height          =   2400
+         Left            =   10080
+         TabIndex        =   123
+         Top             =   6480
+         Width           =   615
+      End
+      Begin VB.CommandButton Command23 
+         BackColor       =   &H00C0E0FF&
+         Caption         =   "Extrema"
+         Height          =   615
+         Left            =   9840
+         Style           =   1  'Grafisch
+         TabIndex        =   122
+         Top             =   600
+         Width           =   1695
+      End
+      Begin VB.ListBox List14 
+         Height          =   2400
+         Left            =   9480
+         TabIndex        =   121
+         Top             =   6480
+         Width           =   615
+      End
+      Begin VB.ListBox List13 
+         Height          =   2400
+         Left            =   8880
+         TabIndex        =   120
+         Top             =   6480
+         Width           =   615
+      End
       Begin VB.TextBox Text23 
          Height          =   375
          Left            =   8640
-         TabIndex        =   117
+         TabIndex        =   115
          Top             =   6120
          Width           =   735
       End
       Begin VB.TextBox Text22 
          Height          =   375
          Left            =   8640
-         TabIndex        =   116
+         TabIndex        =   114
          Top             =   5400
          Width           =   735
       End
@@ -69,14 +106,14 @@ Begin VB.Form Form1
          Height          =   375
          Left            =   6480
          Style           =   1  'Grafisch
-         TabIndex        =   115
+         TabIndex        =   113
          Top             =   5280
          Width           =   1815
       End
       Begin VB.TextBox Text21 
          Height          =   285
          Left            =   7680
-         TabIndex        =   114
+         TabIndex        =   112
          Text            =   "0"
          Top             =   5760
          Width           =   615
@@ -84,7 +121,7 @@ Begin VB.Form Form1
       Begin VB.TextBox Text19 
          Height          =   285
          Left            =   6720
-         TabIndex        =   113
+         TabIndex        =   111
          Text            =   "0"
          Top             =   5760
          Width           =   615
@@ -104,7 +141,6 @@ Begin VB.Form Form1
          TabIndex        =   66
          TabStop         =   0   'False
          Top             =   6480
-         Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List2 
@@ -113,7 +149,6 @@ Begin VB.Form Form1
          TabIndex        =   67
          TabStop         =   0   'False
          Top             =   6480
-         Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List3 
@@ -122,7 +157,6 @@ Begin VB.Form Form1
          TabIndex        =   68
          TabStop         =   0   'False
          Top             =   6480
-         Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List4 
@@ -131,7 +165,6 @@ Begin VB.Form Form1
          TabIndex        =   69
          TabStop         =   0   'False
          Top             =   6480
-         Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List5 
@@ -140,7 +173,6 @@ Begin VB.Form Form1
          TabIndex        =   70
          TabStop         =   0   'False
          Top             =   6480
-         Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List6 
@@ -149,7 +181,6 @@ Begin VB.Form Form1
          TabIndex        =   71
          TabStop         =   0   'False
          Top             =   6480
-         Visible         =   0   'False
          Width           =   615
       End
       Begin VB.ListBox List8 
@@ -158,7 +189,6 @@ Begin VB.Form Form1
          TabIndex        =   72
          TabStop         =   0   'False
          Top             =   6480
-         Visible         =   0   'False
          Width           =   615
       End
       Begin VB.Frame Frame7 
@@ -175,6 +205,7 @@ Begin VB.Form Form1
             _ExtentX        =   847
             _ExtentY        =   847
             _Version        =   393216
+            DefaultExt      =   "gps"
          End
          Begin VB.TextBox Text17 
             Height          =   375
@@ -553,6 +584,7 @@ Begin VB.Form Form1
          Enabled         =   0   'False
          Height          =   285
          Left            =   1320
+         MaxLength       =   3
          TabIndex        =   12
          Text            =   "0"
          Top             =   3480
@@ -571,6 +603,7 @@ Begin VB.Form Form1
       Begin VB.TextBox Text1 
          Height          =   285
          Left            =   1320
+         MaxLength       =   3
          TabIndex        =   10
          Text            =   "0"
          Top             =   2760
@@ -588,7 +621,6 @@ Begin VB.Form Form1
          Begin VB.CommandButton Command1 
             BackColor       =   &H0080C0FF&
             Caption         =   "GO!"
-            Default         =   -1  'True
             Height          =   255
             Left            =   120
             Style           =   1  'Grafisch
@@ -787,7 +819,6 @@ Begin VB.Form Form1
       Begin VB.CommandButton Command7 
          BackColor       =   &H0080C0FF&
          Caption         =   "Kfz. speichern"
-         Enabled         =   0   'False
          Height          =   375
          Left            =   600
          Style           =   1  'Grafisch
@@ -799,7 +830,6 @@ Begin VB.Form Form1
       Begin VB.CommandButton Command8 
          BackColor       =   &H0080C0FF&
          Caption         =   "Kfz. laden"
-         Enabled         =   0   'False
          Height          =   375
          Left            =   600
          Style           =   1  'Grafisch
@@ -1000,13 +1030,33 @@ Begin VB.Form Form1
          TrailingForeColor=   8454016
          CurrentDate     =   37576
       End
+      Begin VB.Label Label20 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Tip"
+         Height          =   195
+         Left            =   10680
+         TabIndex        =   126
+         Top             =   6240
+         Width           =   225
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Hop"
+         Height          =   195
+         Left            =   10080
+         TabIndex        =   125
+         Top             =   6240
+         Width           =   300
+      End
       Begin VB.Label Label32 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Betrag"
          Height          =   195
          Left            =   8640
-         TabIndex        =   121
+         TabIndex        =   119
          Top             =   5880
          Width           =   465
       End
@@ -1016,7 +1066,7 @@ Begin VB.Form Form1
          Caption         =   "Summe"
          Height          =   195
          Left            =   8640
-         TabIndex        =   120
+         TabIndex        =   118
          Top             =   5160
          Width           =   525
       End
@@ -1026,7 +1076,7 @@ Begin VB.Form Form1
          Caption         =   "b"
          Height          =   195
          Left            =   7440
-         TabIndex        =   119
+         TabIndex        =   117
          Top             =   5760
          Width           =   90
       End
@@ -1036,7 +1086,7 @@ Begin VB.Form Form1
          Caption         =   "a"
          Height          =   195
          Left            =   6480
-         TabIndex        =   118
+         TabIndex        =   116
          Top             =   5760
          Width           =   90
       End
@@ -1188,38 +1238,11 @@ Begin VB.Form Form1
          Width           =   1455
       End
    End
-   Begin VB.Label Label34 
-      Caption         =   "Bei Koeffizienteneingabe mit Umschalt-Taste und Pfeiltasten arbeiten"
-      Height          =   255
-      Left            =   4800
-      TabIndex        =   123
-      Top             =   2280
-      Visible         =   0   'False
-      Width           =   2535
-   End
-   Begin VB.Label Label33 
-      Caption         =   "Integral schraffieren"
-      Height          =   255
-      Left            =   3000
-      TabIndex        =   122
-      Top             =   2160
-      Visible         =   0   'False
-      Width           =   1455
-   End
-   Begin VB.Label Label9 
-      Caption         =   " y =(x^7+x^6-17x^5-25x^4+44x^3+44x^2-48x) /(x^5-x^4-13x^3+13x^2+36x-36)"
-      Height          =   495
-      Left            =   2760
-      TabIndex        =   112
-      Top             =   240
-      Visible         =   0   'False
-      Width           =   4455
-   End
    Begin VB.Label Label5 
       Caption         =   "Einstellungen speichern"
       Height          =   255
       Left            =   0
-      TabIndex        =   111
+      TabIndex        =   110
       Top             =   720
       Visible         =   0   'False
       Width           =   2175
@@ -1228,7 +1251,7 @@ Begin VB.Form Form1
       Caption         =   "Arrays in Datei speichern und aus Datei laden"
       Height          =   375
       Left            =   0
-      TabIndex        =   110
+      TabIndex        =   109
       Top             =   0
       Visible         =   0   'False
       Width           =   2175
@@ -1237,7 +1260,7 @@ Begin VB.Form Form1
       Caption         =   "evtl abschnittsweise Definition"
       Height          =   255
       Left            =   0
-      TabIndex        =   109
+      TabIndex        =   108
       Top             =   960
       Visible         =   0   'False
       Width           =   2175
@@ -1246,16 +1269,16 @@ Begin VB.Form Form1
       Caption         =   "Proportional bei Raster nach Breite von Form1 angleichen, denn ansonsten stimmt es nicht überein"
       Height          =   375
       Left            =   0
-      TabIndex        =   108
+      TabIndex        =   107
       Top             =   360
       Visible         =   0   'False
       Width           =   2175
    End
    Begin VB.Label Label24 
-      Caption         =   "Form1.BorderStyle=0 (evtl.)"
+      Caption         =   "Form1.BorderStyle=0 (evtl.)   Koordinaten mitstrecken"
       Height          =   255
-      Left            =   2160
-      TabIndex        =   107
+      Left            =   2640
+      TabIndex        =   106
       Top             =   0
       Visible         =   0   'False
       Width           =   2175
@@ -1264,34 +1287,27 @@ Begin VB.Form Form1
       Caption         =   "Bei Bruch mehr als nur einaml differenzieren"
       Height          =   375
       Left            =   0
-      TabIndex        =   106
+      TabIndex        =   105
       Top             =   1200
       Visible         =   0   'False
       Width           =   2175
    End
-   Begin VB.Label Label20 
-      Caption         =   "Beim Proportionieren Graph weiterhin zeichnen lassen z.B., wenn Faktor 1 ist!"
-      Height          =   615
-      Left            =   0
-      TabIndex        =   105
-      Top             =   1560
-      Visible         =   0   'False
-      Width           =   2175
-   End
    Begin VB.Label Label18 
-      Caption         =   "Über Ableitung Wendepunkte, Extremwerte und über Horner-Schema Nullpunkte, Definitionslücken, Pole, hebbare Lücken errechnen.Nicht nur mir ganzzahligen Exponenten arbeiten, sondern über ein zweites Array einmal Koeffizienten und über das zweite die Exponenten speichern und ganz normal in der Schleife durchrechnen lassen - das gleiche glit dann auch für das Differenzieren"
+      Caption         =   $"Form1.frx":0442
       Height          =   1455
-      Left            =   2640
+      Left            =   2520
       TabIndex        =   104
-      Top             =   720
+      Top             =   360
       Visible         =   0   'False
       Width           =   4335
    End
    Begin VB.Image Image1 
-      Height          =   240
+      Height          =   225
       Left            =   0
+      Stretch         =   -1  'True
       Top             =   0
-      Width           =   240
+      Visible         =   0   'False
+      Width           =   2640
    End
 End
 Attribute VB_Name = "Form1"
@@ -1299,7 +1315,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, SliderValue, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, J, H, K(), L(), Faktor2, Grad1, Grad2, Grad3, A1, A2, DefL, IntVal, IntVal1, IntVal2
+Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, SliderValue, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, J, H, K(), L(), Faktor2, Grad1, Grad2, Grad3, A1, A2, DefiL, IntVal, IntVal1, IntVal2, KoefChange As Boolean, AuswahlNummer As Integer, CoefficientsZ As String, CoefficientsN As String, KoeffizientenNummer As Integer, EinlesePosition As Integer, WXK As Boolean, Element
 
 Option Explicit
 
@@ -1406,6 +1422,7 @@ End Sub
 
 Private Sub Check7_Click()
 Frame5.Enabled = True
+'If Check7.Value = 0 Then Grad = -1
 End Sub
 
 Private Sub Command10_Click()
@@ -1510,20 +1527,24 @@ End Sub
 
 
 Private Sub Command15_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+On Error Resume Next
 Plus = True
 Timer2.Interval = 250
 End Sub
 
 Private Sub Command15_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+On Error Resume Next
 Timer2.Interval = 0
 End Sub
 
 Private Sub Command16_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+On Error Resume Next
 Plus = False
 Timer2.Interval = 250
 End Sub
 
 Private Sub Command16_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+On Error Resume Next
 Timer2.Interval = 0
 End Sub
 '
@@ -1586,80 +1607,99 @@ End Sub
 
 Private Sub Command19_Click()
 Dim Start, Ende, VZ
-On Error Resume Next
+'On Error Resume Next
 Grad1 = Text1.Text
 Grad2 = Text14.Text
-Call HornerSchema
+'Call HornerSchema
+    If NV = True Then
+    Newton A, Grad1, True
+    Else
+    Newton A, Grad1, True
+    Newton D, Grad2, False
+    End If
+
 If NV = False Then
 
-If Matrix2(0) < 0 Then
-Text17.Text = "Y= -"
-Else
-Text17.Text = "Y="
-End If
-If Factor1 <> 1 Then Text17.Text = Text17.Text & Factor1 & "*("
+'''''If Matrix2(0) < 0 Then
+'''''Text17.Text = "Y= -"
+'''''Else
+'''''Text17.Text = "Y="
+'''''End If
+'''''If Factor1 <> 1 Then Text17.Text = Text17.Text & Factor1 & "*("
 
-For I = 1 To Grad1
-
-If Horner1(I) < 0 Then
-VZ = "+"
-Else
-VZ = "-"
-End If
-Text17.Text = Text17.Text & " (x " + VZ + Str(Abs(Horner1(I))) + ")"
-Next I
+    For I = 1 To Grad1
+    
+        If Newton1(I) < 0 Then
+        VZ = "+"
+        Else
+        VZ = "-"
+        End If
+        Text17.Text = Text17.Text & " (x " + VZ + Str(Abs(Newton1(I))) + ")"
+    Next I
 If Factor1 <> 1 Then Text17.Text = Text17.Text & " )"
 
-If Matrix3(0) < 0 Then
-Text18.Text = "Y= -"
-Else
-Text18.Text = "Y="
-End If
-If Factor2 <> 1 Then Text18.Text = Text18.Text & Factor2 & "*("
+'''''If Matrix3(0) < 0 Then
+'''''Text18.Text = "Y= -"
+'''''Else
+'''''Text18.Text = "Y="
+'''''End If
+'''''If Factor2 <> 1 Then Text18.Text = Text18.Text & Factor2 & "*("
 
-For I = 1 To Grad2
-
-If Horner2(I) < 0 Then
-VZ = "+"
-Else
-VZ = "-"
-End If
-Text18.Text = Text18.Text & " (x " + VZ + Str(Abs(Horner2(I))) + ")"
-Next I
-If Factor2 <> 1 Then Text18.Text = Text18.Text & " )"
+    For I = 1 To Grad2
+    
+        If Newton2(I) < 0 Then
+        VZ = "+"
+        Else
+        VZ = "-"
+        End If
+    Text18.Text = Text18.Text & " (x " + VZ + Str(Abs(Newton2(I))) + ")"
+    Next I
+'''''If Factor2 <> 1 Then Text18.Text = Text18.Text & " )"
 
 List1.Clear
 List2.Clear
 For I = 1 To Grad1
-List1.AddItem (Horner1(I))
+If Newton1(I - 1) <> "" Then List1.AddItem (Newton1(I - 1))
 Next I
-For I = 1 To Grad2
-List2.AddItem (Horner2(I))
-Next I
+    For I = 1 To Grad2
+    If Newton2(I - 1) <> "" Then List2.AddItem (Newton2(I - 1))
+    Next I
 List3.Clear
 List4.Clear
 List3.List(0) = List1.List(0)
 List4.List(0) = 1
-For I = 1 To Grad1 - 1
-If List1.List(I) <> List1.List(I - 1) Then
-List3.AddItem (List1.List(I))
-List4.AddItem (1)
-Else
-List4.List(List4.ListCount - 1) = List4.List(List4.ListCount - 1) + 1
-End If
-Next I
+    For I = 1 To List1.ListCount - 1
+        Element = False
+        For U = 0 To List3.ListCount - 1
+            If List3.List(U) = List1.List(I) Then
+            List4.List(U) = List4.List(U) + 1
+            Element = True
+            Exit For
+            End If
+        Next U
+        If Element = False Then List3.AddItem (List1.List(I)): List4.AddItem (1)
+    Next I
+    
+'''    For I = 1 To Grad1 - 1
+'''        If List1.List(I) <> List1.List(I - 1) Then
+'''        List3.AddItem (List1.List(I))
+'''        List4.AddItem (1)
+'''        Else
+'''        List4.List(List4.ListCount - 1) = List4.List(List4.ListCount - 1) + 1
+'''        End If
+'''    Next I
 List5.Clear
 List6.Clear
 List5.List(0) = List2.List(0)
 List6.List(0) = 1
-For I = 1 To Grad2 - 1
-If List2.List(I) <> List2.List(I - 1) Then
-List5.AddItem (List2.List(I))
-List6.AddItem (1)
-Else
-List6.List(List6.ListCount - 1) = List6.List(List6.ListCount - 1) + 1
-End If
-Next I
+    For I = 1 To Grad2 - 1
+        If List2.List(I) <> List2.List(I - 1) Then
+        List5.AddItem (List2.List(I))
+        List6.AddItem (1)
+        Else
+        List6.List(List6.ListCount - 1) = List6.List(List6.ListCount - 1) + 1
+        End If
+    Next I
 
 If List1.ListCount > List2.ListCount Then
 Ende = List1.ListCount
@@ -1668,21 +1708,21 @@ Ende = List2.ListCount
 End If
 
 For N = 0 To List3.ListCount
-For I = 0 To Ende
-If List3.List(N) = List5.List(I) Then
-List7.AddItem (List3.List(N))
-If List4.List(N) = List6.List(I) Then
-List4.List(N) = "-"
-List6.List(I) = "-"
-ElseIf List4.List(N) > List6.List(I) Then
-List4.List(N) = List4.List(N) - List6.List(I)
-List6.List(I) = "-"
-Else
-List6.List(I) = List6.List(I) - List4.List(N)
-List4.List(N) = "-"
-End If
-End If
-Next I
+    For I = 0 To Ende
+        If List3.List(N) = List5.List(I) Then
+        List7.AddItem (List3.List(N))
+            If List4.List(N) = List6.List(I) Then
+            List4.List(N) = "-"
+            List6.List(I) = "-"
+            ElseIf List4.List(N) > List6.List(I) Then
+            List4.List(N) = List4.List(N) - List6.List(I)
+            List6.List(I) = "-"
+            Else
+            List6.List(I) = List6.List(I) - List4.List(N)
+            List4.List(N) = "-"
+            End If
+        End If
+    Next I
 Next N
 
 For I = 0 To List3.ListCount - 1
@@ -1695,41 +1735,62 @@ Next I
 
 Else
 
-If Matrix2(0) < 0 Then
-Text17.Text = "Y= -"
-Else
-Text17.Text = "Y="
-End If
-If Factor1 <> 1 Then Text17.Text = Text17.Text & Factor1 & "*("
+'''''If Matrix2(0) < 0 Then
+'''''Text17.Text = "Y= -"
+'''''Else
+'''''Text17.Text = "Y="
+'''''End If
+'''''If Factor1 <> 1 Then Text17.Text = Text17.Text & Factor1 & "*("
 
-For I = 1 To Grad1
-
-If Horner1(I) < 0 Then
-VZ = "+"
-Else
-VZ = "-"
-End If
-Text17.Text = Text17.Text & " (x " + VZ + Str(Abs(Horner1(I))) + ")"
-Next I
-If Factor1 <> 1 Then Text17.Text = Text17.Text & " )"
+    For I = 1 To Grad1
+    
+        If Newton1(I) < 0 Then
+        VZ = "+"
+        Else
+        VZ = "-"
+        End If
+    Text17.Text = Text17.Text & " (x " + VZ + Str(Abs(Newton1(I))) + ")"
+    Next I
+'''''If Factor1 <> 1 Then Text17.Text = Text17.Text & " )"
 
 List1.Clear
-For I = 1 To Grad1
-List1.AddItem (Horner1(I))
-Next I
+Newton1(0) = Newton1(0)
+Newton1(1) = Newton1(1)
+Newton1(2) = Newton1(2)
+Newton1(3) = Newton1(3)
+    For I = 1 To Grad1
+    If Newton1(I - 1) <> "" Then List1.AddItem (Newton1(I - 1))
+    Next I
 List3.Clear
 List4.Clear
 List3.List(0) = List1.List(0)
 List4.List(0) = 1
-For I = 1 To Grad1 - 1
-If List1.List(I) <> List1.List(I - 1) Then
-List3.AddItem (List1.List(I))
-List4.AddItem (1)
-Else
-List4.List(List4.ListCount - 1) = List4.List(List4.ListCount - 1) + 1
-End If
-Next I
+    For I = 1 To List1.ListCount - 1
+        Element = False
+        For U = 0 To List3.ListCount - 1
+            If List3.List(U) = List1.List(I) Then
+            List4.List(U) = List4.List(U) + 1
+            Element = True
+            Exit For
+            End If
+        Next U
+        If Element = False Then List3.AddItem (List1.List(I)): List4.AddItem (1)
+    Next I
+'    For I = 1 To Grad1 - 1
+'    If List1.List(I) <> List1.List(I - 1) Then
+'    List3.AddItem (List1.List(I))
+'    List4.AddItem (1)
+'    Else
+'    List4.List(List4.ListCount - 1) = List4.List(List4.ListCount - 1) + 1
+'    End If
+'    Next I
 
+For I = 0 To List3.ListCount
+List9.AddItem (List3.List(I))
+Next I
+For I = 0 To List3.ListCount
+List10.AddItem (List4.List(I))
+Next I
 End If
 End Sub
 
@@ -1900,7 +1961,7 @@ End If '****************************************
 End Sub
 
 Private Sub Command22_Click()
-On Error Resume Next
+'On Error Resume Next
 If NV = True Then
 IntVal = 0
 IntVal1 = 0
@@ -1914,7 +1975,76 @@ Next I
 IntVal = IntVal2 - IntVal1
 Text22.Text = IntVal
 Text23.Text = Abs(IntVal1) + Abs(IntVal2)
+
+For I = 0 To Abs(Abs(Text19.Text) + Abs(Text21.Text)) * 10 + 1
+If I < Abs(Abs(Text19.Text) + Abs(Text21.Text)) * 10 Then
+Y1 = 0
+For U = 0 To Grad
+Y1 = Y1 + A(U) * (Text19.Text + I * 0.1) ^ U
+Next U
+Form1.Line (Text19.Text + Me.ScaleWidth / 2 + I * 0.1, Me.ScaleHeight / 2 - Y1)-(Text19.Text + Me.ScaleWidth / 2 + I * 0.1, Me.ScaleHeight / 2), RGB(255, 0, 255)
+Else
+Y2 = 0
+For U = 0 To Grad
+Y2 = Y2 + A(U) * (Text21.Text) ^ U
+Next U
+Form1.Line (Text21.Text + Me.ScaleWidth / 2, Me.ScaleHeight / 2 - Y2)-(Text21.Text + Me.ScaleWidth / 2, Me.ScaleHeight / 2), RGB(255, 0, 255)
 End If
+Next I
+
+End If
+End Sub
+
+Private Sub Command23_Click()
+On Error Resume Next
+ReDim ZAbl1(0 To Grad - 1)
+For I = 1 To UBound(A)
+ZAbl1(I - 1) = A(I) * I
+Next I
+
+ZAbl1(0) = ZAbl1(0)
+ZAbl1(1) = ZAbl1(1)
+ZAbl1(2) = ZAbl1(2)
+ZAbl1(3) = ZAbl1(3)
+
+ZAbl2(0) = ZAbl2(0)
+ZAbl2(1) = ZAbl2(1)
+ZAbl2(2) = ZAbl2(2)
+ZAbl2(3) = ZAbl2(3)
+'''For I = 1 To UBound(D)
+'''NAbl1(I - 1) = D(I) * I
+'''Next I
+
+
+'''For I = 1 To UBound(D)
+'''NAbl2(I - 1) = D(I) * I
+'''Next I
+
+Newton ZAbl1, Grad1 - 1, True
+
+For I = 0 To UBound(Newton1) - 1
+List13.AddItem (Newton1(I))
+Next I
+
+ReDim ZAbl2(0 To Grad - 2)
+For I = 1 To UBound(ZAbl1)
+ZAbl2(I - 1) = ZAbl1(I) * I
+Next I
+
+Newton ZAbl2, Grad1 - 2, True
+
+For I = 0 To UBound(Newton1) - 1
+List14.AddItem (Newton1(I))
+Next I
+
+
+For I = 0 To List13.ListCount - 1
+    If fv(List13.List(I) + 10 ^ -5, A, Grad1) < fv(List13.List(I), A, Grad1) Then
+    List15.AddItem (List13.List(I))
+    Else
+    List16.AddItem (List13.List(I))
+    End If
+Next I
 End Sub
 
 Private Sub Command4_Click()
@@ -2004,6 +2134,110 @@ Private Sub Command6_Click()
 End
 End Sub
 
+Private Sub Command7_Click()
+' cdlOFNOverwritePrompt
+' cdlOFNPathMustExist
+'
+On Error Resume Next
+CommonDialog1.ShowSave
+
+
+Dim FileNum
+Dim GRP1 As GRP
+GRP1.ZCoefficients = ""
+GRP1.NCoefficients = ""
+CoefficientsZ = ""
+CoefficientsN = ""
+FileNum = FreeFile
+
+GRP1.GRF = Check6.Value
+GRP1.ZG = Text1.Text
+GRP1.NG = Text14.Text
+GRP1.DefL = Text11.Text
+GRP1.DefR = Text12.Text
+GRP1.IntL = Text19.Text
+GRP1.IntR = Text21.Text
+GRP1.Width = Text20.Text
+GRP1.Color = Picture3.BackColor
+For I = 0 To Text1.Text
+CoefficientsZ = CoefficientsZ & ";" & Str(A(I))
+Next I
+If NV = False Then
+For I = 0 To Text14.Text
+CoefficientsN = CoefficientsN & ";" & Str(D(I))
+Next I
+End If
+GRP1.ZCoefficients = CoefficientsZ
+GRP1.NCoefficients = CoefficientsN
+
+Open CommonDialog1.Filename For Append As FileNum
+'Print #FileNum, GRP1.GRF & ";" & GRP1.ZG & ";" & GRP1.NG & ";" & GRP1.DefL & ";" & GRP1.DefR & ";" & GRP1.IntL & ";" & GRP1.IntR & ";" & GRP1.Width & ";" & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
+Print #FileNum, GRP1.GRF & GRP1.ZG & GRP1.NG & GRP1.DefL & GRP1.DefR & GRP1.IntL & GRP1.IntR & GRP1.Width & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
+Close FileNum
+SetAttr CommonDialog1.Filename, vbReadOnly
+
+GRP1.ZCoefficients = ""
+GRP1.NCoefficients = ""
+CoefficientsZ = ""
+CoefficientsN = ""
+End Sub
+
+Private Sub Command8_Click()
+On Error Resume Next
+CommonDialog1.Filter = "Graphen (*.gps)|*.gps"
+CommonDialog1.ShowOpen
+
+Dim FileNum, Länge, GRP1 As GRP
+FileNum = FreeFile
+Länge = Len(GRP1)
+Open CommonDialog1.Filename For Random As FileNum Len = Länge
+Get #FileNum, 1, GRP1
+
+    Check6.Value = Trim(GRP1.GRF)
+    NV = 1 - Int(Trim(GRP1.GRF))
+    Text1.Text = Trim(GRP1.ZG)
+    Grad = Trim(GRP1.ZG)
+    Grad1 = Trim(GRP1.ZG)
+    Grad2 = Trim(GRP1.NG)
+    Text14.Text = Trim(GRP1.NG)
+    Text11.Text = Trim(GRP1.DefL)
+    Text12.Text = Trim(GRP1.DefR)
+    Text19.Text = Trim(GRP1.IntL)
+    Text20.Text = Trim(GRP1.Width)
+    Text21.Text = Trim(GRP1.IntR)
+    Picture3.BackColor = Trim(GRP1.Color)
+    
+    ReDim A(0 To GRP1.ZG) ' KoeffizientenNummer, Einleseposition
+    KoeffizientenNummer = 0
+    For I = 2 To Len(Trim(GRP1.ZCoefficients))
+    If Mid(Trim(GRP1.ZCoefficients), I, 1) = ";" Then
+    A(KoeffizientenNummer) = Trim(A(KoeffizientenNummer))
+    KoeffizientenNummer = KoeffizientenNummer + 1
+    Else
+    A(KoeffizientenNummer) = A(KoeffizientenNummer) & Mid(Trim(GRP1.ZCoefficients), I, 1)
+    A(KoeffizientenNummer) = Trim(A(KoeffizientenNummer))
+    End If
+    Next I
+    
+    
+    If GRP1.GRF = 1 Then
+    ReDim D(0 To GRP1.NG)
+    KoeffizientenNummer = 0
+    For I = 2 To Len(Trim(GRP1.NCoefficients))
+    If Mid(Trim(GRP1.NCoefficients), I, 1) = ";" Then
+    KoeffizientenNummer = KoeffizientenNummer + 1
+    D(KoeffizientenNummer) = Trim(D(KoeffizientenNummer))
+    Else
+    D(KoeffizientenNummer) = D(KoeffizientenNummer) & Mid(Trim(GRP1.NCoefficients), I, 1)
+    D(KoeffizientenNummer) = Trim(D(KoeffizientenNummer))
+    End If
+    Next I
+    End If
+    
+Close FileNum
+Frame5.Enabled = True
+End Sub
+
 'Private Sub Command7_Click()
 '   SaveStringArray App.Path & "\Test.dat", A()
 'End Sub
@@ -2037,90 +2271,102 @@ ReDim D1(0 To 1000)
 End Sub
 
 Private Sub Form_Click()
-On Error Resume Next
-If Check7.Value = 1 Then
-
-C1(Dimension) = Label1.Caption
-D1(Dimension) = Label2.Caption
-
-ReDim M(1 To Dimension + 2, 1 To Dimension + 1)
-
-For U = 1 To Dimension + 1
-For I = 1 To Dimension + 1
-M(Dimension + 2 - I, U) = C1(U - 1) ^ (I - 1)
-Next I
-Next U
-
-For I = 1 To Dimension + 1
-M(Dimension + 2, I) = D1(I - 1)
-Next I
-
-Dimension = Dimension + 1
-
-
-For I = 1 To Dimension + 1
-For U = I + 1 To Dimension
-Factor = -(M(I, U) / M(I, I)) '  -(A(U, I)
-For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
-M(S, U) = M(S, I) * Factor + M(S, U)
-Next S
-Next U
-Next I
-
-For U = 1 To Dimension
-Factor = M(U, U)
-For I = 1 To Dimension + 1
-M(I, U) = M(I, U) / Factor
-Next I
-Next U
-
-
-ReDim O(Dimension + 1, Dimension)
-For I = 1 To Dimension
-For U = 1 To Dimension
-O(Dimension + 1 - I, Dimension + 1 - U) = M(I, U)
-Next U
-Next I
-
-For U = 1 To Dimension
-O(Dimension + 1, Dimension + 1 - U) = M(Dimension + 1, U)
-Next U
-
-For I = 1 To Dimension + 1
-For U = 1 To Dimension
-M(I, U) = O(I, U)
-Next U
-Next I
-
-For I = 1 To Dimension '+ 1
-For U = I + 1 To Dimension
-Factor = -(M(I, U) / M(I, I)) '  -(m(U, I)
-For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
-M(S, U) = M(S, I) * Factor + M(S, U)
-Next S
-Next U
-Next I
-
-For I = 1 To Dimension
-O(Dimension + 1, I) = M(Dimension + 1, I)
-Next I
-
-For I = 1 To Dimension
-O(Dimension + 1, Dimension + 1 - I) = M(Dimension + 1, I)
-Next I
-
-Text1.Text = Dimension
-ReDim A(0 To Dimension - 1)
-For I = 1 To Dimension '+ 1
-'A(I - 1) = M(Dimension + 1, Dimension + 1 - I)
-A(I - 1) = M(Dimension + 1, I)
-Next I
-
-NV = True ' *** Für definitionslückenüberprüfung
-Call Graph
-End If
+'On Error Resume Next
+'If Check7.Value = 1 Then
+'
+'C1(Dimension) = Label1.Caption
+'D1(Dimension) = Label2.Caption
+'
+'ReDim M(1 To Dimension + 2, 1 To Dimension + 1)
+'
+'For U = 1 To Dimension + 1
+'For I = 1 To Dimension + 1
+'M(Dimension + 2 - I, U) = C1(U - 1) ^ (I - 1)
+'Next I
+'Next U
+'
+'For I = 1 To Dimension + 1
+'M(Dimension + 2, I) = D1(I - 1)
+'Next I
+'
+'Dimension = Dimension + 1
+'
+'
+'For I = 1 To Dimension + 1
+'For U = I + 1 To Dimension
+'Factor = -(M(I, U) / M(I, I)) '  -(A(U, I)
+'For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
+'M(S, U) = M(S, I) * Factor + M(S, U)
+'Next S
+'Next U
+'Next I
+'
+'For U = 1 To Dimension
+'Factor = M(U, U)
+'For I = 1 To Dimension + 1
+'M(I, U) = M(I, U) / Factor
+'Next I
+'Next U
+'
+'
+'ReDim O(Dimension + 1, Dimension)
+'For I = 1 To Dimension
+'For U = 1 To Dimension
+'O(Dimension + 1 - I, Dimension + 1 - U) = M(I, U)
+'Next U
+'Next I
+'
+'For U = 1 To Dimension
+'O(Dimension + 1, Dimension + 1 - U) = M(Dimension + 1, U)
+'Next U
+'
+'For I = 1 To Dimension + 1
+'For U = 1 To Dimension
+'M(I, U) = O(I, U)
+'Next U
+'Next I
+'
+'For I = 1 To Dimension '+ 1
+'For U = I + 1 To Dimension
+'Factor = -(M(I, U) / M(I, I)) '  -(m(U, I)
+'For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
+'M(S, U) = M(S, I) * Factor + M(S, U)
+'Next S
+'Next U
+'Next I
+'
+'For I = 1 To Dimension
+'O(Dimension + 1, I) = M(Dimension + 1, I)
+'Next I
+'
+'For I = 1 To Dimension
+'O(Dimension + 1, Dimension + 1 - I) = M(Dimension + 1, I)
+'Next I
+'
+'Text1.Text = Dimension - 1
+'ReDim A(0 To Dimension - 1)
+'For I = 1 To Dimension '+ 1
+''A(I - 1) = M(Dimension + 1, Dimension + 1 - I)
+'A(I - 1) = M(Dimension + 1, I)
+'Next I
+'
+'NV = True ' *** Für definitionslückenüberprüfung
+'Form1.Cls
+'Call Raster
+'Call Koordinaten
+'Call Nullpunkt
+'Call Graph
+'End If
 
 End Sub
+
+'Private Sub Form_DragOver(Source As Control, X As Single, Y As Single, State As Integer)
+'If State = 1 Then
+'Frame3.Move X / Screen.TwipsPerPixelX / 1280 * Form1.ScaleWidth - DragX, Y / Screen.TwipsPerPixelY / 1024 * Form1.ScaleHeight - DragY       'X, Y
+'Image1.Visible = False
+'Frame3.Visible = True
+'End If
+'End Sub
 
 '
 'Private Sub Form_DragDrop(Source As Control, X As Single, Y As Single)
@@ -2134,13 +2380,8 @@ End Sub
 ''Frame3.Move X, Y 'X - DragX, Y - DragY
 'End Sub
 
-Private Sub Form_DragDrop(source As Control, X As Single, Y As Single)
-On Error Resume Next
-'Frame3.Move X - DragX, Y - DragY
-
-End Sub
-
 Private Sub Form_Load()
+On Error Resume Next
 Me.WindowState = 2
 Image1.Width = Me.Width
 Image1.Height = Me.Width
@@ -2174,6 +2415,59 @@ Call Raster
 Call Koordinaten
 
 Plus = True
+
+If Command() <> "" Then
+Dim FileNum, Länge, GRP1 As GRP
+FileNum = FreeFile
+Länge = Len(GRP1)
+Open Mid(Command(), 2, Len(Command()) - 2) For Random As FileNum Len = Länge
+Get #FileNum, 1, GRP1
+
+    Check6.Value = Trim(GRP1.GRF)
+    NV = 1 - Int(Trim(GRP1.GRF))
+    Text1.Text = Trim(GRP1.ZG)
+    Grad = Trim(GRP1.ZG)
+    Grad1 = Trim(GRP1.ZG)
+    Grad2 = Trim(GRP1.NG)
+    Text14.Text = Trim(GRP1.NG)
+    Text11.Text = Trim(GRP1.DefL)
+    Text12.Text = Trim(GRP1.DefR)
+    Text19.Text = Trim(GRP1.IntL)
+    Text20.Text = Trim(GRP1.Width)
+    Text21.Text = Trim(GRP1.IntR)
+    Picture3.BackColor = Trim(GRP1.Color)
+
+    ReDim A(0 To GRP1.ZG) ' KoeffizientenNummer, Einleseposition
+    KoeffizientenNummer = 0
+    For I = 2 To Len(Trim(GRP1.ZCoefficients))
+    If Mid(Trim(GRP1.ZCoefficients), I, 1) = ";" Then
+    A(KoeffizientenNummer) = Trim(A(KoeffizientenNummer))
+    KoeffizientenNummer = KoeffizientenNummer + 1
+    Else
+    A(KoeffizientenNummer) = A(KoeffizientenNummer) & Mid(Trim(GRP1.ZCoefficients), I, 1)
+    A(KoeffizientenNummer) = Trim(A(KoeffizientenNummer))
+    End If
+    Next I
+
+
+    If GRP1.GRF = 1 Then
+    ReDim D(0 To GRP1.NG)
+    KoeffizientenNummer = 0
+    For I = 2 To Len(Trim(GRP1.NCoefficients))
+    If Mid(Trim(GRP1.NCoefficients), I, 1) = ";" Then
+    KoeffizientenNummer = KoeffizientenNummer + 1
+    D(KoeffizientenNummer) = Trim(D(KoeffizientenNummer))
+    Else
+    D(KoeffizientenNummer) = D(KoeffizientenNummer) & Mid(Trim(GRP1.NCoefficients), I, 1)
+    D(KoeffizientenNummer) = Trim(D(KoeffizientenNummer))
+    End If
+    Next I
+    End If
+
+Frame5.Enabled = True
+
+End If
+
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -2181,7 +2475,7 @@ On Error Resume Next
 Label1.Caption = Int((X - Form1.ScaleWidth / 2 + KSX) * 100) / 100
 Label2.Caption = -Int((Y - Form1.ScaleHeight / 2 + KSY) * 100) / 100
  Dim Pt As POINTAPI
-  
+
     Call GetCursorPos(Pt)
       'aX = Pt.X
 
@@ -2231,6 +2525,134 @@ If Frame3.Visible = False Then
 Frame3.Visible = True
 End If
 End If
+
+If Button = 1 Then
+'On Error Resume Next
+
+If Check7.Value = 1 Then
+WXK = False 'Wiederholte X-Koordinate
+'I = 0
+For I = 0 To UBound(C1) - LBound(C1)
+If Label1.Caption = C1(I) Then WXK = True
+Next I
+
+If WXK = False Then
+If Dimension > 0 Then
+If Label1.Caption <> 0 Then
+C1(Dimension) = C1(Dimension - 1)
+D1(Dimension) = D1(Dimension - 1)
+C1(Dimension - 1) = Label1.Caption
+D1(Dimension - 1) = Label2.Caption
+Else
+C1(Dimension) = Label1.Caption
+D1(Dimension) = Label2.Caption
+End If
+Else
+C1(Dimension) = Label1.Caption
+D1(Dimension) = Label2.Caption
+End If
+
+'If WXK = False Then
+'List13.AddItem (Label1.Caption)
+'List14.AddItem (Label2.Caption)
+'If Label1.Caption <> 0 Then
+'If Dimension > 0 Then
+'C1(Dimension) = C1(Dimension - 1)
+'D1(Dimension) = D1(Dimension - 1)
+'C1(Dimension - 1) = Label1.Caption
+'D1(Dimension - 1) = Label2.Caption
+'Else
+'C1(Dimension) = Label1.Caption
+'D1(Dimension) = Label2.Caption
+'End If
+'Label33.Caption = D1(Dimension)
+'End If
+
+ReDim M(1 To Dimension + 2, 1 To Dimension + 1)
+
+For U = 1 To Dimension + 1
+For I = 1 To Dimension + 1
+M(Dimension + 2 - I, U) = C1(U - 1) ^ (I - 1)
+Next I
+Next U
+
+For I = 1 To Dimension + 1
+M(Dimension + 2, I) = D1(I - 1)
+Next I
+
+Dimension = Dimension + 1
+
+For I = 1 To Dimension + 1
+For U = I + 1 To Dimension
+Factor = -(M(I, U) / M(I, I)) '  -(A(U, I)
+For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
+'If M(I, U) = 0 Then
+'Exit For
+'Else
+M(S, U) = M(S, I) * Factor + M(S, U)
+'End If
+Next S
+Next U
+Next I
+
+For U = 1 To Dimension
+Factor = M(U, U)
+For I = 1 To Dimension + 1
+M(I, U) = M(I, U) / Factor
+Next I
+Next U
+
+
+ReDim O(Dimension + 1, Dimension)
+For I = 1 To Dimension
+For U = 1 To Dimension
+O(Dimension + 1 - I, Dimension + 1 - U) = M(I, U)
+Next U
+Next I
+
+For U = 1 To Dimension
+O(Dimension + 1, Dimension + 1 - U) = M(Dimension + 1, U)
+Next U
+
+For I = 1 To Dimension + 1
+For U = 1 To Dimension
+M(I, U) = O(I, U)
+Next U
+Next I
+
+For I = 1 To Dimension '+ 1
+For U = I + 1 To Dimension
+Factor = -(M(I, U) / M(I, I)) '  -(m(U, I)
+For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
+M(S, U) = M(S, I) * Factor + M(S, U)
+Next S
+Next U
+Next I
+
+For I = 1 To Dimension
+O(Dimension + 1, I) = M(Dimension + 1, I)
+Next I
+
+For I = 1 To Dimension
+O(Dimension + 1, Dimension + 1 - I) = M(Dimension + 1, I)
+Next I
+
+Text1.Text = Dimension - 1
+ReDim A(0 To Dimension - 1)
+For I = 1 To Dimension '+ 1
+'A(I - 1) = M(Dimension + 1, Dimension + 1 - I)
+A(I - 1) = M(Dimension + 1, I)
+Next I
+
+NV = True ' *** Für definitionslückenüberprüfung
+Form1.Cls
+Call Raster
+Call Koordinaten
+Call Nullpunkt
+Call Graph
+End If
+End If
+End If
 End Sub
 
 Private Sub Form_Resize()
@@ -2247,22 +2669,42 @@ Frame3.Top = Frame3.Top + (Y - DragY)
 End Sub
 
 Private Sub Image1_DragDrop(source As Control, X As Single, Y As Single)
-Frame3.Move X / Screen.TwipsPerPixelX / 1280 * Form1.ScaleWidth - DragX, Y / Screen.TwipsPerPixelY / 1024 * Form1.ScaleHeight - DragY       'X, Y
+Frame3.Move X / Screen.TwipsPerPixelX / 1280 * Form1.ScaleWidth - DragX, Y / Screen.TwipsPerPixelY / 1024 * Form1.ScaleHeight - DragY  '+ 71 'image1.top+1     'X, Y
 Image1.Visible = False
 Frame3.Visible = True
+FreeCursor 0&
 End Sub
 
 Private Sub Label19_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+'''Label35.Caption = Image1.Left & " " & Image1.Top & " " & Image1.Width & " " & Image1.Height & " " & Frame3.Top
+'''Form1.ScaleMode = vbPixels
+
 DragX = (Label19.Left + X) / Screen.TwipsPerPixelX / 1280 * Form1.ScaleWidth 'X - Frame3.Left 'X - Frame3.Left
 DragY = (Label19.Top + Y) / Screen.TwipsPerPixelY / 1024 * Form1.ScaleHeight 'Y - Frame3.Top 'Y - Frame3.Top
 Image1.Left = 0
 Image1.Top = 0
-Image1.Width = Form1.Width
-Image1.Height = Form1.Height
+Image1.Width = Screen.Width / Screen.TwipsPerPixelX 'Form1.ScaleWidth
+Image1.Height = Screen.Height / Screen.TwipsPerPixelY 'Form1.ScaleHeight
 Image1.Visible = True
 Frame3.Visible = False
 Frame3.Drag 1
-'Text1.Text = Command1.Width / Screen.TwipsPerPixelX / 1280 * 13.32
+
+'''''''''Text1.Text = Command1.Width / Screen.TwipsPerPixelX / 1280 * 13.32
+
+'GetWindowRect Image1, Winrect
+Dim Rect1 As Rect
+'Form1.ScaleMode = vbPixels
+With Rect1
+.Left = 0
+.Top = 19
+.Right = Screen.Width / Screen.TwipsPerPixelX
+.Bottom = Form1.Height / Screen.TwipsPerPixelY - 10 'Screen.Height / Screen.TwipsPerPixelY - 2
+End With
+ClipCursor Rect1
+
+'Form1.ScaleMode = vbUser
+
+
 End Sub
 
 Private Sub Label27_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -2329,6 +2771,10 @@ Private Sub Picture3_MouseUp(Button As Integer, Shift As Integer, X As Single, Y
 End Sub
 
 Private Sub Slider1_Scroll()
+On Error Resume Next
+If KoefChange = False Then
+If Text3.Text > Grad Then Text3.Text = Grad '###
+
 If Faktor <> Slider1.Value Then
 If Text3.Text <> "" Then
 
@@ -2356,31 +2802,32 @@ Call Graph
 
 End If
 End If
+End If
 End Sub
 
+Private Sub Text1_GotFocus()
+Text1.SelStart = 0
+Text1.SelLength = Len(Text1.Text)
+End Sub
 
+Private Sub Text10_GotFocus()
+Text10.SelStart = 0
+Text10.SelLength = Len(Text10.Text)
+End Sub
 
+Private Sub Text11_GotFocus()
+Text11.SelStart = 0
+Text11.SelLength = Len(Text11.Text)
+End Sub
 
+Private Sub Text12_GotFocus()
+Text12.SelStart = 0
+Text12.SelLength = Len(Text12.Text)
+End Sub
 
 Private Sub Text12_LostFocus()
 If Text12.Text <> "" Then
 If Text12.Text <= Text11.Text Then Text12.Text = Text11.Text + 1
-End If
-End Sub
-
-Private Sub Text2_KeyPress(KeyAscii As Integer)
-If KeyAscii = vbKeyReturn Then
-Slider1.Value = Text2.Text * -100 ' evtl. mit Int()
-If Option1.Value = True Then
-A(Text3.Text) = Text2.Text
-Else
-D(Text3.Text) = Text2.Text
-End If
-Form1.Cls
-Call Raster
-Call Nullpunkt
-Call Koordinaten
-Call Graph
 End If
 End Sub
 
@@ -2452,14 +2899,14 @@ Form1.ForeColor = Picture3.BackColor
 For X1 = 1 + KSX * STPX / Form1.ScaleWidth To STPX + KSX * STPX / Form1.ScaleWidth
 If NV = False Then '***
 V = (X1 / STPX * Form1.ScaleWidth - Form1.ScaleWidth / 2) '***
-DefL = 0 '***
+DefiL = 0 '***
 For G = 0 To Grad2 '***
-DefL = DefL + D(G) * V ^ G '***
+DefiL = DefiL + D(G) * V ^ G '***
 Next G '*** Überprüfung aud Definitionslücke
 Else '***
-DefL = 1 '***
+DefiL = 1 '***
 End If '***
-If DefL <> 0 Then '***
+If DefiL <> 0 Then '***
 V = (X1 / STPX * Form1.ScaleWidth - Form1.ScaleWidth / 2)
 
 I = X1 / STPX * Form1.ScaleWidth
@@ -2483,7 +2930,7 @@ End If
 Y1 = Form1.ScaleHeight / 2 - Y1
 
 If Y < Form1.ScaleHeight + KSY + 100 Then ' +1
-If Y > -Form1.ScaleHeight / 2 + KSY + 1 Then
+If Y > -Form1.ScaleHeight / 2 + KSY - 100 Then '+ 1 Then
 If Form1.ScaleWidth / 2 + Text11.Text < I Then
 If Form1.ScaleWidth / 2 + Text12.Text > I Then
 On Error Resume Next
@@ -2502,10 +2949,67 @@ Next X1
 Form1.DrawWidth = 1
 End Function
 
+Private Sub Text14_GotFocus()
+Text14.SelStart = 0
+Text14.SelLength = Len(Text14.Text)
+End Sub
+
+Private Sub Text15_GotFocus()
+Text15.SelStart = 0
+Text15.SelLength = Len(Text15.Text)
+End Sub
+
+Private Sub Text19_GotFocus()
+Text19.SelStart = 0
+Text19.SelLength = Len(Text19.Text)
+End Sub
+
+Private Sub Text2_GotFocus()
+Text2.SelStart = 0
+Text2.SelLength = Len(Text2.Text)
+End Sub
+
+Private Sub Text2_KeyUp(KeyCode As Integer, Shift As Integer)
+On Error Resume Next
+If KeyCode = vbKeyReturn Then
+Slider1.Value = Text2.Text * -100 ' evtl. mit Int()
+If Option1.Value = True Then
+A(Text3.Text) = Text2.Text
+Else
+D(Text3.Text) = Text2.Text
+End If
+Form1.Cls
+Call Raster
+Call Nullpunkt
+Call Koordinaten
+Call Graph
+End If
+End Sub
+
+Private Sub Text20_GotFocus()
+Text20.SelStart = 0
+Text20.SelLength = Len(Text20.Text)
+End Sub
+
 Private Sub Text20_LostFocus()
 If Text20.Text < 1 Then Text20.Text = 1
 If Text20.Text > 10 Then Text20.Text = 10
 Text20.Text = Int(Text20.Text)
+End Sub
+
+Private Sub Text21_GotFocus()
+Text21.SelStart = 0
+Text21.SelLength = Len(Text21.Text)
+End Sub
+
+Private Sub Text22_GotFocus()
+Text22.SelStart = 0
+Text22.SelLength = Len(Text22.Text)
+End Sub
+
+Private Sub Text23_GotFocus()
+Text23.SelStart = 0
+Text23.SelLength = Len(Text23.Text)
 End Sub
 
 Private Sub Text3_Change()
@@ -2517,7 +3021,7 @@ Grad = Text14.Text
 End If
 If Text3.Text <> "" Then
 If Text3.Text < 0 Then Text3.Text = 0
-If Text3.Text > Grad Then Text3.Text = Grad
+'If Text3.Text > Grad Then Text3.Text = Grad
 If Option1.Value = True Then
 Text2.Text = A(Text3.Text)
 Slider1.Value = -A(Text3.Text) * 100
@@ -2526,6 +3030,13 @@ Text2.Text = D(Text3.Text)
 Slider1.Value = -D(Text3.Text) * 100
 End If
 End If
+End Sub
+
+Private Sub Text3_GotFocus()
+On Error Resume Next
+Text3.SelStart = 0
+Text3.SelLength = Len(Text3.Text)
+KoefChange = True
 End Sub
 
 Private Sub Text3_LostFocus()
@@ -2551,12 +3062,19 @@ Text3.Text = Int(Text3.Text)
 Slider1.Value = D(Text3.Text) * -100
 Text2.Text = D(Text3.Text)
 End If
+
+KoefChange = False
 End Sub
 
 Private Sub Text4_Change()
 If Text4.Text <> "" Then
 If Text4.Text < 0 Then Text4.Text = 0
 End If
+End Sub
+
+Private Sub Text4_GotFocus()
+Text4.SelStart = 0
+Text4.SelLength = Len(Text4.Text)
 End Sub
 
 Private Sub Text4_KeyPress(KeyAscii As Integer)
@@ -2578,6 +3096,26 @@ Private Sub Text11_LostFocus()
 If Text11.Text <> "" Then
 If Text11.Text >= Text12.Text Then Text11.Text = Text12.Text - 1
 End If
+End Sub
+
+Private Sub Text5_GotFocus()
+Text5.SelStart = 0
+Text5.SelLength = Len(Text5.Text)
+End Sub
+
+Private Sub Text7_GotFocus()
+Text7.SelStart = 0
+Text7.SelLength = Len(Text7.Text)
+End Sub
+
+Private Sub Text8_GotFocus()
+Text8.SelStart = 0
+Text8.SelLength = Len(Text8.Text)
+End Sub
+
+Private Sub Text9_GotFocus()
+Text9.SelStart = 0
+Text9.SelLength = Len(Text9.Text)
 End Sub
 
 ' *** Bildschirmauflösung nur einmal am Anfang erechnen und als Konstante übergeben --> schnelleres Zeichnen des Graphen
@@ -2605,6 +3143,7 @@ End If
 End Sub
 
 Private Sub Timer2_Timer()
+On Error Resume Next
 If Timer2.Interval = 250 Then Timer2.Interval = 50
 If Plus = True Then
 If Slider1.Value > -1000 Then
