@@ -72,10 +72,12 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Public GGN
+Public GGN, KZ, KZ2
 Dim T, Sprung As Boolean
 
 Private Sub Command1_Click()
+If KZ2 = KZ Then KZ = KZ + 1
+KZ2 = KZ2 + 1
 Sprung = False
 If GGN = -1 Then GGN = 0
 
@@ -87,12 +89,12 @@ End If
 
 If NV = True Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
-A(GGN) = Text1.Text
+A(GGN, PolyCount) = Text1.Text
 GGN = GGN + 1
 Else
 If GRF = True Then
 If Grad <> 1 Then
-A(GGN) = Text1.Text
+A(GGN, PolyCount) = Text1.Text
 Else
 GGN = 1
 Text1.Text = A(GGN - 1)
@@ -111,21 +113,33 @@ Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad 
 Else
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
 End If
-D(GGN) = Text1.Text
+D(GGN, PolyCount) = Text1.Text
 GGN = GGN + 1
 End If
 End If
 
 If Grad - GGN = -1 Then
 If NV = True Then
+If PolyCount = Poly - 1 Then
 Unload Me
+End If
 Else
 If GRF = True Then
 GRF = False
 GGN = 0
 Grad = Form1.Text14.Text
 Else
+If Poly = PolyCount - 1 Then
 Unload Me
+Else
+PolyCount = PolyCount + 1
+GGN = 0
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
+Beep
+Beep
+KZ = 0
+If NV = False Then GRF = True
+End If
 End If
 End If
 End If
@@ -133,21 +147,23 @@ End If
 End Sub
 
 Private Sub Command2_Click()
-
+'If GGN <> 0 Then KZ2 = KZ2 - 1
 If NV = True Then
 If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
 If GGN <> 0 Then
+KZ2 = KZ2 - 1
 GGN = GGN - 1
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten Grad ein!"
- Text1.Text = A(GGN)
+ Text1.Text = A(GGN, PolyCount)
 End If
 Else
 If GRF = True Then
 If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
 If Sprung = True Then Sprung = False: GGN = Grad + 1: Grad = Grad + 1 '***
 If GGN <> 0 Then
+KZ2 = KZ2 - 1
 GGN = GGN - 1
-Text1.Text = A(GGN)
+Text1.Text = A(GGN, PolyCount)
 End If
 If GGN = 0 Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
@@ -156,8 +172,9 @@ Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler
 End If
 Else
 If GGN <> 0 Then
+KZ2 = KZ2 - 1
 GGN = GGN - 1
-Text1.Text = D(GGN)
+Text1.Text = D(GGN, PolyCount)
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Nenner-Grad ein!"
 Else 'If GGN = 0 Then
 'Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
@@ -165,13 +182,13 @@ If Grad <> 1 Then
 GGN = Grad + 1
 GRF = True
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
-Text1.Text = A(GGN + 0) '+1
+Text1.Text = A(GGN + 0, PolyCount) '+1
 Sprung = True
 Else
 GGN = Grad + 1
 GRF = True
 Label1.Caption = "Geben Sie den Koeffizienten für den 0-ten Zähler-Grad ein!"
-Text1.Text = A(0)
+Text1.Text = A(0, PolyCount)
 Sprung = True
 End If
 End If
@@ -183,21 +200,21 @@ End Sub
 Private Sub Command3_Click()
 If NV = True Then
 For T = GGN To Grad + 1
-A(GGN) = 0
+A(GGN, PolyCount) = 0
 Next T
 Else
 If GRF = True Then
 For T = GGN To Grad + 1
-A(GGN) = True
+A(GGN, PolyCount) = True
 Next T
 Grad = Form1.Text14.Text
 For T = GGN To Grad + 1
-D(GGN) = True
+D(GGN, PolyCount) = True
 Next T
 Else
 Grad = Form1.Text14.Text
 For T = GGN To Grad + 1
-D(GGN) = 0
+D(GGN, PolyCount) = 0
 Next T
 End If
 End If
@@ -209,12 +226,16 @@ Private Sub Command4_Click()
 
 If NV = True Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
-A(GGN) = 0
+If KZ2 < KZ Then
+Text1.Text = A(GGN, PolyCount)
+Else
+A(GGN, PolyCount) = 0
 Text1.Text = 0
+End If
 GGN = GGN + 1
 Else
 If GRF = True Then
-A(GGN) = 0
+A(GGN, PolyCount) = 0
 Text1.Text = 0
 GGN = GGN + 1
 If GGN = Grad + 1 Then
@@ -229,8 +250,12 @@ Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad 
 Else
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
 End If
-D(GGN) = 0
+If KZ2 < KZ Then
+Text1.Text = D(GGN, PolyCount)
+Else
+D(GGN, PolyCount) = 0
 Text1.Text = 0
+End If
 GGN = GGN + 1
 End If
 End If
@@ -241,14 +266,18 @@ Text1.SelLength = Len(Text1.Text)
 
 If Grad - GGN = -1 Then
 If NV = True Then
+If PolyCount = Poly - 1 Then
 Unload Me
+End If
 Else
 If GRF = True Then
 GRF = False
 GGN = 0
 Grad = Form1.Text14.Text
 Else
+If PolyCount = Poly - 1 Then
 Unload Me
+End If
 End If
 End If
 End If
@@ -285,9 +314,9 @@ Call SetWindowPos(Me.hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, 3)
 End If
 
 GGN = 0
-ReDim A(Grad + 1)
-ReDim D(Form1.Text14.Text + 14)
-
+PolyCount = 1
+ReDim A(Grad + 1, 1 To PolyCount)
+ReDim D(Form1.Text14.Text + 14, 1 To PolyCount)
 If NV = False Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Zähler-Grad ein!"
 Else
@@ -304,8 +333,12 @@ Form1.Option1.Value = True
 End If
 'Form1.Command1.SetFocus
 Grad = Form1.Text1.Text
+KZ = 0
 End Sub
 
-Private Sub Text1_KeyPress(KeyAscii As Integer)
-If KeyAscii = &H25 Then Unload Me
+'Private Sub Text1_KeyPress(KeyAscii As Integer)
+'If KeyAscii = &H25 Then Unload Me
+'End Sub
+Private Sub Text1_Change()
+
 End Sub
