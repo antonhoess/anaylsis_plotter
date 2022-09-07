@@ -1,0 +1,10 @@
+ToDo
+====
+* Arrays in Datei speichern und aus Datei laden
+* Proportional bei Raster nach Breite von FrmMain angleichen, denn ansonsten stimmt es nicht überein
+* Einstellungen speichern
+* Evtl. abschnittsweise Definition
+* Bei Bruch mehr als nur einmal differenzieren
+* Form1.BorderStyle=0 (evtl.)   Koordinaten mitstrecken
+* Über Ableitung Wendepunkte, Extremwerte und über Horner-Schema Nullpunkte, Definitionslücken, Pole, hebbare Lücken errechnen.
+  Nicht nur mir ganzzahligen Exponenten arbeiten, sondern über ein zweites Array einmal Koeffizienten und über das zweite die Exponenten speichern und ganz normal in der Schleife durchrechnen lassen - das gleiche glit dann auch für das Differenzieren.

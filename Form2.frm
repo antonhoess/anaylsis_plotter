@@ -1,26 +1,26 @@
 VERSION 5.00
-Begin VB.Form Form2 
+Begin VB.Form FrmCoefficients 
    BackColor       =   &H00C0FFFF&
-   BorderStyle     =   1  'Fest Einfach
+   BorderStyle     =   1  'Fixed Single
    Caption         =   "Koeffizienten"
    ClientHeight    =   1965
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   2295
    ControlBox      =   0   'False
-   FillStyle       =   0  'Ausgefüllt
+   FillStyle       =   0  'Solid
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   1965
    ScaleWidth      =   2295
-   StartUpPosition =   3  'Windows-Standard
+   StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton Command3 
       BackColor       =   &H008080FF&
       Caption         =   "Ende"
       Height          =   375
       Left            =   1680
-      Style           =   1  'Grafisch
+      Style           =   1  'Graphical
       TabIndex        =   5
       TabStop         =   0   'False
       Top             =   1560
@@ -31,7 +31,7 @@ Begin VB.Form Form2
       Caption         =   "Weiter"
       Height          =   375
       Left            =   840
-      Style           =   1  'Grafisch
+      Style           =   1  'Graphical
       TabIndex        =   4
       TabStop         =   0   'False
       Top             =   1560
@@ -42,7 +42,7 @@ Begin VB.Form Form2
       Caption         =   "Zurück"
       Height          =   375
       Left            =   120
-      Style           =   1  'Grafisch
+      Style           =   1  'Graphical
       TabIndex        =   3
       TabStop         =   0   'False
       Top             =   1560
@@ -54,7 +54,7 @@ Begin VB.Form Form2
       Default         =   -1  'True
       Height          =   375
       Left            =   120
-      Style           =   1  'Grafisch
+      Style           =   1  'Graphical
       TabIndex        =   2
       TabStop         =   0   'False
       Top             =   1080
@@ -69,7 +69,7 @@ Begin VB.Form Form2
       Width           =   2295
    End
    Begin VB.Label Label1 
-      Alignment       =   2  'Zentriert
+      Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
       Caption         =   "Geben Sie den Koeffizienten für den 0-ten Grad ein!"
       Height          =   375
@@ -79,7 +79,7 @@ Begin VB.Form Form2
       Width           =   2175
    End
 End
-Attribute VB_Name = "Form2"
+Attribute VB_Name = "FrmCoefficients"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -93,7 +93,7 @@ KZ2 = KZ2 + 1
 Sprung = False
 If GGN = -1 Then GGN = 0
 
-If Form2.Visible = True Then
+If FrmCoefficients.Visible = True Then
 Text1.SetFocus
 Text1.SelStart = 0
 Text1.SelLength = Len(Text1.Text)
@@ -137,7 +137,7 @@ Else
 If GRF = True Then
 GRF = False
 GGN = 0
-Grad = Form1.Text14.Text
+Grad = FrmMain.TxtDegreeDenominator.Text
 Else
 Unload Me
 End If
@@ -207,12 +207,12 @@ If GRF = True Then
 For T = GGN To Grad + 1
 A(GGN) = True
 Next T
-Grad = Form1.Text14.Text
+Grad = FrmMain.TxtDegreeDenominator.Text
 For T = GGN To Grad + 1
 D(GGN) = True
 Next T
 Else
-Grad = Form1.Text14.Text
+Grad = FrmMain.TxtDegreeDenominator.Text
 For T = GGN To Grad + 1
 D(GGN) = 0
 Next T
@@ -271,7 +271,7 @@ Else
 If GRF = True Then
 GRF = False
 GGN = 0
-Grad = Form1.Text14.Text
+Grad = FrmMain.TxtDegreeDenominator.Text
 Else
 Unload Me
 End If
@@ -397,7 +397,7 @@ Else
 If GRF = True Then
 GRF = False
 GGN = 0
-Grad = Form1.Text14.Text
+Grad = FrmMain.TxtDegreeDenominator.Text
 Else
 Unload Me
 End If
@@ -410,47 +410,41 @@ End If
 End Sub
 
 Private Sub Form_Load()
-Form2.KeyPreview = True
-If Form1.Check6.Value = 1 Then
-GRF = True
-Else
-GRF = False
-End If
-
-If Form1.Check5.Value = 1 Then
-'Form dauerhaft in den Vordergrund setzen
-Call SetWindowPos(Me.hWnd, HWND_TOPMOST, 0, 0, 0, 0, 3)
-Else
-'Form dauerhaft in den Vordergrund setzen
-Call SetWindowPos(Me.hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, 3)
-End If
-
-GGN = 0
-ReDim A(Grad + 1)
-ReDim D(Form1.Text14.Text + 14)
-
-If NV = False Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Zähler-Grad ein!"
-Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Grad ein!"
-End If
+    FrmCoefficients.KeyPreview = True
+    
+    If FrmMain.ChkRationalFunction.Value = 1 Then
+        GRF = True
+    Else
+        GRF = False
+    End If
+    
+    GGN = 0
+    ReDim A(Grad + 1)
+    ReDim D(FrmMain.TxtDegreeDenominator.Text + 14)
+    
+    If NV = False Then
+        Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Zähler-Grad ein!"
+    Else
+        Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Grad ein!"
+    End If
 End Sub
 
-Private Sub Form_Unload(Cancel As Integer)
-If NV = False Then
-Form1.Option2.Enabled = True
-Else
-Form1.Option2.Enabled = False
-Form1.Option1.Value = True
-End If
-'Form1.Command1.SetFocus
-Grad = Form1.Text1.Text
-KZ = 0
+Private Sub FrmCoefficients_Unload(Cancel As Integer)
+    If NV = False Then
+        FrmMain.OptDenominator.Enabled = True
+    Else
+        FrmMain.OptDenominator.Enabled = False
+        FrmMain.OptNumerator.Value = True
+    End If
+    
+    'FrmMain.Command1.SetFocus
+    Grad = FrmMain.Text1.Text
+    KZ = 0
 End Sub
 
 'Private Sub Text1_KeyPress(KeyAscii As Integer)
 'If KeyAscii = &H25 Then Unload Me
 'End Sub
 Private Sub Text1_Change()
-
+#XXX
 End Sub
