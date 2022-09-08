@@ -917,7 +917,6 @@ Begin VB.Form FrmMain
          Left            =   2880
          TabIndex        =   43
          Top             =   5880
-         Value           =   1  'Checked
          Width           =   1455
       End
       Begin VB.Frame Frame2 
@@ -1253,16 +1252,6 @@ Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, 
 
 Option Explicit
 
-Private Declare Function SetCursorPos Lib "user32" (ByVal _
-        X As Long, ByVal Y As Long) As Long
-
-Private Declare Function GetCursorPos Lib "user32" _
-        (lpPoint As POINTAPI) As Long
-
-Private Type POINTAPI
-    X As Long
-    Y As Long
-End Type
 
 Dim aX, aY, aY2, dx, dy
 
@@ -1288,6 +1277,7 @@ Private Sub Draw()
     If ChkGrid.Value = 1 Then Call Raster
     If ChkAxisLabels.Value = 1 Then Call Koordinaten
     If ChkAxes.Value = 1 Then Call Nullpunkt
+    Call Graph
 End Sub
 
 Private Sub ChkGrid_Click()
@@ -2043,6 +2033,14 @@ Private Sub BtnSaveCoefficients_Click()
     CoefficientsN = ""
 End Sub
 
+'Private Sub BtnSaveCoefficients_Click()
+'   SaveStringArray App.Path & "\Test.dat", A()
+'End Sub
+'
+'Private Sub BtnLoadCoefficients_Click()
+' ReadStringArray App.Path & "\Test.dat", A
+'End Sub
+
 Private Sub BtnLoadCoefficients_Click()
     CommonDialog1.Filter = "Graphen (*.gps)|*.gps"
     CommonDialog1.ShowOpen
@@ -2097,20 +2095,20 @@ Private Sub BtnLoadCoefficients_Click()
     Frame5.Enabled = True
 End Sub
 
-'Private Sub BtnSaveCoefficients_Click()
-'   SaveStringArray App.Path & "\Test.dat", A()
-'End Sub
-'
-'Private Sub BtnLoadCoefficients_Click()
-' ReadStringArray App.Path & "\Test.dat", A
-'End Sub
-
 Private Sub BtnOffsetCoordSystem_Click()
     KSX = -TxtOffsetCoordSystemX.Text
     KSY = TxtOffsetCoordSystemY.Text
     Draw
 End Sub
 
+
+Private Sub Form_DragDrop(Source As Control, X As Single, Y As Single)
+    Dim rect As POINTAPI
+    GetCursorPos rect
+    ' Die Berechnung unten stimmt noch immer nicht... fixen!
+    FrmControl.Move FrmControl.Left + (rect.X - DragX) / Screen.TwipsPerPixelX / Me.ScaleWidth, FrmControl.Top + (rect.Y - DragY) / Screen.TwipsPerPixelY / Me.ScaleHeight
+    FrmControl.Visible = True
+End Sub
 
 Private Sub ScrLineWidth_Change()
     TxtLineWidth.Text = -ScrLineWidth.Value + 11
@@ -2212,33 +2210,11 @@ Private Sub Form_Click()
 'Call Nullpunkt
 'Call Graph
 'End If
-
 End Sub
 
-'Private Sub Form_DragOver(Source As Control, X As Single, Y As Single, State As Integer)
-'If State = 1 Then
-'FrmControl.Move X / Screen.TwipsPerPixelX / 1280 * FrmMain.ScaleWidth - DragX, Y / Screen.TwipsPerPixelY / 1024 * FrmMain.ScaleHeight - DragY       'X, Y
-'Image1.Visible = False
-'FrmControl.Visible = True
-'End If
-'End Sub
-
-'
-'Private Sub Form_DragDrop(Source As Control, X As Single, Y As Single)
-'    For I = 0 To FrmMain.Controls.Count - 1
-''        If Not TypeOf Frm.Controls(I) Is Menu Then
-''            Frm.Controls(I).Enabled = State
-''        End If
-'FrmControl.Move X, Y 'X - DragX, Y - DragY
-'    Next I
-'
-''FrmControl.Move X, Y 'X - DragX, Y - DragY
-'End Sub
 
 Private Sub Form_Load()
     Me.WindowState = vbMaximized
-    Image1.Width = Me.Width
-    Image1.Height = Me.Width
     ChkAlwaysInForeground_Click
     
     KSX = 0
@@ -2365,7 +2341,7 @@ End Sub
 
 Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton Then
-        If FrmControl.Visible = False Then
+        If FrmControl.Visible = False Then 'XXX
             FrmControl.Visible = True
         End If
     End If
@@ -2497,46 +2473,15 @@ Private Sub Form_Resize()
     Draw
 End Sub
 
-Private Sub FrmControl_DragDrop(source As Control, X As Single, Y As Single)
-    FrmControl.Left = FrmControl.Left + (X - DragX)
-    FrmControl.Top = FrmControl.Top + (Y - DragY)
-End Sub
-
-Private Sub Image1_DragDrop(source As Control, X As Single, Y As Single)
-    FrmControl.Move X / Screen.TwipsPerPixelX / 1280 * FrmMain.ScaleWidth - DragX, Y / Screen.TwipsPerPixelY / 1024 * FrmMain.ScaleHeight - DragY  '+ 71 'image1.top+1     'X, Y
-    Image1.Visible = False
-    FrmControl.Visible = True
-    FreeCursor 0&
-End Sub
-
 Private Sub LblMoveMenu_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    '''Label35.Caption = Image1.Left & " " & Image1.Top & " " & Image1.Width & " " & Image1.Height & " " & FrmControl.Top
-    '''FrmMain.ScaleMode = vbPixels
+    Dim rect As POINTAPI
+    GetCursorPos rect
     
-    DragX = (LblMoveMenu.Left + X) / Screen.TwipsPerPixelX / 1280 * FrmMain.ScaleWidth 'X - FrmControl.Left 'X - FrmControl.Left
-    DragY = (LblMoveMenu.Top + Y) / Screen.TwipsPerPixelY / 1024 * FrmMain.ScaleHeight 'Y - FrmControl.Top 'Y - FrmControl.Top
-    Image1.Left = 0
-    Image1.Top = 0
-    Image1.Width = Screen.Width / Screen.TwipsPerPixelX 'FrmMain.ScaleWidth
-    Image1.Height = Screen.Height / Screen.TwipsPerPixelY 'FrmMain.ScaleHeight
-    Image1.Visible = True
+    DragX = rect.X '(LblMoveMenu.Left + X) / Screen.TwipsPerPixelX / 1280 * FrmMain.ScaleWidth 'X - FrmControl.Left 'X - FrmControl.Left
+    DragY = rect.Y '(LblMoveMenu.Top + Y) / Screen.TwipsPerPixelY / 1024 * FrmMain.ScaleHeight 'Y - FrmControl.Top 'Y - FrmControl.Top
+    'MsgBox rect.X & ", " & rect.Y
     FrmControl.Visible = False
     FrmControl.Drag 1
-    
-    '''''''''TxtDegreeNumerator.Text = CmdDraw.Width / Screen.TwipsPerPixelX / 1280 * 13.32
-    
-    'GetWindowRect Image1, Winrect
-    Dim Rect1 As Rect
-    'FrmMain.ScaleMode = vbPixels
-    With Rect1
-    .Left = 0
-    .Top = 19
-    .Right = Screen.Width / Screen.TwipsPerPixelX
-    .Bottom = FrmMain.Height / Screen.TwipsPerPixelY - 10 'Screen.Height / Screen.TwipsPerPixelY - 2
-    End With
-    ClipCursor Rect1
-    
-    'FrmMain.ScaleMode = vbUser
 End Sub
 
 Private Sub Label27_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -2706,6 +2651,8 @@ Private Function Nullpunkt()
 End Function
 
 Private Function Graph()
+    If Grad = 0 And Grad2 = 0 Then Exit Function
+    
     X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text
     FrmMain.ForeColor = Picture3.BackColor
