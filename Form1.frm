@@ -2597,10 +2597,6 @@ Private Sub Picture3_MouseDown(Button As Integer, Shift As Integer, X As Single,
     'FrmColor.Width = (Picture3.ScaleWidth) / FrmMain.ScaleWidth * Screen.TwipsPerPixelX * 1280
 End Sub
 
-Private Sub Picture3_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    
-End Sub
-
 Private Sub Slider1_Scroll()
     If KoefChange = False Then
         If TxtGradToSetCoefficient.Text > Grad Then TxtGradToSetCoefficient.Text = Grad '###
