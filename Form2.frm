@@ -198,31 +198,31 @@ End If
 End Sub
 
 Private Sub Command3_Click()
-If NV = True Then
-For T = GGN To Grad + 1
-A(GGN) = 0
-Next T
-Else
-If GRF = True Then
-For T = GGN To Grad + 1
-A(GGN) = True
-Next T
-Grad = FrmMain.TxtDegreeDenominator.Text
-For T = GGN To Grad + 1
-D(GGN) = True
-Next T
-Else
-Grad = FrmMain.TxtDegreeDenominator.Text
-For T = GGN To Grad + 1
-D(GGN) = 0
-Next T
-End If
-End If
-
-Unload Me
+    If NV = True Then
+        For T = GGN To Grad + 1
+            A(GGN) = 0
+        Next T
+    Else
+        If GRF = True Then
+            For T = GGN To Grad + 1
+                A(GGN) = True
+            Next T
+            Grad = FrmMain.TxtDegreeDenominator.Text
+            For T = GGN To Grad + 1
+                D(GGN) = True
+            Next T
+        Else
+            Grad = FrmMain.TxtDegreeDenominator.Text
+            For T = GGN To Grad + 1
+                D(GGN) = 0
+            Next T
+        End If
+    End If
+    
+    Unload Me
 End Sub
 
-Private Sub Command4_Click()
+Private Sub BtnTrace_Click()
 
 If NV = True Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
@@ -445,6 +445,4 @@ End Sub
 'Private Sub Text1_KeyPress(KeyAscii As Integer)
 'If KeyAscii = &H25 Then Unload Me
 'End Sub
-Private Sub Text1_Change()
-#XXX
-End Sub
+

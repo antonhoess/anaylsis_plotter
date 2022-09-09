@@ -30,7 +30,6 @@ Public Function HornerSchema()
             Matrix3(I + Grad2) = D(-I)
         Next I
         
-        
         Factor1 = Matrix2(0)
         For I = 0 To Grad1
             Matrix2(I) = Matrix2(I) / Factor1
