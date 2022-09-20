@@ -197,7 +197,7 @@ End If
 
 End Sub
 
-Private Sub Command3_Click()
+Private Sub BtnCoefficients_Click()
     If NV = True Then
         For T = GGN To Grad + 1
             A(GGN) = 0

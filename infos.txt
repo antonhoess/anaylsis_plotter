@@ -8,3 +8,8 @@ ToDo
 * Form1.BorderStyle=0 (evtl.)   Koordinaten mitstrecken
 * Über Ableitung Wendepunkte, Extremwerte und über Horner-Schema Nullpunkte, Definitionslücken, Pole, hebbare Lücken errechnen.
   Nicht nur mir ganzzahligen Exponenten arbeiten, sondern über ein zweites Array einmal Koeffizienten und über das zweite die Exponenten speichern und ganz normal in der Schleife durchrechnen lassen - das gleiche glit dann auch für das Differenzieren.
+
+
+Bugs
+====
+* Wenn ich noch keine Koeffizienten bzw. Grade gesetzt habe und schon Parameter für Grad 0 setzen möchte, dann stürzt das Programm ab. Dieser darf standardmäßig vllt. garnicht aktiv / erlaubt sein.

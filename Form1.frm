@@ -19,24 +19,25 @@ Begin VB.Form FrmMain
    ScaleWidth      =   9.021
    StartUpPosition =   3  'Windows Default
    Begin VB.Timer TmrMouseCoordinates 
-      Left            =   4320
-      Top             =   2280
+      Left            =   720
+      Top             =   0
    End
    Begin VB.Timer Timer2 
-      Left            =   3960
-      Top             =   2280
+      Left            =   360
+      Top             =   0
    End
    Begin VB.Timer Timer1 
-      Left            =   3600
-      Top             =   2280
+      Left            =   0
+      Top             =   0
    End
    Begin VB.PictureBox FrmControl 
       BackColor       =   &H0080C0FF&
       BorderStyle     =   0  'None
       Height          =   9135
       Left            =   600
-      ScaleHeight     =   9135
-      ScaleWidth      =   12135
+      ScaleHeight     =   609
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   809
       TabIndex        =   0
       Top             =   2280
       Width           =   12135
@@ -52,11 +53,11 @@ Begin VB.Form FrmMain
       Begin VB.Frame FrmColor 
          BackColor       =   &H0080C0FF&
          Caption         =   "Color"
-         Height          =   1109
+         Height          =   1095
          Left            =   600
          TabIndex        =   102
          Top             =   5280
-         Width           =   681
+         Width           =   675
          Begin VB.PictureBox PicColorMain 
             BackColor       =   &H00FF0000&
             Height          =   778
@@ -411,14 +412,6 @@ Begin VB.Form FrmMain
          TabIndex        =   81
          Top             =   240
          Width           =   4815
-         Begin MSComDlg.CommonDialog CommonDialog1 
-            Left            =   480
-            Top             =   1680
-            _ExtentX        =   847
-            _ExtentY        =   847
-            _Version        =   393216
-            DefaultExt      =   "gps"
-         End
          Begin VB.TextBox Text17 
             Height          =   375
             Left            =   120
@@ -733,7 +726,7 @@ Begin VB.Form FrmMain
          Top             =   240
          Width           =   375
       End
-      Begin VB.CommandButton Command13 
+      Begin VB.CommandButton BtnCalcCodomain 
          BackColor       =   &H0080C0FF&
          Caption         =   "Wertebereich errechnen"
          Enabled         =   0   'False
@@ -744,7 +737,7 @@ Begin VB.Form FrmMain
          Top             =   6480
          Width           =   1455
       End
-      Begin VB.CommandButton Command3 
+      Begin VB.CommandButton BtnCoefficients 
          BackColor       =   &H0080C0FF&
          Caption         =   "Koeffizienten"
          Height          =   255
@@ -928,7 +921,7 @@ Begin VB.Form FrmMain
          TabIndex        =   59
          Top             =   6480
          Width           =   1455
-         Begin VB.TextBox Text13 
+         Begin VB.TextBox TxtCodomainUpperBound 
             Enabled         =   0   'False
             Height          =   285
             Left            =   840
@@ -937,7 +930,7 @@ Begin VB.Form FrmMain
             Top             =   840
             Width           =   495
          End
-         Begin VB.TextBox Text6 
+         Begin VB.TextBox TxtCodomainLowerBound 
             Enabled         =   0   'False
             Height          =   285
             Left            =   240
@@ -946,7 +939,7 @@ Begin VB.Form FrmMain
             Top             =   840
             Width           =   495
          End
-         Begin VB.TextBox Text11 
+         Begin VB.TextBox TxtIntvLowerBound 
             Height          =   285
             Left            =   240
             TabIndex        =   30
@@ -954,7 +947,7 @@ Begin VB.Form FrmMain
             Top             =   240
             Width           =   495
          End
-         Begin VB.TextBox Text12 
+         Begin VB.TextBox TxtIntvUpperBound 
             Height          =   285
             Left            =   840
             TabIndex        =   31
@@ -1228,13 +1221,21 @@ Begin VB.Form FrmMain
          Width           =   1455
       End
    End
+   Begin MSComDlg.CommonDialog Cdg1 
+      Left            =   1200
+      Top             =   0
+      _ExtentX        =   847
+      _ExtentY        =   847
+      _Version        =   393216
+      DefaultExt      =   "gps"
+   End
 End
 Attribute VB_Name = "FrmMain"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim x, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, J, H, K(), L(), Faktor2, Grad1, Grad2, Grad3, A1, A2, DefiL, IntVal, IntVal1, IntVal2 As Boolean, AuswahlNummer As Integer, CoefficientsZ As String, CoefficientsN As String, KoeffizientenNummer As Integer, EinlesePosition As Integer, WXK As Boolean, Element
+Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, J, H, K(), L(), Faktor2, Grad1, Grad2, Grad3, A1, A2, DefiL, IntVal, IntVal1, IntVal2 As Boolean, AuswahlNummer As Integer, CoefficientsZ As String, CoefficientsN As String, KoeffizientenNummer As Integer, EinlesePosition As Integer, WXK As Boolean, Element
 
 Option Explicit
 
@@ -1335,45 +1336,45 @@ Private Sub BtnDifferentiate_Click()
     End If
 End Sub
 
-Private Sub Command13_Click()
+Private Sub BtnCalcCodomain_Click()
     If NV = True Then
         Grad = TxtDegreeNumerator.Text
         For G = 0 To Grad
-            Y1 = Y1 + A(G) * Text11.Text ^ G
+            Y1 = Y1 + A(G) * TxtIntvLowerBound.Text ^ G
         Next G
-        Text6.Text = Y1
+        TxtCodomainLowerBound.Text = Y1
         Y1 = 0
         
         For G = 0 To Grad
-            Y1 = Y1 + A(G) * Text12.Text ^ G
+            Y1 = Y1 + A(G) * TxtIntvUpperBound.Text ^ G
         Next G
-        Text13.Text = Y1
+        TxtCodomainUpperBound.Text = Y1
         Y1 = 0
     Else
         Grad = TxtDegreeNumerator.Text
         For G = 0 To Grad
-            Y1 = Y1 + A(G) * Text11.Text ^ G
+            Y1 = Y1 + A(G) * TxtIntvLowerBound.Text ^ G
         Next G
         
         Grad = TxtDegreeDenominator.Text
         For G = 0 To Grad
-            Y2 = Y2 + D(G) * Text11.Text ^ G
+            Y2 = Y2 + D(G) * TxtIntvLowerBound.Text ^ G
         Next G
-        Text6.Text = Y1 / Y2
+        TxtCodomainLowerBound.Text = Y1 / Y2
         
         Y1 = 0
         Y2 = 0
         
         Grad = TxtDegreeNumerator.Text
         For G = 0 To Grad
-            Y1 = Y1 + A(G) * Text12.Text ^ G
+            Y1 = Y1 + A(G) * TxtIntvUpperBound.Text ^ G
         Next G
         
         Grad = TxtDegreeDenominator.Text
         For G = 0 To Grad
-            Y2 = Y2 + D(G) * Text12.Text ^ G
+            Y2 = Y2 + D(G) * TxtIntvUpperBound.Text ^ G
         Next G
-        Text13.Text = Y1 / Y2
+        TxtCodomainUpperBound.Text = Y1 / Y2
         
         Y1 = 0
         Y2 = 0
@@ -1403,21 +1404,21 @@ Private Sub BtnCalcFuncValue_Click()
 End Sub
 
 
-Private Sub Command15_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Command15_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Plus = True
     Timer2.Interval = 250
 End Sub
 
-Private Sub Command15_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Command15_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Timer2.Interval = 0
 End Sub
 
-Private Sub Command16_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Command16_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Plus = False
 Timer2.Interval = 250
 End Sub
 
-Private Sub Command16_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Command16_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Timer2.Interval = 0
 End Sub
 '
@@ -1681,7 +1682,7 @@ Private Sub BtnIntegrate_Click()
     TxtDegreeNumerator.Text = TxtDegreeNumerator.Text + 1
     Grad = TxtDegreeNumerator.Text
 
-    x = -100
+    X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text
     FrmMain.ForeColor = PicColorMain.BackColor
     For X1 = 1 To STPX
@@ -1709,16 +1710,16 @@ Private Sub BtnIntegrate_Click()
         
         If Y < FrmMain.ScaleHeight + KSY + 100 Then ' +1
             If Y > -FrmMain.ScaleHeight / 2 + KSY + 1 Then
-                If FrmMain.ScaleWidth / 2 + Text11.Text < I Then
-                    If FrmMain.ScaleWidth / 2 + Text12.Text > I Then
-                        FrmMain.Line (x - KSX, Y - KSY)-(I - KSX, Y1 - KSY)
+                If FrmMain.ScaleWidth / 2 + TxtIntvLowerBound.Text < I Then
+                    If FrmMain.ScaleWidth / 2 + TxtIntvUpperBound.Text > I Then
+                        FrmMain.Line (X - KSX, Y - KSY)-(I - KSX, Y1 - KSY)
                     End If
                 End If
             End If
         End If
         
         Y = Y1
-        x = (X1 - 0) / STPX * FrmMain.ScaleWidth
+        X = (X1 - 0) / STPX * FrmMain.ScaleWidth
         Y1 = 0
         Y2 = 0
     Next X1
@@ -1904,7 +1905,7 @@ Private Sub BtnTrace_Click()
 End Sub
 
 Private Sub CmdDraw_Click()
-    x = -100 '-1
+    X = -100 '-1
     Draw
 End Sub
 
@@ -1916,17 +1917,17 @@ Private Sub CmdClear_Click()
     Call Koordinaten
 End Sub
 
-Private Sub Command3_Click()
+Private Sub BtnCoefficients_Click()
     Grad1 = TxtDegreeNumerator.Text
     Grad2 = TxtDegreeDenominator.Text
     Frame4.Enabled = True
     Frame5.Enabled = True
     Label17.Enabled = True
-    Text6.Enabled = True
-    Text13.Enabled = True
+    TxtCodomainLowerBound.Enabled = True
+    TxtCodomainUpperBound.Enabled = True
     BtnSaveCoefficients.Enabled = True
     BtnDifferentiate.Enabled = True
-    Command13.Enabled = True
+    BtnCalcCodomain.Enabled = True
     Command15.Enabled = True
     Command16.Enabled = True
     BtnHornerSchema.Enabled = True
@@ -1967,7 +1968,7 @@ Private Sub BtnSaveCoefficients_Click()
     ' cdlOFNOverwritePrompt
     ' cdlOFNPathMustExist
     '
-    CommonDialog1.ShowSave
+    Cdg1.ShowSave
     
     Dim FileNum
     Dim GRP1 As GRP
@@ -1980,8 +1981,8 @@ Private Sub BtnSaveCoefficients_Click()
     GRP1.GRF = ChkRationalFunction.Value
     GRP1.ZG = TxtDegreeNumerator.Text
     GRP1.NG = TxtDegreeDenominator.Text
-    GRP1.DefL = Text11.Text
-    GRP1.DefR = Text12.Text
+    GRP1.DefL = TxtIntvLowerBound.Text
+    GRP1.DefR = TxtIntvUpperBound.Text
     GRP1.IntL = Text19.Text
     GRP1.IntR = Text21.Text
     GRP1.Width = TxtLineWidth.Text
@@ -1997,11 +1998,11 @@ Private Sub BtnSaveCoefficients_Click()
     GRP1.ZCoefficients = CoefficientsZ
     GRP1.NCoefficients = CoefficientsN
     
-    Open CommonDialog1.Filename For Append As FileNum
+    Open Cdg1.Filename For Append As FileNum
     'Print #FileNum, GRP1.GRF & ";" & GRP1.ZG & ";" & GRP1.NG & ";" & GRP1.DefL & ";" & GRP1.DefR & ";" & GRP1.IntL & ";" & GRP1.IntR & ";" & GRP1.Width & ";" & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
     Print #FileNum, GRP1.GRF & GRP1.ZG & GRP1.NG & GRP1.DefL & GRP1.DefR & GRP1.IntL & GRP1.IntR & GRP1.Width & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
     Close FileNum
-    SetAttr CommonDialog1.Filename, vbReadOnly
+    SetAttr Cdg1.Filename, vbReadOnly
     
     GRP1.ZCoefficients = ""
     GRP1.NCoefficients = ""
@@ -2018,13 +2019,13 @@ End Sub
 'End Sub
 
 Private Sub BtnLoadCoefficients_Click()
-    CommonDialog1.Filter = "Graphen (*.gps)|*.gps"
-    CommonDialog1.ShowOpen
+    Cdg1.Filter = "Graphen (*.gps)|*.gps"
+    Cdg1.ShowOpen
     
     Dim FileNum, Länge, GRP1 As GRP
     FileNum = FreeFile
     Länge = Len(GRP1)
-    Open CommonDialog1.Filename For Random As FileNum Len = Länge
+    Open Cdg1.Filename For Random As FileNum Len = Länge
     Get #FileNum, 1, GRP1
 
     ChkRationalFunction.Value = Trim(GRP1.GRF)
@@ -2034,8 +2035,8 @@ Private Sub BtnLoadCoefficients_Click()
     Grad1 = Trim(GRP1.ZG)
     Grad2 = Trim(GRP1.NG)
     TxtDegreeDenominator.Text = Trim(GRP1.NG)
-    Text11.Text = Trim(GRP1.DefL)
-    Text12.Text = Trim(GRP1.DefR)
+    TxtIntvLowerBound.Text = Trim(GRP1.DefL)
+    TxtIntvUpperBound.Text = Trim(GRP1.DefR)
     Text19.Text = Trim(GRP1.IntL)
     TxtLineWidth.Text = Trim(GRP1.Width)
     Text21.Text = Trim(GRP1.IntR)
@@ -2078,17 +2079,18 @@ Private Sub BtnOffsetCoordSystem_Click()
 End Sub
 
 
-Private Sub Form_DragDrop(source As Control, x As Single, Y As Single)
+Private Sub Form_DragDrop(source As Control, X As Single, Y As Single)
     Dim ScaleModeTmp
     Dim rect As POINTAPI
     GetCursorPos rect
 
     ScaleModeTmp = Me.ScaleMode
     Me.ScaleMode = vbPixels
-    FrmControl.Move FrmControl.Left + rect.x - DragX, FrmControl.Top + rect.Y - DragY
+    FrmControl.Move FrmControl.Left + rect.X - DragX, FrmControl.Top + rect.Y - DragY
     FrmControl.Visible = True
     Me.ScaleMode = ScaleModeTmp
 End Sub
+
 
 Private Sub ScrLineWidth_Change()
     TxtLineWidth.Text = -ScrLineWidth.Value + 11
@@ -2208,7 +2210,7 @@ Private Sub Form_Load()
     Call Nullpunkt
 
     Y = FrmMain.ScaleHeight / 2
-    x = 0
+    X = 0
 
  
     B = False
@@ -2234,8 +2236,8 @@ Private Sub Form_Load()
         Grad1 = Trim(GRP1.ZG)
         Grad2 = Trim(GRP1.NG)
         TxtDegreeDenominator.Text = Trim(GRP1.NG)
-        Text11.Text = Trim(GRP1.DefL)
-        Text12.Text = Trim(GRP1.DefR)
+        TxtIntvLowerBound.Text = Trim(GRP1.DefL)
+        TxtIntvUpperBound.Text = Trim(GRP1.DefR)
         Text19.Text = Trim(GRP1.IntL)
         TxtLineWidth.Text = Trim(GRP1.Width)
         Text21.Text = Trim(GRP1.IntR)
@@ -2270,17 +2272,19 @@ Private Sub Form_Load()
     
         Frame5.Enabled = True
     End If
+    
+    FrmColor.Tag = FrmColor.Width
 End Sub
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    LblMouseCoordsX.Caption = Int((x - FrmMain.ScaleWidth / 2 + KSX) * 100) / 100
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    LblMouseCoordsX.Caption = Int((X - FrmMain.ScaleWidth / 2 + KSX) * 100) / 100
     LblMouseCoordsY.Caption = -Int((Y - FrmMain.ScaleHeight / 2 + KSY) * 100) / 100
     Dim Pt As POINTAPI
 
     Call GetCursorPos(Pt)
     'aX = Pt.X
 
-    W = x - FrmMain.ScaleWidth / 2 + KSX
+    W = X - FrmMain.ScaleWidth / 2 + KSX
 
     If B = True Then
         If NV = False Then
@@ -2307,11 +2311,11 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y A
     End If
 
     If B = True Then
-        Call SetCursorPos(x / FrmMain.ScaleWidth * STPX, (aY - KSY) / FrmMain.ScaleHeight * (STPY) + 20)
+        Call SetCursorPos(X / FrmMain.ScaleWidth * STPX, (aY - KSY) / FrmMain.ScaleHeight * (STPY) + 20)
         Call GetCursorPos(Pt)
         'LblMouseCoordsX.Caption = Pt.X
         'LblMouseCoordsY.Caption = Pt.Y
-        LblMouseCoordsX.Caption = Int((x - FrmMain.ScaleWidth / 2 + KSX) * 100) / 100
+        LblMouseCoordsX.Caption = Int((X - FrmMain.ScaleWidth / 2 + KSX) * 100) / 100
         LblMouseCoordsY.Caption = -Int((Y - FrmMain.ScaleHeight / 2 + KSY) * 100 + 1) / 100 '***
         aY = 0
         aY2 = 0
@@ -2319,7 +2323,7 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y A
     DoEvents
 End Sub
 
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton Then
         If FrmControl.Visible = False Then 'XXX
             FrmControl.Visible = True
@@ -2453,29 +2457,16 @@ Private Sub Form_Resize()
     Draw
 End Sub
 
-Private Sub LblMoveMenu_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub LblMoveMenu_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Dim rect As POINTAPI
     GetCursorPos rect
     
-    DragX = rect.x '(LblMoveMenu.Left + X) / Screen.TwipsPerPixelX / 1280 * FrmMain.ScaleWidth 'X - FrmControl.Left 'X - FrmControl.Left
+    DragX = rect.X '(LblMoveMenu.Left + X) / Screen.TwipsPerPixelX / 1280 * FrmMain.ScaleWidth 'X - FrmControl.Left 'X - FrmControl.Left
     DragY = rect.Y '(LblMoveMenu.Top + Y) / Screen.TwipsPerPixelY / 1024 * FrmMain.ScaleHeight 'Y - FrmControl.Top 'Y - FrmControl.Top
     'MsgBox rect.X & ", " & rect.Y
     FrmControl.Visible = False
     FrmControl.Drag 1
 End Sub
-
-Private Sub LblColorSelCustom_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    CommonDialog1.ShowColor
-    PicColorMain.BackColor = CommonDialog1.Color
-    FrmColor.Width = (PicColorMain.ScaleWidth) / FrmMain.ScaleWidth * Screen.TwipsPerPixelX * 1280
-End Sub
-
-'Private Sub LblMoveMenu_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single) XXX
-'FrmControl.Drag 2
-''FrmControl.Left = FrmControl.Left + (X - DragX)
-''FrmControl.Top = FrmControl.Top + (Y - DragY)
-'FrmControl.Move X - DragX, Y - DragY
-'End Sub
 
 Private Sub OptNumerator_Click()
     If OptNumerator.Value = True Then
@@ -2494,31 +2485,30 @@ Private Sub OptNumerator_Click()
     TxtSetCoefficient.Text = A(TxtGradToSetCoefficient.Text)
 End Sub
 
-Private Sub PicColorPalette_MouseDown(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub PicColorPalette_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
     For I = 0 To PicColorPalette.Count - 1
         PicColorPalette(I).BorderStyle = 0
     Next I
     PicColorPalette(Index).BorderStyle = 1
 End Sub
 
-Private Sub PicColorPalette_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
-'For i = 0 To PicColorPalette.Count - 1
-'PicColorPalette(i).BorderStyle = 0
-'Next i
-'PicColorPalette(Index).BorderStyle = 1
-End Sub
-
-Private Sub PicColorPalette_MouseUp(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub PicColorPalette_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
     PicColorMain.BackColor = PicColorPalette(Index).BackColor
-    FrmColor.Width = 681 ' (PicColorMain.ScaleWidth) / 13.32 * Screen.TwipsPerPixelX * 1280
-    'For i = 0 To PicColorPalette.Count - 1
-    'PicColorPalette(i).BorderStyle = 0
-    'Next i
-    'PicColorPalette(Index).BorderStyle = 1
+    FrmColor.Width = FrmColor.Tag
 End Sub
 
-Private Sub PicColorMain_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    FrmColor.Width = 1.56 * 1000
+Private Sub PicColorMain_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    FrmColor.Width = 148
+End Sub
+
+Private Sub LblColorSelCustom_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Cdg1.ShowColor
+    PicColorMain.BackColor = Cdg1.Color
+    FrmColor.Width = FrmColor.Tag
+    
+    For I = 0 To PicColorPalette.Count - 1
+        PicColorPalette(I).BorderStyle = 0
+    Next I
 End Sub
 
 Private Sub Slider1_Scroll()
@@ -2539,7 +2529,7 @@ Private Sub Slider1_Scroll()
                     Y = Y + A(G) * (-FrmMain.ScaleWidth / 2) ^ G
                 Next G
             End If
-            x = 0
+            X = 0
             
             Draw
         End If
@@ -2551,21 +2541,85 @@ Private Sub TxtDegreeNumerator_GotFocus()
     TxtDegreeNumerator.SelLength = Len(TxtDegreeNumerator.Text)
 End Sub
 
-Private Sub Text11_GotFocus()
-    Text11.SelStart = 0
-    Text11.SelLength = Len(Text11.Text)
+
+
+Private Sub TxtIntvLowerBound_GotFocus()
+    TxtIntvLowerBound.SelStart = 0
+    TxtIntvLowerBound.SelLength = Len(TxtIntvLowerBound.Text)
+
+    TxtIntvLowerBound.Tag = TxtIntvLowerBound.Text
 End Sub
 
-Private Sub Text12_GotFocus()
-    Text12.SelStart = 0
-    Text12.SelLength = Len(Text12.Text)
-End Sub
 
-Private Sub Text12_LostFocus()
-    If Text12.Text <> "" Then
-        If Text12.Text <= Text11.Text Then Text12.Text = Text11.Text + 1
+Private Sub TxtIntvLowerBound_LostFocus()
+    ' Reset to previous value if no valid number got entered
+    If TxtIntvLowerBound.Tag <> "" Then
+        TxtIntvLowerBound.Text = TxtIntvLowerBound.Tag
     End If
 End Sub
+
+
+Private Sub TxtIntvLowerBound_Validate(Cancel As Boolean)
+    Cancel = True
+    
+    If IsNumeric(TxtIntvLowerBound.Text) Then
+        If CDbl(TxtIntvLowerBound.Text) < CDbl(TxtIntvUpperBound.Text) Then
+            Cancel = False
+        End If
+    End If
+End Sub
+
+
+Private Sub TxtIntvLowerBound_KeyPress(KeyAscii As Integer)
+    ' The (valid) needs to be set by pressing Return
+    If KeyAscii = vbKeyReturn Then
+        Dim InputInvalid As Boolean
+        Call TxtIntvLowerBound_Validate(InputInvalid)
+        If Not InputInvalid Then
+            TxtIntvLowerBound.Tag = ""
+        End If
+    End If
+End Sub
+
+
+Private Sub TxtIntvUpperBound_GotFocus()
+    TxtIntvUpperBound.SelStart = 0
+    TxtIntvUpperBound.SelLength = Len(TxtIntvUpperBound.Text)
+
+    TxtIntvUpperBound.Tag = TxtIntvUpperBound.Text
+End Sub
+
+
+Private Sub TxtIntvUpperBound_LostFocus()
+    ' Reset to previous value if no valid number got entered
+    If TxtIntvUpperBound.Tag <> "" Then
+        TxtIntvUpperBound.Text = TxtIntvUpperBound.Tag
+    End If
+End Sub
+
+
+Private Sub TxtIntvUpperBound_Validate(Cancel As Boolean)
+    Cancel = True
+    
+    If IsNumeric(TxtIntvUpperBound.Text) Then
+        If CDbl(TxtIntvUpperBound.Text) > CDbl(TxtIntvLowerBound.Text) Then
+            Cancel = False
+        End If
+    End If
+End Sub
+
+
+Private Sub TxtIntvUpperBound_KeyPress(KeyAscii As Integer)
+    ' The (valid) needs to be set by pressing Return
+    If KeyAscii = vbKeyReturn Then
+        Dim InputInvalid As Boolean
+        Call TxtIntvUpperBound_Validate(InputInvalid)
+        If Not InputInvalid Then
+            TxtIntvUpperBound.Tag = ""
+        End If
+    End If
+End Sub
+
 
 
 Private Function Koordinaten()
@@ -2623,7 +2677,7 @@ End Function
 Private Function Graph()
     If Grad = 0 And Grad2 = 0 Then Exit Function
     
-    x = -100
+    X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text
     FrmMain.ForeColor = PicColorMain.BackColor
     
@@ -2663,16 +2717,16 @@ Private Function Graph()
             
             If Y < FrmMain.ScaleHeight + KSY + 100 Then ' +1
                 If Y > -FrmMain.ScaleHeight / 2 + KSY - 100 Then '+ 1 Then
-                    If FrmMain.ScaleWidth / 2 + Text11.Text < I Then
-                        If FrmMain.ScaleWidth / 2 + Text12.Text > I Then
-                            FrmMain.Line (x - KSX, Y - KSY)-(I - KSX, Y1 - KSY)
+                    If FrmMain.ScaleWidth / 2 + TxtIntvLowerBound.Text < I Then
+                        If FrmMain.ScaleWidth / 2 + TxtIntvUpperBound.Text > I Then
+                            FrmMain.Line (X - KSX, Y - KSY)-(I - KSX, Y1 - KSY)
                         End If
                     End If
                 End If
             End If
             
             Y = Y1
-            x = (X1 - 0) / STPX * FrmMain.ScaleWidth
+            X = (X1 - 0) / STPX * FrmMain.ScaleWidth
             Y1 = 0
             Y2 = 0
         End If '***
@@ -2752,7 +2806,7 @@ Private Sub TxtGradToSetCoefficient_Validate(Cancel As Boolean)
     
     If IsNumeric(TxtGradToSetCoefficient.Text) Then
         If CInt(TxtGradToSetCoefficient.Text) = TxtGradToSetCoefficient.Text Then
-            If TxtGradToSetCoefficient.Text >= 0 And TxtGradToSetCoefficient.Text <= Grad Then
+            If CInt(TxtGradToSetCoefficient.Text) >= 0 And CInt(TxtGradToSetCoefficient.Text) <= Grad Then
                 Cancel = False
             End If
         End If
@@ -2861,7 +2915,7 @@ Private Sub TxtUnitsWidth_Validate(Cancel As Boolean)
     ' Check if a valid number got entered
     Cancel = True
     If IsNumeric(TxtUnitsWidth.Text) Then
-        If TxtUnitsWidth.Text > 0 Then
+        If CDbl(TxtUnitsWidth.Text) > 0 Then
             Cancel = False
         End If
     End If
@@ -2904,7 +2958,7 @@ Private Sub TxtUnitsHeight_Validate(Cancel As Boolean)
     ' Check if a valid number got entered
     Cancel = True
     If IsNumeric(TxtUnitsHeight.Text) Then
-        If TxtUnitsHeight.Text > 0 Then
+        If CDbl(TxtUnitsHeight.Text) > 0 Then
             Cancel = False
         End If
     End If
@@ -2947,7 +3001,7 @@ Private Sub TxtGridSpacingX_Validate(Cancel As Boolean)
     ' Check if a valid number got entered
     Cancel = True
     If IsNumeric(TxtGridSpacingX.Text) Then
-        If TxtGridSpacingX.Text > 0 Then
+        If CDbl(TxtGridSpacingX.Text) > 0 Then
             Cancel = False
         End If
     End If
@@ -2991,7 +3045,7 @@ Private Sub TxtGridSpacingY_Validate(Cancel As Boolean)
     ' Check if a valid number got entered
     Cancel = True
     If IsNumeric(TxtGridSpacingY.Text) Then
-        If TxtGridSpacingY.Text > 0 Then
+        If CDbl(TxtGridSpacingY.Text) > 0 Then
             Cancel = False
         End If
     End If
@@ -3011,13 +3065,6 @@ Private Sub TxtGridSpacingY_KeyPress(KeyAscii As Integer)
             Call GridSpacing
             TxtGridSpacingY.Tag = ""
         End If
-    End If
-End Sub
-
-
-Private Sub Text11_LostFocus()
-    If Text11.Text <> "" Then
-        If Text11.Text >= Text12.Text Then Text11.Text = Text12.Text - 1
     End If
 End Sub
 
@@ -3043,7 +3090,7 @@ Private Sub Timer1_Timer()
                 Y = Y + A(G) * (-FrmMain.ScaleWidth / 2) ^ G
             Next G
             
-            x = 0
+            X = 0
             
             Call Raster
             Call Nullpunkt
@@ -3083,7 +3130,7 @@ Private Sub Timer2_Timer()
                 Y = Y + A(G) * (-FrmMain.ScaleWidth / 2) ^ G
             Next G
         End If
-        x = 0
+        X = 0
         
         Draw
     
@@ -3091,7 +3138,7 @@ Private Sub Timer2_Timer()
 End Sub
 
 Private Sub TmrMouseCoordinates_Timer()
-    LblMouseCoordsX.Caption = Int((x - FrmMain.ScaleWidth / 2 + KSX) * 100) / 100
+    LblMouseCoordsX.Caption = Int((X - FrmMain.ScaleWidth / 2 + KSX) * 100) / 100
     LblMouseCoordsY.Caption = -Int((Y - FrmMain.ScaleHeight / 2 + KSY) * 100) / 100
 End Sub
 
@@ -3109,7 +3156,7 @@ End Sub
 
 
 Private Function Graph2()
-    x = -100
+    X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text ' mit Screen-Faktoren multiplizieren!
     FrmMain.ForeColor = PicColorMain.BackColor
     For X1 = 1 + KSX * STPX / FrmMain.ScaleWidth To STPX + KSX * STPX / FrmMain.ScaleWidth '
@@ -3158,16 +3205,16 @@ Private Function Graph2()
         
         If Y < FrmMain.ScaleHeight + KSY + 100 Then ' +1
             If Y > -FrmMain.ScaleHeight / 2 + KSY + 1 Then
-                If FrmMain.ScaleWidth / 2 + Text11.Text < I Then
-                    If FrmMain.ScaleWidth / 2 + Text12.Text > I Then
-                        FrmMain.Line (x - KSX, Y - KSY)-(E - KSX, Y1 - KSY)
+                If FrmMain.ScaleWidth / 2 + TxtIntvLowerBound.Text < I Then
+                    If FrmMain.ScaleWidth / 2 + TxtIntvUpperBound.Text > I Then
+                        FrmMain.Line (X - KSX, Y - KSY)-(E - KSX, Y1 - KSY)
                     End If
                 End If
             End If
         End If
         
         Y = Y1
-        x = (X1 - 0) / STPX * FrmMain.ScaleWidth
+        X = (X1 - 0) / STPX * FrmMain.ScaleWidth
         'X = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
         Y1 = 0
         Y2 = 0
@@ -3184,7 +3231,7 @@ End Function
 
 
 Private Function Graph3()
-    x = -100
+    X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text ' mit Screen-Faktoren multiplizieren!
     FrmMain.ForeColor = PicColorMain.BackColor
     
@@ -3201,16 +3248,16 @@ Private Function Graph3()
         
         If Y < FrmMain.ScaleHeight + KSY + 100 Then ' +1
             If Y > -FrmMain.ScaleHeight / 2 + KSY + 1 Then
-                If FrmMain.ScaleWidth / 2 + Text11.Text < I Then
-                    If FrmMain.ScaleWidth / 2 + Text12.Text > I Then
-                        FrmMain.Line (x - KSX, Y - KSY)-(I - KSX, Y1 - KSY)
+                If FrmMain.ScaleWidth / 2 + TxtIntvLowerBound.Text < I Then
+                    If FrmMain.ScaleWidth / 2 + TxtIntvUpperBound.Text > I Then
+                        FrmMain.Line (X - KSX, Y - KSY)-(I - KSX, Y1 - KSY)
                     End If
                 End If
             End If
         End If
         
         Y = Y1
-        x = (X1 - 0) / STPX * FrmMain.ScaleWidth
+        X = (X1 - 0) / STPX * FrmMain.ScaleWidth
         Y1 = 0
         Y2 = 0
     Next X1
