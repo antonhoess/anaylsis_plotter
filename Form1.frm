@@ -550,7 +550,7 @@ Begin VB.Form FrmMain
          Left            =   1920
          Locked          =   -1  'True
          TabIndex        =   39
-         Top             =   8640
+         Top             =   8700
          Width           =   495
       End
       Begin VB.TextBox TxtLineWidth 
@@ -993,6 +993,24 @@ Begin VB.Form FrmMain
          TickStyle       =   3
          Value           =   -1000
       End
+      Begin VB.Label Label5 
+         BackStyle       =   0  'Transparent
+         Caption         =   "Y="
+         Height          =   255
+         Left            =   1650
+         TabIndex        =   120
+         Top             =   8730
+         Width           =   255
+      End
+      Begin VB.Label Label2 
+         BackStyle       =   0  'Transparent
+         Caption         =   "X="
+         Height          =   255
+         Left            =   0
+         TabIndex        =   119
+         Top             =   0
+         Width           =   255
+      End
       Begin VB.Label Label1 
          BackStyle       =   0  'Transparent
          Caption         =   "Y:"
@@ -1073,11 +1091,11 @@ Begin VB.Form FrmMain
       End
       Begin VB.Label Label22 
          BackStyle       =   0  'Transparent
-         Caption         =   "X= Y="
-         Height          =   375
-         Left            =   1560
+         Caption         =   "X="
+         Height          =   255
+         Left            =   1650
          TabIndex        =   80
-         Top             =   8520
+         Top             =   8430
          Width           =   255
       End
       Begin VB.Label Label30 
@@ -1235,7 +1253,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, J, H, K(), L(), Faktor2, Grad1, Grad2, Grad3, A1, A2, DefiL, IntVal, IntVal1, IntVal2 As Boolean, AuswahlNummer As Integer, CoefficientsZ As String, CoefficientsN As String, KoeffizientenNummer As Integer, EinlesePosition As Integer, WXK As Boolean, Element
+Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, Grad1, DegDen, DegAsymptote As Integer, A1, A2, DefiL, IntVal, IntVal1, IntVal2 As Boolean, AuswahlNummer As Integer, CoefficientsZ As String, CoefficientsN As String, KoeffizientenNummer As Integer, EinlesePosition As Integer, WXK As Boolean, Element
 
 Option Explicit
 
@@ -1294,12 +1312,12 @@ Private Sub ChkRationalFunction_Click()
     GRF = ChkRationalFunction.Value
     
     If ChkRationalFunction.Value = 1 Then
-        NV = True
+        IsNotRationalFunction = True
         OptDenominator.Enabled = False
         Label21.Enabled = True
         TxtDegreeDenominator.Enabled = True
     Else
-        NV = False
+        IsNotRationalFunction = False
         OptDenominator.Enabled = False
         OptNumerator.Value = True
         Label21.Enabled = False
@@ -1309,7 +1327,7 @@ End Sub
 
 Private Sub Check7_Click()
     Frame5.Enabled = True
-    'If Check7.Value = 0 Then Grad = -1
+    'If Check7.Value = 0 Then DegNum = -1
 End Sub
 
 Private Sub GridSpacing()
@@ -1325,54 +1343,54 @@ Private Sub BtnHide_Click()
 End Sub
 
 Private Sub BtnDifferentiate_Click()
-    If NV = True Then
-        Grad = TxtDegreeNumerator.Text
-        For I = 1 To Grad
-            A(I - 1) = A(I) * (I)
+    If IsNotRationalFunction = True Then
+        DegNum = TxtDegreeNumerator.Text
+        For I = 1 To DegNum
+            CoefNum(I - 1) = CoefNum(I) * (I)
         Next I
-        A(Grad) = 0
+        CoefNum(DegNum) = 0
     Else
         Call Graph2
     End If
 End Sub
 
 Private Sub BtnCalcCodomain_Click()
-    If NV = True Then
-        Grad = TxtDegreeNumerator.Text
-        For G = 0 To Grad
-            Y1 = Y1 + A(G) * TxtIntvLowerBound.Text ^ G
+    If IsNotRationalFunction = True Then
+        DegNum = TxtDegreeNumerator.Text
+        For G = 0 To DegNum
+            Y1 = Y1 + CoefNum(G) * TxtIntvLowerBound.Text ^ G
         Next G
         TxtCodomainLowerBound.Text = Y1
         Y1 = 0
         
-        For G = 0 To Grad
-            Y1 = Y1 + A(G) * TxtIntvUpperBound.Text ^ G
+        For G = 0 To DegNum
+            Y1 = Y1 + CoefNum(G) * TxtIntvUpperBound.Text ^ G
         Next G
         TxtCodomainUpperBound.Text = Y1
         Y1 = 0
     Else
-        Grad = TxtDegreeNumerator.Text
-        For G = 0 To Grad
-            Y1 = Y1 + A(G) * TxtIntvLowerBound.Text ^ G
+        DegNum = TxtDegreeNumerator.Text
+        For G = 0 To DegNum
+            Y1 = Y1 + CoefNum(G) * TxtIntvLowerBound.Text ^ G
         Next G
         
-        Grad = TxtDegreeDenominator.Text
-        For G = 0 To Grad
-            Y2 = Y2 + D(G) * TxtIntvLowerBound.Text ^ G
+        DegNum = TxtDegreeDenominator.Text
+        For G = 0 To DegNum
+            Y2 = Y2 + CoefDen(G) * TxtIntvLowerBound.Text ^ G
         Next G
         TxtCodomainLowerBound.Text = Y1 / Y2
         
         Y1 = 0
         Y2 = 0
         
-        Grad = TxtDegreeNumerator.Text
-        For G = 0 To Grad
-            Y1 = Y1 + A(G) * TxtIntvUpperBound.Text ^ G
+        DegNum = TxtDegreeNumerator.Text
+        For G = 0 To DegNum
+            Y1 = Y1 + CoefNum(G) * TxtIntvUpperBound.Text ^ G
         Next G
         
-        Grad = TxtDegreeDenominator.Text
-        For G = 0 To Grad
-            Y2 = Y2 + D(G) * TxtIntvUpperBound.Text ^ G
+        DegNum = TxtDegreeDenominator.Text
+        For G = 0 To DegNum
+            Y2 = Y2 + CoefDen(G) * TxtIntvUpperBound.Text ^ G
         Next G
         TxtCodomainUpperBound.Text = Y1 / Y2
         
@@ -1382,17 +1400,17 @@ Private Sub BtnCalcCodomain_Click()
 End Sub
 
 Private Sub BtnCalcFuncValue_Click()
-    Grad = TxtDegreeNumerator.Text
+    DegNum = TxtDegreeNumerator.Text
     
-    For G = 0 To Grad
-        Y1 = Y1 + A(G) * TxtCalcFuncValueX.Text ^ G
+    For G = 0 To DegNum
+        Y1 = Y1 + CoefNum(G) * TxtCalcFuncValueX.Text ^ G
     Next G
     
-    If NV = False Then
-        Grad = TxtDegreeDenominator.Text
+    If IsNotRationalFunction = False Then
+        DegNum = TxtDegreeDenominator.Text
         
-        For G = 0 To Grad
-            Y2 = Y2 + D(G) * TxtCalcFuncValueX.Text ^ G
+        For G = 0 To DegNum
+            Y2 = Y2 + CoefDen(G) * TxtCalcFuncValueX.Text ^ G
         Next G
         
         Y1 = Y1 / Y2
@@ -1423,16 +1441,16 @@ Private Sub Command16_MouseUp(Button As Integer, Shift As Integer, X As Single, 
 End Sub
 '
 'Private Sub BtnAsymptote_Click()
-'If NV = False Then
-'If Grad > Grad2 Then
-'GradDiff = Grad - Grad2
+'If IsNotRationalFunction = False Then
+'If DegNum > DegDen Then
+'GradDiff = DegNum - DegDen
 'ReDim C(GradDiff)
-'For i = 1 To GradDiff 'Grad2
-'A(i + Grad2) = A(i + Grad2) - D(i)
+'For i = 1 To GradDiff 'DegDen
+'CoefNum(i + DegDen) = CoefNum(i + DegDen) - CoefDen(i)
 'Next i
 '
-'For i = 1 To Grad2
-'A(i + GradDiff) = 0
+'For i = 1 To DegDen
+'CoefNum(i + GradDiff) = 0
 'Next i
 'End If
 'End If
@@ -1440,33 +1458,31 @@ End Sub
 
 
 Private Sub BtnAsymptote_Click()
-    Grad = TxtDegreeNumerator.Text
-    Grad2 = TxtDegreeDenominator.Text
+    DegNum = TxtDegreeNumerator.Text
+    DegDen = TxtDegreeDenominator.Text
     
-    If NV = False Then
-        If Grad >= Grad2 Then
-            Grad3 = Grad - Grad2
-            ReDim K(Grad + 1)
-            ReDim L(Grad2 + 1)
+    If IsNotRationalFunction = False Then
+        If DegNum >= DegDen Then
+            Dim CoefNumAsymptote() As Integer, CoefDenAsymptote() As Integer
+            DegAsymptote = DegNum - DegDen
+            ReDim CoefNumAsymptote(DegNum + 1)
+            ReDim CoefDenAsymptote(DegDen + 1)
+            CoefNumAsymptote = CoefNum
+            CoefDenAsymptote = CoefDen
             
-            For I = 0 To Grad
-                K(I) = A(I)
-            Next I
-            
-            For I = 0 To Grad2
-                L(I) = D(I)
-            Next I
-            
-            ReDim Z(Grad3 + 1) '1
-            For J = 0 To Grad
-                If Grad - J >= Grad2 + 0 Then
-                    Faktor2 = K(Grad - J) / L(Grad2)
-                    Z(Grad3 - J + 0) = Faktor2
-                    For H = 0 To Grad2
-                        K(Grad - J - H) = K(Grad - J - H) - Faktor2 * L(Grad2 - H)
+            ReDim CoefAsymptote(DegAsymptote + 1)
+            Dim I As Integer
+            Dim H As Integer
+            Dim Faktor2 'XXX
+            For I = 0 To DegNum
+                If DegNum - I >= DegDen Then
+                    Faktor2 = CoefNumAsymptote(DegNum - I) / CoefDenAsymptote(DegDen)
+                    CoefAsymptote(DegAsymptote - I) = Faktor2
+                    For H = 0 To DegDen
+                        CoefNumAsymptote(DegNum - I - H) = CoefNumAsymptote(DegNum - I - H) - Faktor2 * CoefDenAsymptote(DegDen - H)
                     Next H
                 End If
-            Next J
+            Next I
             Call Graph3
         End If
     End If
@@ -1476,17 +1492,17 @@ Private Sub BtnHornerSchema_Click()
     Dim Start, Ende, VZ
     'On Error Resume Next
     Grad1 = TxtDegreeNumerator.Text
-    Grad2 = TxtDegreeDenominator.Text
+    DegDen = TxtDegreeDenominator.Text
     'Call HornerSchema
     
-    If NV = True Then
-        Newton A, Grad1, True
+    If IsNotRationalFunction = True Then
+        Newton CoefNum, Grad1, True
     Else
-        Newton A, Grad1, True
-        Newton D, Grad2, False
+        Newton CoefNum, Grad1, True
+        Newton CoefDen, DegDen, False
     End If
 
-    If NV = False Then
+    If IsNotRationalFunction = False Then
         '''''If Matrix2(0) < 0 Then
         '''''Text17.Text = "Y= -"
         '''''Else
@@ -1512,7 +1528,7 @@ Private Sub BtnHornerSchema_Click()
         '''''End If
         '''''If Factor2 <> 1 Then Text18.Text = Text18.Text & Factor2 & "*("
         
-        For I = 1 To Grad2
+        For I = 1 To DegDen
             If Newton2(I) < 0 Then
                 VZ = "+"
             Else
@@ -1527,7 +1543,7 @@ Private Sub BtnHornerSchema_Click()
         For I = 1 To Grad1
             If Newton1(I - 1) <> "" Then List1.AddItem (Newton1(I - 1))
         Next I
-        For I = 1 To Grad2
+        For I = 1 To DegDen
             If Newton2(I - 1) <> "" Then List2.AddItem (Newton2(I - 1))
         Next I
         
@@ -1559,7 +1575,7 @@ Private Sub BtnHornerSchema_Click()
         List6.Clear
         List5.List(0) = List2.List(0)
         List6.List(0) = 1
-        For I = 1 To Grad2 - 1
+        For I = 1 To DegDen - 1
             If List2.List(I) <> List2.List(I - 1) Then
                 List5.AddItem (List2.List(I))
                 List6.AddItem (1)
@@ -1664,23 +1680,23 @@ Private Sub BtnHornerSchema_Click()
 End Sub
 
 Private Sub BtnIntegrate_Click()
-    'Grad = TxtDegreeNumerator.Text
-    'For i = 1 To Grad
-    '   A(i - 1) = A(i) * (i)
+    'DegNum = TxtDegreeNumerator.Text
+    'For i = 1 To DegNum
+    '   CoefNum(i - 1) = CoefNum(i) * (i)
     'Next i
-    'A(Grad) = 0
-    Grad = TxtDegreeNumerator.Text
-    ReDim C(Grad + 1)
-    For I = 0 To Grad + 1
-        C(I) = A(I)
+    'CoefNum(DegNum) = 0
+    DegNum = TxtDegreeNumerator.Text
+    ReDim C(DegNum + 1)
+    For I = 0 To DegNum + 1
+        C(I) = CoefNum(I)
     Next I
-    ReDim A(Grad + 2)
-    A(0) = 0
-    For I = 0 To Grad + 1
-        A(I + 1) = C(I) / (I + 1)
+    ReDim CoefNum(DegNum + 2)
+    CoefNum(0) = 0
+    For I = 0 To DegNum + 1
+        CoefNum(I + 1) = C(I) / (I + 1)
     Next I
     TxtDegreeNumerator.Text = TxtDegreeNumerator.Text + 1
-    Grad = TxtDegreeNumerator.Text
+    DegNum = TxtDegreeNumerator.Text
 
     X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text
@@ -1690,17 +1706,17 @@ Private Sub BtnIntegrate_Click()
         
         I = X1 / STPX * FrmMain.ScaleWidth
         
-        'Grad = TxtDegreeNumerator.Text
+        'DegNum = TxtDegreeNumerator.Text
         
-        For G = 0 To Grad
-            Y1 = Y1 + A(G) * V ^ G
+        For G = 0 To DegNum
+            Y1 = Y1 + CoefNum(G) * V ^ G
         Next G
         
-        If NV = False Then
-            Grad = TxtDegreeDenominator.Text
+        If IsNotRationalFunction = False Then
+            DegNum = TxtDegreeDenominator.Text
             
-            For G = 0 To Grad
-                Y2 = Y2 + D(G) * V ^ G
+            For G = 0 To DegNum
+                Y2 = Y2 + CoefDen(G) * V ^ G
             Next G
             
             Y1 = Y1 / Y2
@@ -1731,25 +1747,25 @@ Private Sub Command21_Click()
     ' *** Das ganze '0.0001' kann wahrscheinlich weggelassen werden, da Definitionslücken ja jetzt übersprungen werden
     FrmMain.DrawWidth = 3
     
-    If NV = False Then
+    If IsNotRationalFunction = False Then
         For I = 0 To List7.ListCount - 1
             If List7.List(I) <> "" Then
-                Grad = TxtDegreeNumerator.Text
-                For G = 0 To Grad
-                    Y1 = Y1 + A(G) * (Int(List7.List(I)) + 0.0001) ^ G
+                DegNum = TxtDegreeNumerator.Text
+                For G = 0 To DegNum
+                    Y1 = Y1 + CoefNum(G) * (Int(List7.List(I)) + 0.0001) ^ G
                 Next G
                 
                 FrmMain.Circle (List7.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
                 Y1 = 0
             Else
-                Grad = TxtDegreeNumerator.Text
-                For G = 0 To Grad
-                    Y1 = Y1 + A(G) * (Int(List7.List(I)) + 0.0001) ^ G
+                DegNum = TxtDegreeNumerator.Text
+                For G = 0 To DegNum
+                    Y1 = Y1 + CoefNum(G) * (Int(List7.List(I)) + 0.0001) ^ G
                 Next G
                 
-                Grad = TxtDegreeDenominator.Text
-                For G = 0 To Grad
-                    Y 2 = Y2 + D(G) * (Int(List7.List(I)) + 0.0001) ^ G
+                DegNum = TxtDegreeDenominator.Text
+                For G = 0 To DegNum
+                    Y 2 = Y2 + CoefDen(G) * (Int(List7.List(I)) + 0.0001) ^ G
                 Next G
                 
                 FrmMain.Circle (List7.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
@@ -1760,22 +1776,22 @@ Private Sub Command21_Click()
         
         For I = 0 To List9.ListCount - 1
             If List9.List(I) <> "" Then
-                Grad = TxtDegreeNumerator.Text
-                For G = 0 To Grad
-                    Y1 = Y1 + A(G) * (Int(List9.List(I)) + 0.0001) ^ G
+                DegNum = TxtDegreeNumerator.Text
+                For G = 0 To DegNum
+                    Y1 = Y1 + CoefNum(G) * (Int(List9.List(I)) + 0.0001) ^ G
                 Next G
                 
                 FrmMain.Circle (List9.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
                 Y1 = 0
             Else
-                Grad = TxtDegreeNumerator.Text
-                For G = 0 To Grad
-                    Y1 = Y1 + A(G) * (Int(List9.List(I)) + 0.0001) ^ G
+                DegNum = TxtDegreeNumerator.Text
+                For G = 0 To DegNum
+                    Y1 = Y1 + CoefNum(G) * (Int(List9.List(I)) + 0.0001) ^ G
                 Next G
                 
-                Grad = TxtDegreeDenominator.Text
-                For G = 0 To Grad
-                    Y2 = Y2 + D(G) * (Int(List9.List(I)) + 0.0001) ^ G
+                DegNum = TxtDegreeDenominator.Text
+                For G = 0 To DegNum
+                    Y2 = Y2 + CoefDen(G) * (Int(List9.List(I)) + 0.0001) ^ G
                 Next G
                 
                 FrmMain.Circle (List9.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
@@ -1795,9 +1811,9 @@ Private Sub Command21_Click()
     Else '****************************************
         For I = 0 To List3.ListCount - 1
             If List3.List(I) <> "" Then
-                Grad = TxtDegreeNumerator.Text
-                For G = 0 To Grad
-                    Y1 = Y1 + A(G) * (Int(List3.List(I)) + 0.0001) ^ G
+                DegNum = TxtDegreeNumerator.Text
+                For G = 0 To DegNum
+                    Y1 = Y1 + CoefNum(G) * (Int(List3.List(I)) + 0.0001) ^ G
                 Next G
                 
                 FrmMain.Circle (List3.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
@@ -1811,15 +1827,15 @@ Private Sub Command21_Click()
 End Sub
 
 Private Sub Command22_Click()
-    If NV = True Then
+    If IsNotRationalFunction = True Then
         IntVal = 0
         IntVal1 = 0
         IntVal2 = 0
-        For I = 0 To Grad
-            'IntVal1 = IntVal1 + Text19.Text / (I + 1) * A(I) ^ (I + 1)
-            'IntVal2 = IntVal2 + Text21.Text / (I + 1) * A(I) ^ (I + 1)
-            IntVal1 = IntVal1 + A(I) / (I + 1) * Text19.Text ^ (I + 1)
-            IntVal2 = IntVal2 + A(I) / (I + 1) * Text21.Text ^ (I + 1)
+        For I = 0 To DegNum
+            'IntVal1 = IntVal1 + Text19.Text / (I + 1) * CoefNum(I) ^ (I + 1)
+            'IntVal2 = IntVal2 + Text21.Text / (I + 1) * CoefNum(I) ^ (I + 1)
+            IntVal1 = IntVal1 + CoefNum(I) / (I + 1) * Text19.Text ^ (I + 1)
+            IntVal2 = IntVal2 + CoefNum(I) / (I + 1) * Text21.Text ^ (I + 1)
         Next I
         IntVal = IntVal2 - IntVal1
         Text22.Text = IntVal
@@ -1828,14 +1844,14 @@ Private Sub Command22_Click()
         For I = 0 To Abs(Abs(Text19.Text) + Abs(Text21.Text)) * 10 + 1
             If I < Abs(Abs(Text19.Text) + Abs(Text21.Text)) * 10 Then
                 Y1 = 0
-                For U = 0 To Grad
-                    Y1 = Y1 + A(U) * (Text19.Text + I * 0.1) ^ U
+                For U = 0 To DegNum
+                    Y1 = Y1 + CoefNum(U) * (Text19.Text + I * 0.1) ^ U
                 Next U
                 FrmMain.Line (Text19.Text + Me.ScaleWidth / 2 + I * 0.1, Me.ScaleHeight / 2 - Y1)-(Text19.Text + Me.ScaleWidth / 2 + I * 0.1, Me.ScaleHeight / 2), RGB(255, 0, 255)
             Else
                 Y2 = 0
-                For U = 0 To Grad
-                    Y2 = Y2 + A(U) * (Text21.Text) ^ U
+                For U = 0 To DegNum
+                    Y2 = Y2 + CoefNum(U) * (Text21.Text) ^ U
                 Next U
                 FrmMain.Line (Text21.Text + Me.ScaleWidth / 2, Me.ScaleHeight / 2 - Y2)-(Text21.Text + Me.ScaleWidth / 2, Me.ScaleHeight / 2), RGB(255, 0, 255)
             End If
@@ -1844,9 +1860,9 @@ Private Sub Command22_Click()
 End Sub
 
 Private Sub Command23_Click()
-    ReDim ZAbl1(0 To Grad - 1)
-    For I = 1 To UBound(A)
-        ZAbl1(I - 1) = A(I) * I
+    ReDim ZAbl1(0 To DegNum - 1)
+    For I = 1 To UBound(CoefNum)
+        ZAbl1(I - 1) = CoefNum(I) * I
     Next I
     
     ZAbl1(0) = ZAbl1(0)
@@ -1858,13 +1874,13 @@ Private Sub Command23_Click()
     ZAbl2(1) = ZAbl2(1)
     ZAbl2(2) = ZAbl2(2)
     ZAbl2(3) = ZAbl2(3)
-    '''For I = 1 To UBound(D)
-    '''NAbl1(I - 1) = D(I) * I
+    '''For I = 1 To UBound(CoefDen)
+    '''NAbl1(I - 1) = CoefDen(I) * I
     '''Next I
     
     
-    '''For I = 1 To UBound(D)
-    '''NAbl2(I - 1) = D(I) * I
+    '''For I = 1 To UBound(CoefDen)
+    '''NAbl2(I - 1) = CoefDen(I) * I
     '''Next I
     
     Newton ZAbl1, Grad1 - 1, True
@@ -1873,7 +1889,7 @@ Private Sub Command23_Click()
         List13.AddItem (Newton1(I))
     Next I
     
-    ReDim ZAbl2(0 To Grad - 2)
+    ReDim ZAbl2(0 To DegNum - 2)
     For I = 1 To UBound(ZAbl1)
         ZAbl2(I - 1) = ZAbl1(I) * I
     Next I
@@ -1886,7 +1902,7 @@ Private Sub Command23_Click()
     
     
     For I = 0 To List13.ListCount - 1
-        If fv(List13.List(I) + 10 ^ -5, A, Grad1) < fv(List13.List(I), A, Grad1) Then
+        If fv(List13.List(I) + 10 ^ -5, CoefNum, Grad1) < fv(List13.List(I), CoefNum, Grad1) Then
         List15.AddItem (List13.List(I))
         Else
         List16.AddItem (List13.List(I))
@@ -1919,7 +1935,7 @@ End Sub
 
 Private Sub BtnCoefficients_Click()
     Grad1 = TxtDegreeNumerator.Text
-    Grad2 = TxtDegreeDenominator.Text
+    DegDen = TxtDegreeDenominator.Text
     Frame4.Enabled = True
     Frame5.Enabled = True
     Label17.Enabled = True
@@ -1938,14 +1954,14 @@ Private Sub BtnCoefficients_Click()
     If TxtDegreeDenominator.Text < 0 Then TxtDegreeNumerator.Text = 0
     TxtDegreeNumerator.Text = Int(TxtDegreeNumerator.Text)
     TxtDegreeDenominator.Text = Int(TxtDegreeDenominator.Text)
-    Grad = TxtDegreeNumerator.Text
+    DegNum = TxtDegreeNumerator.Text
     If ChkRationalFunction.Value = 1 Then
-        NV = False
+        IsNotRationalFunction = False
     Else
-        NV = True
+        IsNotRationalFunction = True
     End If
     
-    If ChkRationalFunction.Value = 1 Then Grad2 = TxtDegreeDenominator.Text
+    If ChkRationalFunction.Value = 1 Then DegDen = TxtDegreeDenominator.Text
     FrmCoefficients.Show (1)
 End Sub
 
@@ -1988,11 +2004,11 @@ Private Sub BtnSaveCoefficients_Click()
     GRP1.Width = TxtLineWidth.Text
     GRP1.Color = PicColorMain.BackColor
     For I = 0 To TxtDegreeNumerator.Text
-        CoefficientsZ = CoefficientsZ & ";" & Str(A(I))
+        CoefficientsZ = CoefficientsZ & ";" & Str(CoefNum(I))
     Next I
-    If NV = False Then
+    If IsNotRationalFunction = False Then
         For I = 0 To TxtDegreeDenominator.Text
-            CoefficientsN = CoefficientsN & ";" & Str(D(I))
+            CoefficientsN = CoefficientsN & ";" & Str(CoefDen(I))
         Next I
     End If
     GRP1.ZCoefficients = CoefficientsZ
@@ -2011,11 +2027,11 @@ Private Sub BtnSaveCoefficients_Click()
 End Sub
 
 'Private Sub BtnSaveCoefficients_Click()
-'   SaveStringArray App.Path & "\Test.dat", A()
+'   SaveStringArray App.Path & "\Test.dat", CoefNum()
 'End Sub
 '
 'Private Sub BtnLoadCoefficients_Click()
-' ReadStringArray App.Path & "\Test.dat", A
+' ReadStringArray App.Path & "\Test.dat", CoefNum
 'End Sub
 
 Private Sub BtnLoadCoefficients_Click()
@@ -2029,11 +2045,11 @@ Private Sub BtnLoadCoefficients_Click()
     Get #FileNum, 1, GRP1
 
     ChkRationalFunction.Value = Trim(GRP1.GRF)
-    NV = 1 - Int(Trim(GRP1.GRF))
+    IsNotRationalFunction = 1 - Int(Trim(GRP1.GRF))
     TxtDegreeNumerator.Text = Trim(GRP1.ZG)
-    Grad = Trim(GRP1.ZG)
+    DegNum = Trim(GRP1.ZG)
     Grad1 = Trim(GRP1.ZG)
-    Grad2 = Trim(GRP1.NG)
+    DegDen = Trim(GRP1.NG)
     TxtDegreeDenominator.Text = Trim(GRP1.NG)
     TxtIntvLowerBound.Text = Trim(GRP1.DefL)
     TxtIntvUpperBound.Text = Trim(GRP1.DefR)
@@ -2042,28 +2058,28 @@ Private Sub BtnLoadCoefficients_Click()
     Text21.Text = Trim(GRP1.IntR)
     PicColorMain.BackColor = Trim(GRP1.Color)
     
-    ReDim A(0 To GRP1.ZG) ' KoeffizientenNummer, Einleseposition
+    ReDim CoefNum(0 To GRP1.ZG) ' KoeffizientenNummer, Einleseposition
     KoeffizientenNummer = 0
     For I = 2 To Len(Trim(GRP1.ZCoefficients))
         If Mid(Trim(GRP1.ZCoefficients), I, 1) = ";" Then
-            A(KoeffizientenNummer) = Trim(A(KoeffizientenNummer))
+            CoefNum(KoeffizientenNummer) = Trim(CoefNum(KoeffizientenNummer))
             KoeffizientenNummer = KoeffizientenNummer + 1
         Else
-            A(KoeffizientenNummer) = A(KoeffizientenNummer) & Mid(Trim(GRP1.ZCoefficients), I, 1)
-            A(KoeffizientenNummer) = Trim(A(KoeffizientenNummer))
+            CoefNum(KoeffizientenNummer) = CoefNum(KoeffizientenNummer) & Mid(Trim(GRP1.ZCoefficients), I, 1)
+            CoefNum(KoeffizientenNummer) = Trim(CoefNum(KoeffizientenNummer))
         End If
     Next I
     
     If GRP1.GRF = 1 Then
-        ReDim D(0 To GRP1.NG)
+        ReDim CoefDen(0 To GRP1.NG)
         KoeffizientenNummer = 0
         For I = 2 To Len(Trim(GRP1.NCoefficients))
             If Mid(Trim(GRP1.NCoefficients), I, 1) = ";" Then
                 KoeffizientenNummer = KoeffizientenNummer + 1
-                D(KoeffizientenNummer) = Trim(D(KoeffizientenNummer))
+                CoefDen(KoeffizientenNummer) = Trim(CoefDen(KoeffizientenNummer))
             Else
-                D(KoeffizientenNummer) = D(KoeffizientenNummer) & Mid(Trim(GRP1.NCoefficients), I, 1)
-                D(KoeffizientenNummer) = Trim(D(KoeffizientenNummer))
+                CoefDen(KoeffizientenNummer) = CoefDen(KoeffizientenNummer) & Mid(Trim(GRP1.NCoefficients), I, 1)
+                CoefDen(KoeffizientenNummer) = Trim(CoefDen(KoeffizientenNummer))
             End If
         Next I
     End If
@@ -2129,7 +2145,7 @@ Private Sub Form_Click()
 '
 'For I = 1 To Dimension + 1
 'For U = I + 1 To Dimension
-'Factor = -(M(I, U) / M(I, I)) '  -(A(U, I)
+'Factor = -(M(I, U) / M(I, I)) '  -(CoefNum(U, I)
 'For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
 'M(S, U) = M(S, I) * Factor + M(S, U)
 'Next S
@@ -2179,13 +2195,13 @@ Private Sub Form_Click()
 'Next I
 '
 'TxtDegreeNumerator.Text = Dimension - 1
-'ReDim A(0 To Dimension - 1)
+'ReDim CoefNum(0 To Dimension - 1)
 'For I = 1 To Dimension '+ 1
-''A(I - 1) = M(Dimension + 1, Dimension + 1 - I)
-'A(I - 1) = M(Dimension + 1, I)
+''CoefNum(I - 1) = M(Dimension + 1, Dimension + 1 - I)
+'CoefNum(I - 1) = M(Dimension + 1, I)
 'Next I
 '
-'NV = True ' *** Für definitionslückenüberprüfung
+'IsNotRationalFunction = True ' *** Für definitionslückenüberprüfung
 'FrmMain.Cls
 'Call Raster
 'Call Koordinaten
@@ -2230,11 +2246,11 @@ Private Sub Form_Load()
         Get #FileNum, 1, GRP1
     
         ChkRationalFunction.Value = Trim(GRP1.GRF)
-        NV = 1 - Int(Trim(GRP1.GRF))
+        IsNotRationalFunction = 1 - Int(Trim(GRP1.GRF))
         TxtDegreeNumerator.Text = Trim(GRP1.ZG)
-        Grad = Trim(GRP1.ZG)
+        DegNum = Trim(GRP1.ZG)
         Grad1 = Trim(GRP1.ZG)
-        Grad2 = Trim(GRP1.NG)
+        DegDen = Trim(GRP1.NG)
         TxtDegreeDenominator.Text = Trim(GRP1.NG)
         TxtIntvLowerBound.Text = Trim(GRP1.DefL)
         TxtIntvUpperBound.Text = Trim(GRP1.DefR)
@@ -2243,29 +2259,29 @@ Private Sub Form_Load()
         Text21.Text = Trim(GRP1.IntR)
         PicColorMain.BackColor = Trim(GRP1.Color)
     
-        ReDim A(0 To GRP1.ZG) ' KoeffizientenNummer, Einleseposition
+        ReDim CoefNum(0 To GRP1.ZG) ' KoeffizientenNummer, Einleseposition
         KoeffizientenNummer = 0
         For I = 2 To Len(Trim(GRP1.ZCoefficients))
             If Mid(Trim(GRP1.ZCoefficients), I, 1) = ";" Then
-                A(KoeffizientenNummer) = Trim(A(KoeffizientenNummer))
+                CoefNum(KoeffizientenNummer) = Trim(CoefNum(KoeffizientenNummer))
                 KoeffizientenNummer = KoeffizientenNummer + 1
             Else
-                A(KoeffizientenNummer) = A(KoeffizientenNummer) & Mid(Trim(GRP1.ZCoefficients), I, 1)
-                A(KoeffizientenNummer) = Trim(A(KoeffizientenNummer))
+                CoefNum(KoeffizientenNummer) = CoefNum(KoeffizientenNummer) & Mid(Trim(GRP1.ZCoefficients), I, 1)
+                CoefNum(KoeffizientenNummer) = Trim(CoefNum(KoeffizientenNummer))
             End If
         Next I
     
     
         If GRP1.GRF = 1 Then
-            ReDim D(0 To GRP1.NG)
+            ReDim CoefDen(0 To GRP1.NG)
             KoeffizientenNummer = 0
             For I = 2 To Len(Trim(GRP1.NCoefficients))
                 If Mid(Trim(GRP1.NCoefficients), I, 1) = ";" Then
                     KoeffizientenNummer = KoeffizientenNummer + 1
-                    D(KoeffizientenNummer) = Trim(D(KoeffizientenNummer))
+                    CoefDen(KoeffizientenNummer) = Trim(CoefDen(KoeffizientenNummer))
                 Else
-                    D(KoeffizientenNummer) = D(KoeffizientenNummer) & Mid(Trim(GRP1.NCoefficients), I, 1)
-                    D(KoeffizientenNummer) = Trim(D(KoeffizientenNummer))
+                    CoefDen(KoeffizientenNummer) = CoefDen(KoeffizientenNummer) & Mid(Trim(GRP1.NCoefficients), I, 1)
+                    CoefDen(KoeffizientenNummer) = Trim(CoefDen(KoeffizientenNummer))
                 End If
             Next I
         End If
@@ -2287,22 +2303,22 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y A
     W = X - FrmMain.ScaleWidth / 2 + KSX
 
     If B = True Then
-        If NV = False Then
-            Grad = TxtDegreeNumerator.Text
-            For G = 0 To Grad
-                aY = aY + A(G) * W ^ G
+        If IsNotRationalFunction = False Then
+            DegNum = TxtDegreeNumerator.Text
+            For G = 0 To DegNum
+                aY = aY + CoefNum(G) * W ^ G
             Next G
             
-            Grad = TxtDegreeDenominator.Text
-            For G = 0 To Grad
-                aY2 = aY2 + D(G) * W ^ G
+            DegNum = TxtDegreeDenominator.Text
+            For G = 0 To DegNum
+                aY2 = aY2 + CoefDen(G) * W ^ G
             Next G
             aY = aY / aY2
         Else
-            'If NV = True Then
-            Grad = TxtDegreeNumerator.Text
-            For G = 0 To Grad
-                aY = aY + A(G) * W ^ G
+            'If IsNotRationalFunction = True Then
+            DegNum = TxtDegreeNumerator.Text
+            For G = 0 To DegNum
+                aY = aY + CoefNum(G) * W ^ G
             Next G
             'End If
         End If
@@ -2386,7 +2402,7 @@ Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As 
                 
                 For I = 1 To Dimension + 1
                     For U = I + 1 To Dimension
-                        Factor = -(M(I, U) / M(I, I)) '  -(A(U, I)
+                        Factor = -(M(I, U) / M(I, I)) '  -(CoefNum(U, I)
                         For S = 1 To Dimension + 1 ' Eigentlich nicht 1 to sondern i to !
                             'If M(I, U) = 0 Then
                             'Exit For
@@ -2440,13 +2456,13 @@ Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As 
                 Next I
                 
                 TxtDegreeNumerator.Text = Dimension - 1
-                ReDim A(0 To Dimension - 1)
+                ReDim CoefNum(0 To Dimension - 1)
                 For I = 1 To Dimension '+ 1
-                    'A(I - 1) = M(Dimension + 1, Dimension + 1 - I)
-                    A(I - 1) = M(Dimension + 1, I)
+                    'CoefNum(I - 1) = M(Dimension + 1, Dimension + 1 - I)
+                    CoefNum(I - 1) = M(Dimension + 1, I)
                 Next I
                 
-                NV = True ' *** Für definitionslückenüberprüfung
+                IsNotRationalFunction = True ' *** Für definitionslückenüberprüfung
                 Draw
             End If
         End If
@@ -2470,19 +2486,19 @@ End Sub
 
 Private Sub OptNumerator_Click()
     If OptNumerator.Value = True Then
-        Grad = TxtDegreeNumerator.Text
+        DegNum = TxtDegreeNumerator.Text
     Else
-        Grad = TxtDegreeDenominator.Text
+        DegNum = TxtDegreeDenominator.Text
     End If
 
     If TxtGradToSetCoefficient.Text <> "" Then
         If TxtGradToSetCoefficient.Text < 0 Then TxtGradToSetCoefficient.Text = 0
     End If
 
-    If TxtGradToSetCoefficient.Text > Grad Then TxtGradToSetCoefficient.Text = Grad
+    If TxtGradToSetCoefficient.Text > DegNum Then TxtGradToSetCoefficient.Text = DegNum
     TxtGradToSetCoefficient.Text = Int(TxtGradToSetCoefficient.Text)
-    Slider1.Value = A(TxtGradToSetCoefficient.Text) * -100
-    TxtSetCoefficient.Text = A(TxtGradToSetCoefficient.Text)
+    Slider1.Value = CoefNum(TxtGradToSetCoefficient.Text) * -100
+    TxtSetCoefficient.Text = CoefNum(TxtGradToSetCoefficient.Text)
 End Sub
 
 Private Sub PicColorPalette_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -2517,16 +2533,16 @@ Private Sub Slider1_Scroll()
             TxtSetCoefficient.Text = -Slider1.Value / 100
             FrmMain.Cls
             If OptNumerator.Value = True Then
-                Grad = TxtDegreeNumerator.Text
-                A(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-                For G = 0 To Grad
-                    Y = Y + A(G) * (-FrmMain.ScaleWidth / 2) ^ G
+                DegNum = TxtDegreeNumerator.Text
+                CoefNum(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
+                For G = 0 To DegNum
+                    Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
                 Next G
             Else
-                Grad = TxtDegreeDenominator.Text
-                D(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-                For G = 0 To Grad
-                    Y = Y + A(G) * (-FrmMain.ScaleWidth / 2) ^ G
+                DegNum = TxtDegreeDenominator.Text
+                CoefDen(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
+                For G = 0 To DegNum
+                    Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
                 Next G
             End If
             X = 0
@@ -2675,18 +2691,18 @@ Private Function Nullpunkt()
 End Function
 
 Private Function Graph()
-    If Grad = 0 And Grad2 = 0 Then Exit Function
+    If DegNum = 0 And DegDen = 0 Then Exit Function
     
     X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text
     FrmMain.ForeColor = PicColorMain.BackColor
     
     For X1 = 1 + KSX * STPX / FrmMain.ScaleWidth To STPX + KSX * STPX / FrmMain.ScaleWidth
-        If NV = False Then '***
+        If IsNotRationalFunction = False Then '***
             V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2) '***
             DefiL = 0 '***
-            For G = 0 To Grad2 '***
-                DefiL = DefiL + D(G) * V ^ G '***
+            For G = 0 To DegDen '***
+                DefiL = DefiL + CoefDen(G) * V ^ G '***
             Next G '*** Überprüfung aud Definitionslücke
         Else '***
             DefiL = 1 '***
@@ -2697,17 +2713,17 @@ Private Function Graph()
             
             I = X1 / STPX * FrmMain.ScaleWidth
             
-            Grad = TxtDegreeNumerator.Text
+            DegNum = TxtDegreeNumerator.Text
             
-            For G = 0 To Grad
-                Y1 = Y1 + A(G) * V ^ G
+            For G = 0 To DegNum
+                Y1 = Y1 + CoefNum(G) * V ^ G
             Next G
             
-            If NV = False Then
-                Grad2 = TxtDegreeDenominator.Text
+            If IsNotRationalFunction = False Then
+                DegDen = TxtDegreeDenominator.Text
                 
-                For G = 0 To Grad2
-                    Y2 = Y2 + D(G) * V ^ G
+                For G = 0 To DegDen
+                    Y2 = Y2 + CoefDen(G) * V ^ G
                 Next G
                 
                 Y1 = Y1 / Y2
@@ -2798,15 +2814,15 @@ Private Sub TxtGradToSetCoefficient_Validate(Cancel As Boolean)
     Cancel = True
     
     If OptNumerator.Value = True Then
-        Grad = TxtDegreeNumerator.Text
+        DegNum = TxtDegreeNumerator.Text
     Else
-        Grad = TxtDegreeDenominator.Text
+        DegNum = TxtDegreeDenominator.Text
     End If
     
     
     If IsNumeric(TxtGradToSetCoefficient.Text) Then
         If CInt(TxtGradToSetCoefficient.Text) = TxtGradToSetCoefficient.Text Then
-            If CInt(TxtGradToSetCoefficient.Text) >= 0 And CInt(TxtGradToSetCoefficient.Text) <= Grad Then
+            If CInt(TxtGradToSetCoefficient.Text) >= 0 And CInt(TxtGradToSetCoefficient.Text) <= DegNum Then
                 Cancel = False
             End If
         End If
@@ -2820,14 +2836,14 @@ Private Sub TxtGradToSetCoefficient_KeyPress(KeyAscii As Integer)
         Dim InputInvalid As Boolean
         Call TxtGradToSetCoefficient_Validate(InputInvalid)
         If Not InputInvalid Then
-            Grad = CInt(TxtGradToSetCoefficient.Text)
-            TxtGradToSetCoefficient.Text = Grad
+            DegNum = CInt(TxtGradToSetCoefficient.Text)
+            TxtGradToSetCoefficient.Text = DegNum
             If OptNumerator.Value = True Then
-                TxtSetCoefficient.Text = A(Grad)
-                Slider1.Value = A(TxtGradToSetCoefficient.Text) * -100 ' Invert because of the inverted direction of the slider
+                TxtSetCoefficient.Text = CoefNum(DegNum)
+                Slider1.Value = CoefNum(TxtGradToSetCoefficient.Text) * -100 ' Invert because of the inverted direction of the slider
             Else
-                TxtSetCoefficient.Text = D(Grad)
-                Slider1.Value = D(TxtGradToSetCoefficient.Text) * -100
+                TxtSetCoefficient.Text = CoefDen(DegNum)
+                Slider1.Value = CoefDen(TxtGradToSetCoefficient.Text) * -100
             End If
             TxtGradToSetCoefficient.Tag = ""
         End If
@@ -2861,9 +2877,9 @@ Private Sub TxtSetCoefficient_Validate(Cancel As Boolean)
     Cancel = True
     
     If OptNumerator.Value = True Then
-        Grad = TxtDegreeNumerator.Text
+        DegNum = TxtDegreeNumerator.Text
     Else
-        Grad = TxtDegreeDenominator.Text
+        DegNum = TxtDegreeDenominator.Text
     End If
     
     
@@ -2882,9 +2898,9 @@ Private Sub TxtSetCoefficient_KeyPress(KeyAscii As Integer)
             Slider1.Value = TxtSetCoefficient.Text * -100 ' evtl. mit Int()
         
             If OptNumerator.Value = True Then
-                A(TxtGradToSetCoefficient.Text) = TxtSetCoefficient.Text
+                CoefNum(TxtGradToSetCoefficient.Text) = TxtSetCoefficient.Text
             Else
-                D(TxtGradToSetCoefficient.Text) = TxtSetCoefficient.Text
+                CoefDen(TxtGradToSetCoefficient.Text) = TxtSetCoefficient.Text
             End If
             
             Draw
@@ -3085,9 +3101,9 @@ Private Sub Timer1_Timer()
     If Faktor <> Slider1.Value Then
         If TxtGradToSetCoefficient.Text <> "" Then
             FrmMain.Cls
-            A(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-            For G = 0 To Grad
-                Y = Y + A(G) * (-FrmMain.ScaleWidth / 2) ^ G
+            CoefNum(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
+            For G = 0 To DegNum
+                Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
             Next G
             
             X = 0
@@ -3118,16 +3134,16 @@ Private Sub Timer2_Timer()
         TxtSetCoefficient.Text = -Slider1.Value / 100
         FrmMain.Cls
         If OptNumerator.Value = True Then
-            Grad = TxtDegreeNumerator.Text
-            A(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-            For G = 0 To Grad
-                Y = Y + A(G) * (-FrmMain.ScaleWidth / 2) ^ G
+            DegNum = TxtDegreeNumerator.Text
+            CoefNum(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
+            For G = 0 To DegNum
+                Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
             Next G
         Else
-            Grad = TxtDegreeDenominator.Text
-            D(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-            For G = 0 To Grad
-                Y = Y + A(G) * (-FrmMain.ScaleWidth / 2) ^ G
+            DegNum = TxtDegreeDenominator.Text
+            CoefDen(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
+            For G = 0 To DegNum
+                Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
             Next G
         End If
         X = 0
@@ -3164,39 +3180,39 @@ Private Function Graph2()
         'V = X1 / STPX * FrmMain.ScaleWidth
         E = X1 / STPX * FrmMain.ScaleWidth
         
-        Grad = TxtDegreeNumerator.Text
-        Grad2 = TxtDegreeDenominator.Text
+        DegNum = TxtDegreeNumerator.Text
+        DegDen = TxtDegreeDenominator.Text
         
-        ReDim C(Grad - DIFFNR)
-        For G = 1 To Grad - DIFFNR '+1
-            C(G - 1) = A(G) * G
+        ReDim C(DegNum - DIFFNR)
+        For G = 1 To DegNum - DIFFNR '+1
+            C(G - 1) = CoefNum(G) * G
         Next G
         
-        For G = 0 To Grad - 1 - DIFFNR
+        For G = 0 To DegNum - 1 - DIFFNR
             DiffNA = DiffNA + C(G) * V ^ G
         Next G
-        For I = 0 To Grad - DIFFNR
-            C(Grad - DIFFNR) = 0
+        For I = 0 To DegNum - DIFFNR
+            C(DegNum - DIFFNR) = 0
         Next I
         
-        ReDim C(Grad2)
-        For G = 1 To Grad2 - DIFFNR '+1
-            C(G - 1) = D(G) * G
+        ReDim C(DegDen)
+        For G = 1 To DegDen - DIFFNR '+1
+            C(G - 1) = CoefDen(G) * G
         Next G
         
-        For G = 0 To Grad2 - 1 - DIFFNR
+        For G = 0 To DegDen - 1 - DIFFNR
             DiffZA = DiffZA + C(G) * V ^ G
         Next G
-        For I = 0 To Grad2 - DIFFNR
-            C(Grad2 - DIFFNR) = 0
+        For I = 0 To DegDen - DIFFNR
+            C(DegDen - DIFFNR) = 0
         Next I
         
-        For G = 0 To Grad - DIFFNR
-            DiffN = DiffN + A(G) * V ^ G
+        For G = 0 To DegNum - DIFFNR
+            DiffN = DiffN + CoefNum(G) * V ^ G
         Next G
         
-        For G = 0 To Grad2 - DIFFNR
-            DiffZ = DiffZ + D(G) * V ^ G
+        For G = 0 To DegDen - DIFFNR
+            DiffZ = DiffZ + CoefDen(G) * V ^ G
         Next G
         
         Y1 = (DiffNA * DiffZ - DiffN * DiffZA) / (DiffZ ^ 2)
@@ -3240,8 +3256,8 @@ Private Function Graph3()
         
         I = X1 / STPX * FrmMain.ScaleWidth
         
-        For G = 0 To Grad3
-            Y1 = Y1 + Z(G) * V ^ G
+        For G = 0 To DegAsymptote
+            Y1 = Y1 + CoefAsymptote(G) * V ^ G
         Next G
         
         Y1 = FrmMain.ScaleHeight / 2 - Y1
