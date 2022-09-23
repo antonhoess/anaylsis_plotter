@@ -511,6 +511,7 @@ Begin VB.Form FrmMain
       Begin VB.CommandButton BtnAsymptote 
          BackColor       =   &H0080C0FF&
          Caption         =   "Asymtote"
+         Enabled         =   0   'False
          Height          =   495
          Left            =   2040
          Style           =   1  'Graphical
@@ -615,7 +616,7 @@ Begin VB.Form FrmMain
          Top             =   2760
          Width           =   495
       End
-      Begin VB.Frame Frame5 
+      Begin VB.Frame FrmMainMenu 
          BackColor       =   &H0080C0FF&
          Caption         =   "Hauptmenü"
          Enabled         =   0   'False
@@ -1254,6 +1255,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, Grad1, DegDen, DegAsymptote As Integer, A1, A2, DefiL, IntVal, IntVal1, IntVal2 As Boolean, AuswahlNummer As Integer, CoefficientsZ As String, CoefficientsN As String, KoeffizientenNummer As Integer, EinlesePosition As Integer, WXK As Boolean, Element
+Dim CoefAsymptote() As Double
 
 Option Explicit
 
@@ -1312,21 +1314,23 @@ Private Sub ChkRationalFunction_Click()
     GRF = ChkRationalFunction.Value
     
     If ChkRationalFunction.Value = 1 Then
-        IsNotRationalFunction = True
-        OptDenominator.Enabled = False
+        IsNotRationalFunction = False
+        OptDenominator.Enabled = True
         Label21.Enabled = True
         TxtDegreeDenominator.Enabled = True
+        BtnAsymptote.Enabled = True
     Else
-        IsNotRationalFunction = False
+        IsNotRationalFunction = True
         OptDenominator.Enabled = False
         OptNumerator.Value = True
         Label21.Enabled = False
         TxtDegreeDenominator.Enabled = False
+        BtnAsymptote.Enabled = False
     End If
 End Sub
 
 Private Sub Check7_Click()
-    Frame5.Enabled = True
+    FrmMainMenu.Enabled = True
     'If Check7.Value = 0 Then DegNum = -1
 End Sub
 
@@ -1458,31 +1462,36 @@ End Sub
 
 
 Private Sub BtnAsymptote_Click()
-    DegNum = TxtDegreeNumerator.Text
-    DegDen = TxtDegreeDenominator.Text
+    DegNum = CDbl(TxtDegreeNumerator.Text)
+    DegDen = CDbl(TxtDegreeDenominator.Text)
     
     If IsNotRationalFunction = False Then
-        If DegNum >= DegDen Then
-            Dim CoefNumAsymptote() As Integer, CoefDenAsymptote() As Integer
-            DegAsymptote = DegNum - DegDen
+        DegAsymptote = DegNum - DegDen
+        
+        ' If there is as asymptote
+        If DegAsymptote >= 0 Then
+            Dim CoefNumAsymptote() As Double, CoefDenAsymptote() As Double
             ReDim CoefNumAsymptote(DegNum + 1)
             ReDim CoefDenAsymptote(DegDen + 1)
+            ReDim CoefAsymptote(DegAsymptote + 1)
+            
+            Dim I As Integer
+            Dim K As Integer
+            Dim CoefTmp As Double
+            
             CoefNumAsymptote = CoefNum
             CoefDenAsymptote = CoefDen
             
-            ReDim CoefAsymptote(DegAsymptote + 1)
-            Dim I As Integer
-            Dim H As Integer
-            Dim Faktor2 'XXX
-            For I = 0 To DegNum
-                If DegNum - I >= DegDen Then
-                    Faktor2 = CoefNumAsymptote(DegNum - I) / CoefDenAsymptote(DegDen)
-                    CoefAsymptote(DegAsymptote - I) = Faktor2
-                    For H = 0 To DegDen
-                        CoefNumAsymptote(DegNum - I - H) = CoefNumAsymptote(DegNum - I - H) - Faktor2 * CoefDenAsymptote(DegDen - H)
-                    Next H
-                End If
+            ' Perform polynomial division
+            For I = 0 To DegAsymptote
+                CoefTmp = CoefNumAsymptote(DegNum - I) / CoefDenAsymptote(DegDen)
+                CoefAsymptote(DegAsymptote - I) = CoefTmp
+                For K = 0 To DegDen
+                    CoefNumAsymptote(DegNum - I - K) = CoefNumAsymptote(DegNum - I - K) - CoefTmp * CoefDenAsymptote(DegDen - K)
+                Next K
             Next I
+            
+            ' Draw the graph
             Call Graph3
         End If
     End If
@@ -1922,7 +1931,7 @@ End Sub
 
 Private Sub CmdDraw_Click()
     X = -100 '-1
-    Draw
+    Draw (False)
 End Sub
 
 Private Sub CmdClear_Click()
@@ -1937,7 +1946,7 @@ Private Sub BtnCoefficients_Click()
     Grad1 = TxtDegreeNumerator.Text
     DegDen = TxtDegreeDenominator.Text
     Frame4.Enabled = True
-    Frame5.Enabled = True
+    FrmMainMenu.Enabled = True
     Label17.Enabled = True
     TxtCodomainLowerBound.Enabled = True
     TxtCodomainUpperBound.Enabled = True
@@ -2058,34 +2067,24 @@ Private Sub BtnLoadCoefficients_Click()
     Text21.Text = Trim(GRP1.IntR)
     PicColorMain.BackColor = Trim(GRP1.Color)
     
-    ReDim CoefNum(0 To GRP1.ZG) ' KoeffizientenNummer, Einleseposition
-    KoeffizientenNummer = 0
-    For I = 2 To Len(Trim(GRP1.ZCoefficients))
-        If Mid(Trim(GRP1.ZCoefficients), I, 1) = ";" Then
-            CoefNum(KoeffizientenNummer) = Trim(CoefNum(KoeffizientenNummer))
-            KoeffizientenNummer = KoeffizientenNummer + 1
-        Else
-            CoefNum(KoeffizientenNummer) = CoefNum(KoeffizientenNummer) & Mid(Trim(GRP1.ZCoefficients), I, 1)
-            CoefNum(KoeffizientenNummer) = Trim(CoefNum(KoeffizientenNummer))
-        End If
-    Next I
+    ReDim CoefNum(0 To CInt(GRP1.ZG))
+    Dim Fields() As String
+    Fields = Split(Mid(Trim(GRP1.ZCoefficients), 2), ";")
+    Dim F As Integer
+    For F = 0 To UBound(Fields)
+        CoefNum(F) = CDbl(Fields(F))
+    Next F
     
     If GRP1.GRF = 1 Then
-        ReDim CoefDen(0 To GRP1.NG)
-        KoeffizientenNummer = 0
-        For I = 2 To Len(Trim(GRP1.NCoefficients))
-            If Mid(Trim(GRP1.NCoefficients), I, 1) = ";" Then
-                KoeffizientenNummer = KoeffizientenNummer + 1
-                CoefDen(KoeffizientenNummer) = Trim(CoefDen(KoeffizientenNummer))
-            Else
-                CoefDen(KoeffizientenNummer) = CoefDen(KoeffizientenNummer) & Mid(Trim(GRP1.NCoefficients), I, 1)
-                CoefDen(KoeffizientenNummer) = Trim(CoefDen(KoeffizientenNummer))
-            End If
-        Next I
+        ReDim CoefDen(0 To CInt(GRP1.NG))
+        Fields = Split(Mid(Trim(GRP1.NCoefficients), 2), ";")
+        For F = 0 To UBound(Fields)
+            CoefDen(F) = CDbl(Fields(F))
+        Next F
     End If
-    
+   
     Close FileNum
-    Frame5.Enabled = True
+    FrmMainMenu.Enabled = True
 End Sub
 
 Private Sub BtnOffsetCoordSystem_Click()
@@ -2259,34 +2258,24 @@ Private Sub Form_Load()
         Text21.Text = Trim(GRP1.IntR)
         PicColorMain.BackColor = Trim(GRP1.Color)
     
-        ReDim CoefNum(0 To GRP1.ZG) ' KoeffizientenNummer, Einleseposition
-        KoeffizientenNummer = 0
-        For I = 2 To Len(Trim(GRP1.ZCoefficients))
-            If Mid(Trim(GRP1.ZCoefficients), I, 1) = ";" Then
-                CoefNum(KoeffizientenNummer) = Trim(CoefNum(KoeffizientenNummer))
-                KoeffizientenNummer = KoeffizientenNummer + 1
-            Else
-                CoefNum(KoeffizientenNummer) = CoefNum(KoeffizientenNummer) & Mid(Trim(GRP1.ZCoefficients), I, 1)
-                CoefNum(KoeffizientenNummer) = Trim(CoefNum(KoeffizientenNummer))
-            End If
-        Next I
-    
-    
+        ' XXX Nachfolgender Block stammt 1:1 aus BtnLoadCoefficients_Click - in Function auslagern?
+        Dim Fields() As String
+        ReDim CoefNum(0 To CInt(GRP1.ZG))
+        Fields = Split(Mid(Trim(GRP1.ZCoefficients), 2), ";")
+        Dim F As Integer
+        For F = 0 To UBound(Fields)
+            CoefNum(F) = CDbl(Fields(F))
+        Next F
+   
         If GRP1.GRF = 1 Then
-            ReDim CoefDen(0 To GRP1.NG)
-            KoeffizientenNummer = 0
-            For I = 2 To Len(Trim(GRP1.NCoefficients))
-                If Mid(Trim(GRP1.NCoefficients), I, 1) = ";" Then
-                    KoeffizientenNummer = KoeffizientenNummer + 1
-                    CoefDen(KoeffizientenNummer) = Trim(CoefDen(KoeffizientenNummer))
-                Else
-                    CoefDen(KoeffizientenNummer) = CoefDen(KoeffizientenNummer) & Mid(Trim(GRP1.NCoefficients), I, 1)
-                    CoefDen(KoeffizientenNummer) = Trim(CoefDen(KoeffizientenNummer))
-                End If
-            Next I
+            ReDim CoefDen(0 To CInt(GRP1.NG))
+            Fields = Split(Mid(Trim(GRP1.NCoefficients), 2), ";")
+            For F = 0 To UBound(Fields)
+                CoefDen(F) = CDbl(Fields(F))
+            Next F
         End If
     
-        Frame5.Enabled = True
+        FrmMainMenu.Enabled = True
     End If
     
     FrmColor.Tag = FrmColor.Width

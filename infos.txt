@@ -13,3 +13,4 @@ ToDo
 Bugs
 ====
 * Wenn ich noch keine Koeffizienten bzw. Grade gesetzt habe und schon Parameter für Grad 0 setzen möchte, dann stürzt das Programm ab. Dieser darf standardmäßig vllt. garnicht aktiv / erlaubt sein.
+* Wenn Koeffizienten gespeichert und wieder geladen werden, kommt ein anderer Graph heraus.

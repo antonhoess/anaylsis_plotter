@@ -3,9 +3,9 @@ Public N, R, C, E, F, X, Matrix() As Single, Matrix2() As Single, Matrix3() As S
 
 Public Function HornerSchema()
     Grad1 = Form1.Text1.Text
-    Grad2 = Form1.Text14.Text
+    DegDen = Form1.Text14.Text
     
-    If NV = False Then
+    If IsNotRationalFunction = False Then
     
         If Grad1 > 0 Then
             ReDim Horner1(1 To Grad1)
@@ -13,21 +13,21 @@ Public Function HornerSchema()
             ReDim Horner1(1)
         End If
         
-        If Grad2 > 0 Then
-            ReDim Horner2(1 To Grad2)
+        If DegDen > 0 Then
+            ReDim Horner2(1 To DegDen)
         Else
             ReDim Horner1(1)
         End If
         
         ReDim Matrix2(0 To Grad1)
-        ReDim Matrix3(0 To Grad2)
+        ReDim Matrix3(0 To DegDen)
         
         For I = -Grad1 To 0
-            Matrix2(I + Grad1) = A(-I)
+            Matrix2(I + Grad1) = CoefNum(-I)
         Next I
         
-        For I = -Grad2 To 0
-            Matrix3(I + Grad2) = D(-I)
+        For I = -DegDen To 0
+            Matrix3(I + DegDen) = CoefDen(-I)
         Next I
         
         Factor1 = Matrix2(0)
@@ -36,7 +36,7 @@ Public Function HornerSchema()
         Next I
         
         Factor2 = Matrix3(0)
-        For I = 0 To Grad2
+        For I = 0 To DegDen
             Matrix3(I) = Matrix3(I) / Factor2
         Next I
         
@@ -64,21 +64,21 @@ Public Function HornerSchema()
             Next I
         Next N
         
-        For N = 1 To Grad2
+        For N = 1 To DegDen
             For I = -100 To 100
                 B = Matrix3(0)
-                For X = 1 To Grad2 - N + 1
+                For X = 1 To DegDen - N + 1
                     B = B * I + Matrix3(X)
                 Next X
                 If B = 0 Then
-                    ReDim Matrix(0 To Grad2 - N + 1)
-                    For E = 0 To Grad2 - N + 1
+                    ReDim Matrix(0 To DegDen - N + 1)
+                    For E = 0 To DegDen - N + 1
                         Matrix(E) = Matrix3(E)
                     Next E
-                    ReDim Matrix3(0 To Grad2)
-                    ReDim Matrix3(0 To Grad2 - N)
+                    ReDim Matrix3(0 To DegDen)
+                    ReDim Matrix3(0 To DegDen - N)
                     F = 0
-                    For E = 0 To Grad2 - N
+                    For E = 0 To DegDen - N
                         F = F * I + Matrix(E)
                         Matrix3(E) = F
                     Next E
@@ -97,7 +97,7 @@ Public Function HornerSchema()
         ReDim Matrix2(0 To Grad1)
         
         For I = -Grad1 To 0
-            Matrix2(I + Grad1) = A(-I)
+            Matrix2(I + Grad1) = CoefNum(-I)
         Next I
         
         Factor1 = Matrix2(0)

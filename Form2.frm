@@ -99,20 +99,20 @@ Text1.SelStart = 0
 Text1.SelLength = Len(Text1.Text)
 End If
 
-If NV = True Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
-A(GGN) = Text1.Text
+If IsNotRationalFunction = True Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten DegNum ein!"
+CoefNum(GGN) = Text1.Text
 GGN = GGN + 1
 Else
 If GRF = True Then
-If Grad <> 1 Then
-A(GGN) = Text1.Text
+If DegNum <> 1 Then
+CoefNum(GGN) = Text1.Text
 Else
 GGN = 1
-Text1.Text = A(GGN - 1)
+Text1.Text = CoefNum(GGN - 1)
 End If '***
 GGN = GGN + 1
-If GGN = Grad + 1 Then
+If GGN = DegNum + 1 Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
 Beep
 Else
@@ -120,24 +120,24 @@ Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler
 End If
 
 Else
-If GGN = Grad Then
+If GGN = DegNum Then
 Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
 Else
 Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
 End If
-D(GGN) = Text1.Text
+CoefDen(GGN) = Text1.Text
 GGN = GGN + 1
 End If
 End If
 
-If Grad - GGN = -1 Then
-If NV = True Then
+If DegNum - GGN = -1 Then
+If IsNotRationalFunction = True Then
 Unload Me
 Else
 If GRF = True Then
 GRF = False
 GGN = 0
-Grad = FrmMain.TxtDegreeDenominator.Text
+DegNum = FrmMain.TxtDegreeDenominator.Text
 Else
 Unload Me
 End If
@@ -148,47 +148,47 @@ End Sub
 
 Private Sub Command2_Click()
 'If GGN <> 0 Then KZ2 = KZ2 - 1
-If NV = True Then
+If IsNotRationalFunction = True Then
 If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
 If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten Grad ein!"
- Text1.Text = A(GGN)
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten DegNum ein!"
+ Text1.Text = CoefNum(GGN)
 End If
 Else
 If GRF = True Then
 If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
-If Sprung = True Then Sprung = False: GGN = Grad + 1: Grad = Grad + 1 '***
+If Sprung = True Then Sprung = False: GGN = DegNum + 1: DegNum = DegNum + 1 '***
 If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
-Text1.Text = A(GGN)
+Text1.Text = CoefNum(GGN)
 End If
 If GGN = 0 Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-DegNum ein!"
 Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-DegNum ein!"
 End If
 Else
 If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
-Text1.Text = D(GGN)
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Nenner-Grad ein!"
+Text1.Text = CoefDen(GGN)
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Nenner-DegNum ein!"
 Else 'If GGN = 0 Then
-'Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
-If Grad <> 1 Then
-GGN = Grad + 1
+'Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-DegNum ein!"
+If DegNum <> 1 Then
+GGN = DegNum + 1
 GRF = True
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
-Text1.Text = A(GGN + 0) '+1
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-DegNum ein!"
+Text1.Text = CoefNum(GGN + 0) '+1
 Sprung = True
 Else
-GGN = Grad + 1
+GGN = DegNum + 1
 GRF = True
-Label1.Caption = "Geben Sie den Koeffizienten für den 0-ten Zähler-Grad ein!"
-Text1.Text = A(0)
+Label1.Caption = "Geben Sie den Koeffizienten für den 0-ten Zähler-DegNum ein!"
+Text1.Text = CoefNum(0)
 Sprung = True
 End If
 End If
@@ -198,23 +198,23 @@ End If
 End Sub
 
 Private Sub BtnCoefficients_Click()
-    If NV = True Then
-        For T = GGN To Grad + 1
-            A(GGN) = 0
+    If IsNotRationalFunction = True Then
+        For T = GGN To DegNum + 1
+            CoefNum(GGN) = 0
         Next T
     Else
         If GRF = True Then
-            For T = GGN To Grad + 1
-                A(GGN) = True
+            For T = GGN To DegNum + 1
+                CoefNum(GGN) = True
             Next T
-            Grad = FrmMain.TxtDegreeDenominator.Text
-            For T = GGN To Grad + 1
-                D(GGN) = True
+            DegNum = FrmMain.TxtDegreeDenominator.Text
+            For T = GGN To DegNum + 1
+                CoefDen(GGN) = True
             Next T
         Else
-            Grad = FrmMain.TxtDegreeDenominator.Text
-            For T = GGN To Grad + 1
-                D(GGN) = 0
+            DegNum = FrmMain.TxtDegreeDenominator.Text
+            For T = GGN To DegNum + 1
+                CoefDen(GGN) = 0
             Next T
         End If
     End If
@@ -224,36 +224,36 @@ End Sub
 
 Private Sub BtnTrace_Click()
 
-If NV = True Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
+If IsNotRationalFunction = True Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten DegNum ein!"
 If KZ2 < KZ Then
-Text1.Text = A(GGN)
+Text1.Text = CoefNum(GGN)
 Else
-A(GGN) = 0
+CoefNum(GGN) = 0
 Text1.Text = 0
 End If
 GGN = GGN + 1
 Else
 If GRF = True Then
-A(GGN) = 0
+CoefNum(GGN) = 0
 Text1.Text = 0
 GGN = GGN + 1
-If GGN = Grad + 1 Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+If GGN = DegNum + 1 Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-DegNum ein!"
 Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-DegNum ein!"
 End If
 
 Else
-If GGN = Grad Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+If GGN = DegNum Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-DegNum ein!"
 Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-DegNum ein!"
 End If
 If KZ2 < KZ Then
-Text1.Text = D(GGN)
+Text1.Text = CoefDen(GGN)
 Else
-D(GGN) = 0
+CoefDen(GGN) = 0
 Text1.Text = 0
 End If
 GGN = GGN + 1
@@ -264,14 +264,14 @@ Text1.SetFocus
 Text1.SelStart = 0
 Text1.SelLength = Len(Text1.Text)
 
-If Grad - GGN = -1 Then
-If NV = True Then
+If DegNum - GGN = -1 Then
+If IsNotRationalFunction = True Then
 Unload Me
 Else
 If GRF = True Then
 GRF = False
 GGN = 0
-Grad = FrmMain.TxtDegreeDenominator.Text
+DegNum = FrmMain.TxtDegreeDenominator.Text
 Else
 Unload Me
 End If
@@ -300,47 +300,47 @@ Select Case KeyCode
 Case vbKeyLeft
 
 'If GGN <> 0 Then KZ2 = KZ2 - 1
-If NV = True Then
+If IsNotRationalFunction = True Then
 If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
 If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten Grad ein!"
- Text1.Text = A(GGN)
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN & "-ten DegNum ein!"
+ Text1.Text = CoefNum(GGN)
 End If
 Else
 If GRF = True Then
 If GGN = 0 Then MsgBox "Jetzt geht es nicht mehr weiter", vbOKOnly, "Hinweis"
-If Sprung = True Then Sprung = False: GGN = Grad + 1: Grad = Grad + 1 '***
+If Sprung = True Then Sprung = False: GGN = DegNum + 1: DegNum = DegNum + 1 '***
 If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
-Text1.Text = A(GGN)
+Text1.Text = CoefNum(GGN)
 End If
 If GGN = 0 Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-DegNum ein!"
 Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-DegNum ein!"
 End If
 Else
 If GGN <> 0 Then
 KZ2 = KZ2 - 1
 GGN = GGN - 1
-Text1.Text = D(GGN)
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Nenner-Grad ein!"
+Text1.Text = CoefDen(GGN)
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Nenner-DegNum ein!"
 Else 'If GGN = 0 Then
-'Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
-If Grad <> 1 Then
-GGN = Grad + 1
+'Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-DegNum ein!"
+If DegNum <> 1 Then
+GGN = DegNum + 1
 GRF = True
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
-Text1.Text = A(GGN + 0) '+1
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-DegNum ein!"
+Text1.Text = CoefNum(GGN + 0) '+1
 Sprung = True
 Else
-GGN = Grad + 1
+GGN = DegNum + 1
 GRF = True
-Label1.Caption = "Geben Sie den Koeffizienten für den 0-ten Zähler-Grad ein!"
-Text1.Text = A(0)
+Label1.Caption = "Geben Sie den Koeffizienten für den 0-ten Zähler-DegNum ein!"
+Text1.Text = CoefNum(0)
 Sprung = True
 End If
 End If
@@ -350,36 +350,36 @@ End If
 
 Case vbKeyRight
 
-If NV = True Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Grad ein!"
+If IsNotRationalFunction = True Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten DegNum ein!"
 If KZ2 < KZ Then
-Text1.Text = A(GGN)
+Text1.Text = CoefNum(GGN)
 Else
-A(GGN) = 0
+CoefNum(GGN) = 0
 Text1.Text = 0
 End If
 GGN = GGN + 1
 Else
 If GRF = True Then
-A(GGN) = 0
+CoefNum(GGN) = 0
 Text1.Text = 0
 GGN = GGN + 1
-If GGN = Grad + 1 Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+If GGN = DegNum + 1 Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-DegNum ein!"
 Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 0 & "-ten Zähler-DegNum ein!"
 End If
 
 Else
-If GGN = Grad Then
-Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-Grad ein!"
+If GGN = DegNum Then
+Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Nenner-DegNum ein!"
 Else
-Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-Grad ein!"
+Label1.Caption = "Geben Sie den Koeffizienten für den " & GGN + 1 & "-ten Nenner-DegNum ein!"
 End If
 If KZ2 < KZ Then
-Text1.Text = D(GGN)
+Text1.Text = CoefDen(GGN)
 Else
-D(GGN) = 0
+CoefDen(GGN) = 0
 Text1.Text = 0
 End If
 GGN = GGN + 1
@@ -390,14 +390,14 @@ Text1.SetFocus
 Text1.SelStart = 0
 Text1.SelLength = Len(Text1.Text)
 
-If Grad - GGN = -1 Then
-If NV = True Then
+If DegNum - GGN = -1 Then
+If IsNotRationalFunction = True Then
 Unload Me
 Else
 If GRF = True Then
 GRF = False
 GGN = 0
-Grad = FrmMain.TxtDegreeDenominator.Text
+DegNum = FrmMain.TxtDegreeDenominator.Text
 Else
 Unload Me
 End If
@@ -419,18 +419,18 @@ Private Sub Form_Load()
     End If
     
     GGN = 0
-    ReDim A(Grad + 1)
-    ReDim D(FrmMain.TxtDegreeDenominator.Text + 14)
+    ReDim CoefNum(DegNum + 1)
+    ReDim CoefDen(FrmMain.TxtDegreeDenominator.Text + 14)
     
-    If NV = False Then
-        Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Zähler-Grad ein!"
+    If IsNotRationalFunction = False Then
+        Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Zähler-DegNum ein!"
     Else
-        Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten Grad ein!"
+        Label1.Caption = "Geben Sie den Koeffizienten für den " & 0 & "-ten DegNum ein!"
     End If
 End Sub
 
 Private Sub FrmCoefficients_Unload(Cancel As Integer)
-    If NV = False Then
+    If IsNotRationalFunction = False Then
         FrmMain.OptDenominator.Enabled = True
     Else
         FrmMain.OptDenominator.Enabled = False
@@ -438,7 +438,7 @@ Private Sub FrmCoefficients_Unload(Cancel As Integer)
     End If
     
     'FrmMain.Command1.SetFocus
-    Grad = FrmMain.Text1.Text
+    DegNum = FrmMain.Text1.Text
     KZ = 0
 End Sub
 
