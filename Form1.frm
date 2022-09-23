@@ -1254,7 +1254,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, Grad1, DegDen, DegAsymptote As Integer, A1, A2, DefiL, IntVal, IntVal1, IntVal2 As Boolean, AuswahlNummer As Integer, CoefficientsZ As String, CoefficientsN As String, KoeffizientenNummer As Integer, EinlesePosition As Integer, WXK As Boolean, Element
+Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, Grad1, DegDen, DegAsymptote As Integer, A1, A2, DefiL, IntVal, IntVal1, IntVal2 As Boolean, AuswahlNummer As Integer, WXK As Boolean, Element
 Dim CoefAsymptote() As Double
 
 Option Explicit
@@ -1997,6 +1997,8 @@ Private Sub BtnSaveCoefficients_Click()
     
     Dim FileNum
     Dim GRP1 As GRP
+    Dim CoefficientsZ As String, CoefficientsN As String
+    
     GRP1.ZCoefficients = ""
     GRP1.NCoefficients = ""
     CoefficientsZ = ""
@@ -2023,9 +2025,10 @@ Private Sub BtnSaveCoefficients_Click()
     GRP1.ZCoefficients = CoefficientsZ
     GRP1.NCoefficients = CoefficientsN
     
-    Open Cdg1.Filename For Append As FileNum
+    Open Cdg1.Filename For Binary As FileNum
     'Print #FileNum, GRP1.GRF & ";" & GRP1.ZG & ";" & GRP1.NG & ";" & GRP1.DefL & ";" & GRP1.DefR & ";" & GRP1.IntL & ";" & GRP1.IntR & ";" & GRP1.Width & ";" & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
-    Print #FileNum, GRP1.GRF & GRP1.ZG & GRP1.NG & GRP1.DefL & GRP1.DefR & GRP1.IntL & GRP1.IntR & GRP1.Width & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
+    'Print #FileNum, GRP1.GRF & GRP1.ZG & GRP1.NG & GRP1.DefL & GRP1.DefR & GRP1.IntL & GRP1.IntR & GRP1.Width & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
+    Put #FileNum, , GRP1
     Close FileNum
     SetAttr Cdg1.Filename, vbReadOnly
     
@@ -2051,23 +2054,23 @@ Private Sub BtnLoadCoefficients_Click()
     FileNum = FreeFile
     Länge = Len(GRP1)
     Open Cdg1.Filename For Random As FileNum Len = Länge
-    Get #FileNum, 1, GRP1
+    Get #FileNum, , GRP1
 
-    ChkRationalFunction.Value = Trim(GRP1.GRF)
-    IsNotRationalFunction = 1 - Int(Trim(GRP1.GRF))
-    TxtDegreeNumerator.Text = Trim(GRP1.ZG)
-    DegNum = Trim(GRP1.ZG)
-    Grad1 = Trim(GRP1.ZG)
-    DegDen = Trim(GRP1.NG)
-    TxtDegreeDenominator.Text = Trim(GRP1.NG)
-    TxtIntvLowerBound.Text = Trim(GRP1.DefL)
-    TxtIntvUpperBound.Text = Trim(GRP1.DefR)
-    Text19.Text = Trim(GRP1.IntL)
-    TxtLineWidth.Text = Trim(GRP1.Width)
-    Text21.Text = Trim(GRP1.IntR)
-    PicColorMain.BackColor = Trim(GRP1.Color)
+    ChkRationalFunction.Value = -CInt(GRP1.GRF)
+    IsNotRationalFunction = Not GRP1.GRF
+    TxtDegreeNumerator.Text = GRP1.ZG
+    DegNum = GRP1.ZG
+    Grad1 = GRP1.ZG
+    DegDen = GRP1.NG
+    TxtDegreeDenominator.Text = GRP1.NG
+    TxtIntvLowerBound.Text = GRP1.DefL
+    TxtIntvUpperBound.Text = GRP1.DefR
+    Text19.Text = GRP1.IntL
+    TxtLineWidth.Text = GRP1.Width
+    Text21.Text = GRP1.IntR
+    PicColorMain.BackColor = GRP1.Color
     
-    ReDim CoefNum(0 To CInt(GRP1.ZG))
+    ReDim CoefNum(0 To GRP1.ZG)
     Dim Fields() As String
     Fields = Split(Mid(Trim(GRP1.ZCoefficients), 2), ";")
     Dim F As Integer
@@ -2075,8 +2078,8 @@ Private Sub BtnLoadCoefficients_Click()
         CoefNum(F) = CDbl(Fields(F))
     Next F
     
-    If GRP1.GRF = 1 Then
-        ReDim CoefDen(0 To CInt(GRP1.NG))
+    If GRP1.GRF Then
+        ReDim CoefDen(0 To GRP1.NG)
         Fields = Split(Mid(Trim(GRP1.NCoefficients), 2), ";")
         For F = 0 To UBound(Fields)
             CoefDen(F) = CDbl(Fields(F))
