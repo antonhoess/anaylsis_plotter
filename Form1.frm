@@ -1990,10 +1990,16 @@ Private Sub BtnExit_Click()
 End Sub
 
 Private Sub BtnSaveCoefficients_Click()
-    ' cdlOFNOverwritePrompt
-    ' cdlOFNPathMustExist
-    '
-    Cdg1.ShowSave
+    Dim FileName As String
+    
+    On Error GoTo ShowSaveError
+    With Cdg1
+        .Flags = .Flags Or cdlOFNOverwritePrompt Or cdlOFNPathMustExist
+        .CancelError = True
+        .ShowSave
+        FileName = .FileName
+    End With
+    On Error GoTo 0
     
     Dim FileNum
     Dim GRP1 As GRP
@@ -2025,17 +2031,18 @@ Private Sub BtnSaveCoefficients_Click()
     GRP1.ZCoefficients = CoefficientsZ
     GRP1.NCoefficients = CoefficientsN
     
-    Open Cdg1.Filename For Binary As FileNum
+    Open FileName For Binary As FileNum
     'Print #FileNum, GRP1.GRF & ";" & GRP1.ZG & ";" & GRP1.NG & ";" & GRP1.DefL & ";" & GRP1.DefR & ";" & GRP1.IntL & ";" & GRP1.IntR & ";" & GRP1.Width & ";" & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
     'Print #FileNum, GRP1.GRF & GRP1.ZG & GRP1.NG & GRP1.DefL & GRP1.DefR & GRP1.IntL & GRP1.IntR & GRP1.Width & GRP1.Color & GRP1.ZCoefficients & GRP1.NCoefficients
     Put #FileNum, , GRP1
     Close FileNum
-    SetAttr Cdg1.Filename, vbReadOnly
     
     GRP1.ZCoefficients = ""
     GRP1.NCoefficients = ""
     CoefficientsZ = ""
     CoefficientsN = ""
+    
+ShowSaveError:
 End Sub
 
 'Private Sub BtnSaveCoefficients_Click()
@@ -2047,13 +2054,21 @@ End Sub
 'End Sub
 
 Private Sub BtnLoadCoefficients_Click()
-    Cdg1.Filter = "Graphen (*.gps)|*.gps"
-    Cdg1.ShowOpen
+    Dim FileName As String
+    
+    On Error GoTo ShowOpenError
+    With Cdg1
+        .Filter = "Graphen (*.gps)|*.gps"
+        .CancelError = True
+        .ShowOpen
+        FileName = .FileName
+    End With
+    On Error GoTo 0
     
     Dim FileNum, Länge, GRP1 As GRP
     FileNum = FreeFile
     Länge = Len(GRP1)
-    Open Cdg1.Filename For Random As FileNum Len = Länge
+    Open FileName For Random As FileNum Len = Länge
     Get #FileNum, , GRP1
 
     ChkRationalFunction.Value = -CInt(GRP1.GRF)
@@ -2088,6 +2103,8 @@ Private Sub BtnLoadCoefficients_Click()
    
     Close FileNum
     FrmMainMenu.Enabled = True
+    
+ShowOpenError:
 End Sub
 
 Private Sub BtnOffsetCoordSystem_Click()
