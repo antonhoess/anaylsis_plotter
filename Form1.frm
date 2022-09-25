@@ -1262,7 +1262,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, DegAsymptote As Integer, A1, A2, WXK As Boolean, Element
+Dim X, Y, X1, Y1, Y2, X2, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY, GradDiff, DragX, DragY, DegAsymptote As Integer, Element
+Dim WXK As Boolean 'Wiederholte X-Koordinate
 Dim CoefAsymptote() As Double
 Dim CoefIncr As Boolean
 
@@ -1320,13 +1321,13 @@ Private Sub ChkRationalFunction_Click()
     GRF = ChkRationalFunction.Value
     
     If ChkRationalFunction.Value = 1 Then
-        IsNotRationalFunction = False
+        IsRationalFunction = True
         OptDenominator.Enabled = True
         Label21.Enabled = True
         TxtDegreeDenominator.Enabled = True
         BtnAsymptote.Enabled = True
     Else
-        IsNotRationalFunction = True
+        IsRationalFunction = False
         OptDenominator.Enabled = False
         OptNumerator.Value = True
         Label21.Enabled = False
@@ -1347,13 +1348,11 @@ Private Sub GridSpacing()
 End Sub
 
 Private Sub BtnHide_Click()
-    MENX = FrmControl.Left
-    MENY = FrmControl.Top
     FrmControl.Visible = False
 End Sub
 
 Private Sub BtnCalcCodomain_Click()
-    If IsNotRationalFunction = True Then
+    If Not IsRationalFunction Then
         TxtCodomainLowerBound.Text = GetFuncvalByXvalFromNonFractionalFunction(TxtIntvLowerBound.Text, CoefNum)
         TxtCodomainUpperBound.Text = GetFuncvalByXvalFromNonFractionalFunction(TxtIntvUpperBound.Text, CoefNum)
     Else
@@ -1372,7 +1371,7 @@ Private Sub BtnCalcFuncValue_Click()
 
     Value = GetFuncvalByXvalFromNonFractionalFunction(CDbl(TxtCalcFuncValueX.Text), CoefNum)
     
-    If IsNotRationalFunction = False Then
+    If IsRationalFunction Then
         Value = Value / GetFuncvalByXvalFromNonFractionalFunction(CDbl(TxtCalcFuncValueX.Text), CoefDen)
     End If
     
@@ -1399,7 +1398,7 @@ Private Sub BtnCoefDecr_MouseUp(Button As Integer, Shift As Integer, X As Single
 End Sub
 
 Private Sub BtnAsymptote_Click()
-    If IsNotRationalFunction = False Then
+    If IsRationalFunction Then
         Dim AllDenCoefsAreZero As Boolean
         Dim DegCur As Integer
         
@@ -1468,14 +1467,14 @@ Private Sub BtnHornerSchema_Click()
     DegDen = TxtDegreeDenominator.Text
     'Call HornerSchema
     
-    If IsNotRationalFunction = True Then
+    If Not IsRationalFunction Then
         Newton CoefNum, DegNum, True
     Else
         Newton CoefNum, DegNum, True
         Newton CoefDen, DegDen, False
     End If
 
-    If IsNotRationalFunction = False Then
+    If IsRationalFunction Then
         '''''If Matrix2(0) < 0 Then
         '''''Text17.Text = "Y= -"
         '''''Else
@@ -1654,7 +1653,8 @@ End Sub
 
 
 Private Sub BtnDifferentiate_Click()
-    If IsNotRationalFunction = True Then
+    Dim I As Integer, K As Integer
+    If Not IsRationalFunction Then
         ' Differentiate
         If DegNum > 0 Then
             For I = 1 To DegNum
@@ -1662,18 +1662,68 @@ Private Sub BtnDifferentiate_Click()
             Next I
             DegNum = DegNum - 1
             ReDim Preserve CoefNum(0 To DegNum)
+            TxtDegreeNumerator.Text = DegNum
         Else
             MsgBox "Funktion kann nicht mehr weiter differenziert werden."
         End If
     Else
-        ' Just draw the differentiated graph
-        Call Graph2 'XXX Wieso hier was zeichnen? Was wird da genau gezeichnet? Wieso kann ich nicht Zähler und Nenner ableiten? -> Ableitung it Quotientenregel: http://www.netalive.org/rationale-funktionen/chapters/3.5.html
+        ' Quotient rule, see http://www.netalive.org/rationale-funktionen/chapters/3.5.html
+        ' f(x) = g(x) / h(x)
+        ' f'(x) = (h(x)*g'(x) - g(x)*h'(x)) / [h(x)]^2
+        Dim CoefNumDiff() As Double
+        Dim CoefDenDiff() As Double
+        ReDim CoefNumDiff(0 To DegNum - 1)
+        ReDim CoefDenDiff(0 To DegDen - 1)
+        
+        ' Differentiate numerator and denominator polynomes
+        For I = 1 To DegNum
+            CoefNumDiff(I - 1) = CoefNum(I) * I
+        Next I
+        
+        For I = 1 To DegDen
+            CoefDenDiff(I - 1) = CoefDen(I) * I
+        Next I
+        
+        ' Calculate numerator-part of differentiated function
+        Dim CoefResNum() As Double
+        Dim CoefResDen() As Double
+        ReDim CoefResNum(0 To DegNum + DegDen - 1)
+        ReDim CoefResDen(0 To DegDen * 2)
+        
+        ' Numerator-part
+        ' h(x) * g'(x)
+        For I = 0 To DegDen
+            For K = 0 To DegNum - 1
+                CoefResNum(I + K) = CoefResNum(I + K) + CoefDen(I) * CoefNumDiff(K)
+            Next K
+        Next I
+        
+        ' g(x) * h'(x)
+        For I = 0 To DegNum
+            For K = 0 To DegDen - 1
+                CoefResNum(I + K) = CoefResNum(I + K) - CoefNum(I) * CoefDenDiff(K)
+            Next K
+        Next I
+        
+        ' Denominator-part
+        For I = 0 To DegDen
+            For K = 0 To DegDen
+                CoefResDen(I + K) = CoefResDen(I + K) + CoefDen(I) * CoefDen(K)
+            Next K
+        Next I
+    
+        ReDim CoefNum(0 To DegNum * 2)
+        ReDim CoefDen(0 To DegDen * 2 + 1)
+        
+        CoefNum = CoefResNum
+        CoefDen = CoefResDen
     End If
 End Sub
 
 
 Private Sub BtnIntegrate_Click()
-    If IsNotRationalFunction = True Then
+    If Not IsRationalFunction Then
+        Dim I As Integer
         ' Integrate
         ReDim Preserve CoefNum(0 To DegNum + 1)
         For I = DegNum To 0 Step -1
@@ -1689,10 +1739,11 @@ End Sub
 
 
 Private Sub BtnHornerSchemaShow_Click()
+    Dim I As Integer
     ' *** Das ganze '0.0001' kann wahrscheinlich weggelassen werden, da Definitionslücken ja jetzt übersprungen werden
     FrmMain.DrawWidth = 3
     
-    If IsNotRationalFunction = False Then
+    If IsRationalFunction Then
         For I = 0 To List7.ListCount - 1
             If List7.List(I) <> "" Then
                 DegNum = TxtDegreeNumerator.Text
@@ -1772,7 +1823,8 @@ Private Sub BtnHornerSchemaShow_Click()
 End Sub
 
 Private Sub BtnCalcIntegral_Click()
-    If IsNotRationalFunction = True Then  ' Integration gebrochen rationaler Funktionen ist viel komplizierter. Siehe z.B.: https://www.youtube.com/watch?v=AOaRHMoYaRw
+    If Not IsRationalFunction Then  ' Integration gebrochen rationaler Funktionen ist viel komplizierter. Siehe z.B.: https://www.youtube.com/watch?v=AOaRHMoYaRw
+        Dim I As Integer
         Dim IntLowerBound As Double, IntUpperBound As Double
         IntLowerBound = CDbl(TxtIntLowerBound.Text)
         IntUpperBound = CDbl(TxtIntUpperBound.Text)
@@ -1824,6 +1876,7 @@ Private Sub BtnCalcIntegral_Click()
 End Sub
 
 Private Sub BtnExtremum_Click()
+    Dim I As Integer
     ReDim ZAbl1(0 To DegNum - 1)
     For I = 1 To UBound(CoefNum)
         ZAbl1(I - 1) = CoefNum(I) * I
@@ -1913,10 +1966,11 @@ Private Sub ScalePlot()
 End Sub
 
 Private Sub BtnExit_Click()
-    End
+    If MsgBox("Sind Sie sicher, dass Sie das Programm beenden möchten?", vbQuestion + vbYesNo + vbDefaultButton2, "Programm beenden") = vbYes Then End
 End Sub
 
 Private Sub BtnSaveCoefficients_Click()
+    Dim I As Integer
     Dim Filename As String
     
     On Error GoTo ShowSaveError
@@ -1950,7 +2004,7 @@ Private Sub BtnSaveCoefficients_Click()
     For I = 0 To TxtDegreeNumerator.Text
         CoefficientsZ = CoefficientsZ & ";" & Str(CoefNum(I))
     Next I
-    If IsNotRationalFunction = False Then
+    If IsRationalFunction Then
         For I = 0 To TxtDegreeDenominator.Text
             CoefficientsN = CoefficientsN & ";" & Str(CoefDen(I))
         Next I
@@ -1999,7 +2053,7 @@ Private Sub BtnLoadCoefficients_Click()
     Get #FileNum, , GRP1
 
     ChkRationalFunction.Value = -CInt(GRP1.GRF)
-    IsNotRationalFunction = Not GRP1.GRF
+    IsRationalFunction = GRP1.GRF
     TxtDegreeNumerator.Text = GRP1.ZG
     DegNum = GRP1.ZG
     DegNum = GRP1.ZG
@@ -2147,7 +2201,7 @@ Private Sub Form_Click()
 'CoefNum(I - 1) = M(Dimension + 1, I)
 'Next I
 '
-'IsNotRationalFunction = True ' *** Für definitionslückenüberprüfung
+'IsRationalFunction = False ' *** Für definitionslückenüberprüfung
 'FrmMain.Cls
 'Call Raster
 'Call Koordinaten
@@ -2190,7 +2244,7 @@ Private Sub Form_Load()
         Get #FileNum, 1, GRP1
     
         ChkRationalFunction.Value = Trim(GRP1.GRF)
-        IsNotRationalFunction = 1 - Int(Trim(GRP1.GRF))
+        IsRationalFunction = Int(Trim(GRP1.GRF))
         TxtDegreeNumerator.Text = Trim(GRP1.ZG)
         DegNum = Trim(GRP1.ZG)
         DegNum = Trim(GRP1.ZG)
@@ -2227,7 +2281,7 @@ Private Sub Form_Load()
         DegDen = 0
         ReDim CoefNum(0 To DegNum)
         ReDim CoefDen(0 To DegDen)
-        IsNotRationalFunction = True
+        IsRationalFunction = False
     End If
     
     FrmColor.Tag = FrmColor.Width
@@ -2244,7 +2298,7 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y A
     W = X - FrmMain.ScaleWidth / 2 + KSX
 
     If B = True Then
-        If IsNotRationalFunction = False Then
+        If IsRationalFunction Then
             DegNum = TxtDegreeNumerator.Text
             For G = 0 To DegNum
                 aY = aY + CoefNum(G) * W ^ G
@@ -2256,7 +2310,7 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y A
             Next G
             aY = aY / aY2
         Else
-            'If IsNotRationalFunction = True Then
+            'If Not IsRationalFunction Then
             DegNum = TxtDegreeNumerator.Text
             For G = 0 To DegNum
                 aY = aY + CoefNum(G) * W ^ G
@@ -2281,6 +2335,7 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y A
 End Sub
 
 Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Dim I As Integer
     If Button = vbRightButton Then
         If FrmControl.Visible = False Then 'XXX
             FrmControl.Visible = True
@@ -2289,7 +2344,7 @@ Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As 
 
     If Button = vbLeftButton Then
         If Check7.Value = 1 Then
-            WXK = False 'Wiederholte X-Koordinate
+            WXK = False
             'I = 0
             For I = 0 To UBound(C1) - LBound(C1)
                 If LblMouseCoordsX.Caption = C1(I) Then WXK = True
@@ -2403,7 +2458,7 @@ Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As 
                     CoefNum(I - 1) = M(Dimension + 1, I)
                 Next I
                 
-                IsNotRationalFunction = True ' *** Für definitionslückenüberprüfung
+                IsRationalFunction = False ' *** Für definitionslückenüberprüfung
                 Draw
             End If
         End If
@@ -2457,6 +2512,7 @@ Private Sub OptDenominator_Click()
 End Sub
 
 Private Sub PicColorPalette_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Dim I As Integer
     For I = 0 To PicColorPalette.Count - 1
         PicColorPalette(I).BorderStyle = 0
     Next I
@@ -2473,6 +2529,7 @@ Private Sub PicColorMain_MouseDown(Button As Integer, Shift As Integer, X As Sin
 End Sub
 
 Private Sub LblColorSelCustom_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Dim I As Integer
     Cdg1.ShowColor
     PicColorMain.BackColor = Cdg1.Color
     FrmColor.Width = FrmColor.Tag
@@ -2681,6 +2738,7 @@ End Sub
 
 Private Function Koordinaten()
     If ChkAxisLabels.Value = 1 Then
+        Dim I As Integer
         FrmMain.ForeColor = RGB(0, 100, 0)
       
         For I = -Int(FrmMain.ScaleWidth / 2 - KSX) To Int(FrmMain.ScaleWidth / 2 + KSX)
@@ -2701,6 +2759,7 @@ End Function
 
 Private Function Raster()
     If ChkGrid.Value = 1 Then
+        Dim I As Integer
         FrmMain.DrawWidth = 1
         FrmMain.DrawStyle = 2
         FrmMain.ForeColor = RGB(255, 0, 0)
@@ -2746,6 +2805,7 @@ End Function
 
 
 Private Function Graph()
+    Dim I As Double
     Dim DenValue As Double ' Denominator value
     Dim DrawWidthOri As Integer
     DrawWidthOri = FrmMain.DrawWidth
@@ -2756,7 +2816,7 @@ Private Function Graph()
     
     For X1 = 1 + KSX * STPX / FrmMain.ScaleWidth To STPX + KSX * STPX / FrmMain.ScaleWidth
         ' Überprüfung auf Definitionslücke: wenn Nenner gleich 0 ist, wäre es Division durch 0 und daher eine Definitionslücke
-        If IsNotRationalFunction = False Then
+        If IsRationalFunction Then
             V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
             DenValue = GetFuncvalByXvalFromNonFractionalFunction(V, CoefDen)
         Else
@@ -2769,7 +2829,7 @@ Private Function Graph()
             I = X1 / STPX * FrmMain.ScaleWidth
             Y1 = GetFuncvalByXvalFromNonFractionalFunction(V, CoefNum)
             
-            If IsNotRationalFunction = False Then
+            If IsRationalFunction Then
                 Y2 = GetFuncvalByXvalFromNonFractionalFunction(V, CoefDen)
                 
                 Y1 = Y1 / Y2
@@ -3172,83 +3232,8 @@ Private Sub TmrMouseCoordinates_Timer()
 End Sub
 
 
-Private Function Graph2()
-    Dim C() As Double
-    X = -100
-    FrmMain.DrawWidth = TxtLineWidth.Text ' mit Screen-Faktoren multiplizieren!
-    FrmMain.ForeColor = PicColorMain.BackColor
-    For X1 = 1 + KSX * STPX / FrmMain.ScaleWidth To STPX + KSX * STPX / FrmMain.ScaleWidth '
-        V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
-        'V = X1 / STPX * FrmMain.ScaleWidth
-        E = X1 / STPX * FrmMain.ScaleWidth
-        
-        DegNum = TxtDegreeNumerator.Text
-        DegDen = TxtDegreeDenominator.Text
-        
-        ReDim C(DegNum - DIFFNR)
-        For G = 1 To DegNum - DIFFNR '+1
-            C(G - 1) = CoefNum(G) * G
-        Next G
-        
-        For G = 0 To DegNum - 1 - DIFFNR
-            DiffNA = DiffNA + C(G) * V ^ G
-        Next G
-        For I = 0 To DegNum - DIFFNR
-            C(DegNum - DIFFNR) = 0
-        Next I
-        
-        ReDim C(DegDen)
-        For G = 1 To DegDen - DIFFNR '+1
-            C(G - 1) = CoefDen(G) * G
-        Next G
-        
-        For G = 0 To DegDen - 1 - DIFFNR
-            DiffZA = DiffZA + C(G) * V ^ G
-        Next G
-        For I = 0 To DegDen - DIFFNR
-            C(DegDen - DIFFNR) = 0
-        Next I
-        
-        For G = 0 To DegNum - DIFFNR
-            DiffN = DiffN + CoefNum(G) * V ^ G
-        Next G
-        
-        For G = 0 To DegDen - DIFFNR
-            DiffZ = DiffZ + CoefDen(G) * V ^ G
-        Next G
-        
-        Y1 = (DiffNA * DiffZ - DiffN * DiffZA) / (DiffZ ^ 2)
-        
-        Y1 = FrmMain.ScaleHeight / 2 - Y1
-        
-        If Y < FrmMain.ScaleHeight + KSY + 100 Then ' +1
-            If Y > -FrmMain.ScaleHeight / 2 + KSY + 1 Then
-                If FrmMain.ScaleWidth / 2 + TxtIntvLowerBound.Text < I Then
-                    If FrmMain.ScaleWidth / 2 + TxtIntvUpperBound.Text > I Then
-                        FrmMain.Line (X - KSX, Y - KSY)-(E - KSX, Y1 - KSY)
-                    End If
-                End If
-            End If
-        End If
-        
-        Y = Y1
-        X = (X1 - 0) / STPX * FrmMain.ScaleWidth
-        'X = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
-        Y1 = 0
-        Y2 = 0
-        DiffN = 0
-        DiffNA = 0
-        DiffZ = 0
-        DiffZA = 0
-    Next X1
-    
-    FrmMain.DrawWidth = 1
-    
-    DIFFNR = DIFFNR + 1
-End Function
-
-
 Private Function Graph3()
+    Dim I As Integer
     X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text ' mit Screen-Faktoren multiplizieren!
     FrmMain.ForeColor = PicColorMain.BackColor

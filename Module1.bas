@@ -1,7 +1,5 @@
 Attribute VB_Name = "Module1"
-Public CoefNum() As Double, CoefDen() As Double, DegNum As Integer, DegDen As Integer, GRF As Boolean, IsNotRationalFunction As Boolean, Dimension, Factor, C1(), D1(), U, S, M(), O()
-' XXX
-' IsNotRationalFunction = Inficates if currently a rational function is defined
+Public CoefNum() As Double, CoefDen() As Double, DegNum As Integer, DegDen As Integer, GRF As Boolean, IsRationalFunction As Boolean, Dimension, Factor, C1(), D1(), U, S, M(), O()
 
 Public Type GRP
     GRF As Boolean ' Gebrochen Rationale Funktion

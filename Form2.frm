@@ -116,7 +116,7 @@ Private Sub LoadCoefficients()
     End If
 
     ' Update label with degree information
-    If IsNotRationalFunction = True Then
+    If Not IsRationalFunction Then
         LblEntryInfo.Caption = "Geben Sie den Koeffizienten für den " & DegCur & "-ten Grad ein!"
     Else
         If NumeratorActive Then
@@ -142,7 +142,7 @@ Private Sub NextCoef()
     End If
     
     ' Switch to next degree, switch from numerator to denominator (is function is rational) and end value entry when entered last value
-    If IsNotRationalFunction Then
+    If Not IsRationalFunction Then
         If DegCur < DegNum Then
             DegCur = DegCur + 1
         Else
@@ -187,7 +187,7 @@ Private Sub PrevCoef()
     End If
     
     ' Switch to previous degree, switch from denominator to numerator (is function is rational) and show message when arrived at the beginning
-    If IsNotRationalFunction Then
+    If Not IsRationalFunction Then
         If DegCur > 0 Then
             DegCur = DegCur - 1
         Else

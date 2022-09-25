@@ -2,10 +2,11 @@ Attribute VB_Name = "Module2"
 Public N, R, E, F, X, Matrix() As Single, Matrix2() As Single, Matrix3() As Single, Horner1(), Horner2(), Ergebnis, Factor1, Factor2
 
 Public Function HornerSchema()
+    Dim I As Integer
     Grad1 = Form1.Text1.Text
     DegDen = Form1.Text14.Text
     
-    If IsNotRationalFunction = False Then
+    If IsRationalFunction = False Then
     
         If Grad1 > 0 Then
             ReDim Horner1(1 To Grad1)
