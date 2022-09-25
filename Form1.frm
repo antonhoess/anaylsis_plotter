@@ -1262,9 +1262,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim X, Y, X1, Y1, Y2, X2, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY, GradDiff, DragX, DragY, DegAsymptote As Integer, Element
+Dim X, Y, X1, Y1, Y2, X2, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY, DragX, DragY, Element
 Dim WXK As Boolean 'Wiederholte X-Koordinate
-Dim CoefAsymptote() As Double
 Dim CoefIncr As Boolean
 
 Dim aX, aY, aY2, dx, dy
@@ -1401,6 +1400,8 @@ Private Sub BtnAsymptote_Click()
     If IsRationalFunction Then
         Dim AllDenCoefsAreZero As Boolean
         Dim DegCur As Integer
+        Dim DegAsymptote As Integer
+        Dim CoefAsymptote() As Double
         
         ' Check if all denominator coefficients are zero and exit sub if so
         ' Not sure if logic is correct
@@ -1455,7 +1456,7 @@ Private Sub BtnAsymptote_Click()
             End With
             
             ' Draw the graph
-            Call Graph3
+            Call GraphInternal(Func)
         End If
     End If
 End Sub
@@ -2803,10 +2804,9 @@ Private Function GetFuncvalByXvalFromNonFractionalFunction(ByVal X As Double, By
     GetFuncvalByXvalFromNonFractionalFunction = Value
 End Function
 
-
-Private Function Graph()
+Private Function GraphInternal(ByRef Func As RationalFunction)
     Dim I As Double
-    Dim DenValue As Double ' Denominator value
+    Dim DivByZero As Boolean
     Dim DrawWidthOri As Integer
     DrawWidthOri = FrmMain.DrawWidth
     
@@ -2816,22 +2816,19 @@ Private Function Graph()
     
     For X1 = 1 + KSX * STPX / FrmMain.ScaleWidth To STPX + KSX * STPX / FrmMain.ScaleWidth
         ' Überprüfung auf Definitionslücke: wenn Nenner gleich 0 ist, wäre es Division durch 0 und daher eine Definitionslücke
-        If IsRationalFunction Then
+        If Func.IsRational Then
             V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
-            DenValue = GetFuncvalByXvalFromNonFractionalFunction(V, CoefDen)
-        Else
-            DenValue = 1 ' Neutral element of division
+            If GetFuncvalByXvalFromNonFractionalFunction(V, Func.CoefDen) = 0 Then DivByZero = True
         End If
         
         ' Only draw at the current X-position if there is no definition gap
-        If DenValue <> 0 Then
+        If Not DivByZero Then
             V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
             I = X1 / STPX * FrmMain.ScaleWidth
-            Y1 = GetFuncvalByXvalFromNonFractionalFunction(V, CoefNum)
+            Y1 = GetFuncvalByXvalFromNonFractionalFunction(V, Func.CoefNum)
             
-            If IsRationalFunction Then
-                Y2 = GetFuncvalByXvalFromNonFractionalFunction(V, CoefDen)
-                
+            If Func.IsRational Then
+                Y2 = GetFuncvalByXvalFromNonFractionalFunction(V, Func.CoefDen)
                 Y1 = Y1 / Y2
             End If
             
@@ -2853,6 +2850,21 @@ Private Function Graph()
     Next X1
     
     FrmMain.DrawWidth = DrawWidthOri
+End Function
+
+Private Function Graph()
+    Dim FuncBase As RationalFunction
+    With FuncBase
+        .IsRational = IsRationalFunction
+        .DegNum = DegNum
+        .DegDen = DegDen
+        ReDim .CoefNum(0 To DegNum)
+        .CoefNum = CoefNum
+        ReDim .CoefDen(0 To DegDen)
+        .CoefDen = CoefDen
+    End With
+    
+    Call GraphInternal(FuncBase)
 End Function
 
 
@@ -3230,40 +3242,3 @@ Private Sub TmrMouseCoordinates_Timer()
     LblMouseCoordsX.Caption = Int((X - FrmMain.ScaleWidth / 2 + KSX) * 100) / 100
     LblMouseCoordsY.Caption = -Int((Y - FrmMain.ScaleHeight / 2 + KSY) * 100) / 100
 End Sub
-
-
-Private Function Graph3()
-    Dim I As Integer
-    X = -100
-    FrmMain.DrawWidth = TxtLineWidth.Text ' mit Screen-Faktoren multiplizieren!
-    FrmMain.ForeColor = PicColorMain.BackColor
-    
-    For X1 = 1 + KSX * STPX / FrmMain.ScaleWidth To STPX + KSX * STPX / FrmMain.ScaleWidth
-        V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
-        
-        I = X1 / STPX * FrmMain.ScaleWidth
-        
-        For G = 0 To DegAsymptote
-            Y1 = Y1 + CoefAsymptote(G) * V ^ G
-        Next G
-        
-        Y1 = FrmMain.ScaleHeight / 2 - Y1
-        
-        If Y < FrmMain.ScaleHeight + KSY + 100 Then ' +1
-            If Y > -FrmMain.ScaleHeight / 2 + KSY + 1 Then
-                If FrmMain.ScaleWidth / 2 + TxtIntvLowerBound.Text < I Then
-                    If FrmMain.ScaleWidth / 2 + TxtIntvUpperBound.Text > I Then
-                        FrmMain.Line (X - KSX, Y - KSY)-(I - KSX, Y1 - KSY)
-                    End If
-                End If
-            End If
-        End If
-        
-        Y = Y1
-        X = (X1 - 0) / STPX * FrmMain.ScaleWidth
-        Y1 = 0
-        Y2 = 0
-    Next X1
-    
-    FrmMain.DrawWidth = 1
-End Function
