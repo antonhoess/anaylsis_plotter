@@ -12,6 +12,4 @@ ToDo
 
 Bugs
 ====
-* Wenn ich noch keine Koeffizienten bzw. Grade gesetzt habe und schon Parameter für Grad 0 setzen möchte, dann stürzt das Programm ab. Dieser darf standardmäßig vllt. garnicht aktiv / erlaubt sein.
-* Wenn Koeffizienten gespeichert und wieder geladen werden, kommt ein anderer Graph heraus.
-* CoefDen wird immer viel zu groß dimensioniert.
+* Wenn ich z.B. ein Polynom 7-ten Grades habe und nur für diesen 7-ten Grad einen Koeffizienten von z.B. 1 eingebe, stürzt das Programm in Graph ab.

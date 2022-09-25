@@ -19,469 +19,51 @@ Begin VB.Form FrmMain
    ScaleWidth      =   9.021
    StartUpPosition =   3  'Windows Default
    Begin VB.Timer TmrMouseCoordinates 
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer Timer2 
-      Left            =   360
-      Top             =   0
-   End
-   Begin VB.Timer Timer1 
       Left            =   0
+      Top             =   0
+   End
+   Begin VB.Timer TmrCoefIncrDecr 
+      Left            =   360
       Top             =   0
    End
    Begin VB.PictureBox FrmControl 
       BackColor       =   &H0080C0FF&
       BorderStyle     =   0  'None
       Height          =   8415
-      Left            =   600
+      Left            =   120
       ScaleHeight     =   561
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   777
       TabIndex        =   0
-      Top             =   2280
+      Top             =   840
       Width           =   11655
-      Begin VB.ListBox List16 
-         Height          =   2400
-         Left            =   10680
-         TabIndex        =   122
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List15 
-         Height          =   2400
-         Left            =   10080
-         TabIndex        =   121
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List14 
-         Height          =   2400
-         Left            =   9480
-         TabIndex        =   120
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List13 
-         Height          =   2400
-         Left            =   8880
-         TabIndex        =   119
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List8 
-         Height          =   2400
-         Left            =   8280
-         TabIndex        =   118
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List6 
-         Height          =   2400
-         Left            =   7680
-         TabIndex        =   117
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List5 
-         Height          =   2400
-         Left            =   7080
-         TabIndex        =   116
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List4 
-         Height          =   2400
-         Left            =   6480
-         TabIndex        =   115
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List3 
-         Height          =   2400
-         Left            =   5880
-         TabIndex        =   114
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List2 
-         Height          =   2400
-         Left            =   5280
-         TabIndex        =   113
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.Frame FrmCalcFuncValue 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "Funktionswert"
-         Height          =   1095
-         Left            =   2040
-         TabIndex        =   107
-         Top             =   5880
-         Width           =   2175
-         Begin VB.TextBox TxtCalcFuncValueY 
-            Enabled         =   0   'False
-            Height          =   285
-            Left            =   1140
-            Locked          =   -1  'True
-            TabIndex        =   112
-            Top             =   720
-            Width           =   615
-         End
-         Begin VB.TextBox TxtCalcFuncValueX 
-            Height          =   285
-            Left            =   360
-            TabIndex        =   110
-            Top             =   720
-            Width           =   495
-         End
-         Begin VB.CommandButton BtnCalcFuncValue 
-            BackColor       =   &H0080C0FF&
-            Caption         =   "Funktionswert errechnen"
-            Height          =   375
-            Left            =   120
-            Style           =   1  'Graphical
-            TabIndex        =   108
-            Top             =   240
-            Width           =   1935
-         End
-         Begin VB.Label Label5 
-            BackStyle       =   0  'Transparent
-            Caption         =   ") ="
-            Height          =   255
-            Left            =   900
-            TabIndex        =   111
-            Top             =   720
-            Width           =   255
-         End
-         Begin VB.Label Label22 
-            BackStyle       =   0  'Transparent
-            Caption         =   "f ("
-            Height          =   255
-            Left            =   180
-            TabIndex        =   109
-            Top             =   720
-            Width           =   255
-         End
-      End
-      Begin VB.Frame FrmPlotSettings 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "Plot-Settings"
-         Height          =   1455
-         Left            =   2040
-         TabIndex        =   102
-         Top             =   4320
-         Width           =   2175
-         Begin VB.CheckBox ChkAlwaysInForeground 
-            BackColor       =   &H0080C0FF&
-            Caption         =   "Immer im Vordergrund"
-            Height          =   255
-            Left            =   120
-            TabIndex        =   106
-            Top             =   1080
-            Width           =   1935
-         End
-         Begin VB.CheckBox ChkAxisLabels 
-            BackColor       =   &H0080C0FF&
-            Caption         =   "Koordinaten"
-            Height          =   255
-            Left            =   120
-            TabIndex        =   105
-            Top             =   840
-            Value           =   1  'Checked
-            Width           =   1455
-         End
-         Begin VB.CheckBox ChkAxes 
-            BackColor       =   &H0080C0FF&
-            Caption         =   "Achsenkreuz"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   104
-            Top             =   600
-            Value           =   1  'Checked
-            Width           =   1335
-         End
-         Begin VB.CheckBox ChkGrid 
-            BackColor       =   &H0080C0FF&
-            Caption         =   "Raster"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   103
-            Top             =   360
-            Value           =   1  'Checked
-            Width           =   855
-         End
-      End
-      Begin VB.Frame FmCalcIntegral 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "Integral"
-         Height          =   1935
-         Left            =   9600
-         TabIndex        =   91
-         Top             =   360
-         Width           =   1935
-         Begin VB.TextBox TxtIntAbs 
-            Height          =   375
-            Left            =   1100
-            TabIndex        =   100
-            Top             =   1440
-            Width           =   735
-         End
-         Begin VB.TextBox TxtIntSum 
-            Height          =   375
-            Left            =   120
-            TabIndex        =   98
-            Top             =   1440
-            Width           =   735
-         End
-         Begin VB.TextBox TxtIntUpperBound 
-            Height          =   285
-            Left            =   1200
-            TabIndex        =   96
-            Text            =   "0"
-            Top             =   720
-            Width           =   615
-         End
-         Begin VB.TextBox TxtIntLowerBound 
-            Height          =   285
-            Left            =   1200
-            TabIndex        =   94
-            Text            =   "0"
-            Top             =   360
-            Width           =   615
-         End
-         Begin VB.CommandButton BtnCalcIntegral 
-            BackColor       =   &H0080C0FF&
-            Caption         =   "Integral errechnen"
-            Height          =   855
-            Left            =   120
-            Style           =   1  'Graphical
-            TabIndex        =   92
-            Top             =   240
-            Width           =   855
-         End
-         Begin VB.Label Label32 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Betrag"
-            Height          =   195
-            Left            =   1080
-            TabIndex        =   99
-            Top             =   1200
-            Width           =   465
-         End
-         Begin VB.Label Label31 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Summe"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   97
-            Top             =   1200
-            Width           =   525
-         End
-         Begin VB.Label Label26 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "b"
-            Height          =   195
-            Left            =   1080
-            TabIndex        =   95
-            Top             =   720
-            Width           =   90
-         End
-         Begin VB.Label Label25 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "a"
-            Height          =   195
-            Left            =   1080
-            TabIndex        =   93
-            Top             =   375
-            Width           =   90
-         End
-      End
-      Begin VB.CheckBox ChkGridSpacingLock 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "Lock"
-         Height          =   375
-         Left            =   2160
-         TabIndex        =   90
-         Top             =   2040
-         Width           =   1335
-      End
       Begin VB.Frame FrmColor 
          BackColor       =   &H0080C0FF&
          Caption         =   "Color"
          Height          =   1095
          Left            =   600
-         TabIndex        =   74
+         TabIndex        =   107
          Top             =   5280
          Width           =   675
-         Begin VB.PictureBox PicColorMain 
-            BackColor       =   &H00FF0000&
-            Height          =   778
-            Left            =   80
-            ScaleHeight     =   0.5
-            ScaleLeft       =   1
-            ScaleMode       =   0  'User
-            ScaleWidth      =   0.344
-            TabIndex        =   89
-            TabStop         =   0   'False
-            Top             =   240
-            Width           =   550
-         End
          Begin VB.PictureBox PicColorSelArea 
             Height          =   778
             Left            =   670
             ScaleHeight     =   48
             ScaleMode       =   3  'Pixel
             ScaleWidth      =   96
-            TabIndex        =   75
+            TabIndex        =   109
             Top             =   240
             Width           =   1500
             Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H00FF0000&
+               BackColor       =   &H00404040&
                BorderStyle     =   0  'None
                Height          =   240
-               Index           =   1
-               Left            =   240
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   87
-               TabStop         =   0   'False
-               Top             =   0
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H000000FF&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   0
-               Left            =   0
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   86
-               TabStop         =   0   'False
-               Top             =   0
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H0080FFFF&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   2
-               Left            =   480
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   85
-               TabStop         =   0   'False
-               Top             =   0
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H0000FF00&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   3
+               Index           =   9
                Left            =   720
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   84
-               TabStop         =   0   'False
-               Top             =   0
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H00C000C0&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   4
-               Left            =   960
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   83
-               TabStop         =   0   'False
-               Top             =   0
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H00000000&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   5
-               Left            =   1200
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   82
-               TabStop         =   0   'False
-               Top             =   0
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H00FF8080&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   6
-               Left            =   0
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   81
-               TabStop         =   0   'False
-               Top             =   240
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H000080FF&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   7
-               Left            =   240
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   80
-               TabStop         =   0   'False
-               Top             =   240
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H00C0C0FF&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   8
-               Left            =   480
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   79
-               TabStop         =   0   'False
-               Top             =   240
-               Width           =   240
-            End
-            Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H00004080&
-               BorderStyle     =   0  'None
-               Height          =   240
-               Index           =   10
-               Left            =   960
-               ScaleHeight     =   16
-               ScaleMode       =   3  'Pixel
-               ScaleWidth      =   16
-               TabIndex        =   78
+               TabIndex        =   121
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -495,23 +77,149 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   77
+               TabIndex        =   120
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
             End
             Begin VB.PictureBox PicColorPalette 
-               BackColor       =   &H00404040&
+               BackColor       =   &H00004080&
                BorderStyle     =   0  'None
                Height          =   240
-               Index           =   9
+               Index           =   10
+               Left            =   960
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   119
+               TabStop         =   0   'False
+               Top             =   240
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H00C0C0FF&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   8
+               Left            =   480
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   118
+               TabStop         =   0   'False
+               Top             =   240
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H000080FF&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   7
+               Left            =   240
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   117
+               TabStop         =   0   'False
+               Top             =   240
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H00FF8080&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   6
+               Left            =   0
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   116
+               TabStop         =   0   'False
+               Top             =   240
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H00000000&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   5
+               Left            =   1200
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   115
+               TabStop         =   0   'False
+               Top             =   0
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H00C000C0&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   4
+               Left            =   960
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   114
+               TabStop         =   0   'False
+               Top             =   0
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H0000FF00&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   3
                Left            =   720
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   76
+               TabIndex        =   113
                TabStop         =   0   'False
-               Top             =   240
+               Top             =   0
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H0080FFFF&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   2
+               Left            =   480
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   112
+               TabStop         =   0   'False
+               Top             =   0
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H000000FF&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   0
+               Left            =   0
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   111
+               TabStop         =   0   'False
+               Top             =   0
+               Width           =   240
+            End
+            Begin VB.PictureBox PicColorPalette 
+               BackColor       =   &H00FF0000&
+               BorderStyle     =   0  'None
+               Height          =   240
+               Index           =   1
+               Left            =   240
+               ScaleHeight     =   16
+               ScaleMode       =   3  'Pixel
+               ScaleWidth      =   16
+               TabIndex        =   110
+               TabStop         =   0   'False
+               Top             =   0
                Width           =   240
             End
             Begin VB.Label LblColorSelCustom 
@@ -521,13 +229,301 @@ Begin VB.Form FrmMain
                Caption         =   "SELECT  "
                Height          =   240
                Left            =   0
-               TabIndex        =   88
+               TabIndex        =   122
                Top             =   480
                Width           =   1440
             End
          End
+         Begin VB.PictureBox PicColorMain 
+            BackColor       =   &H00FF0000&
+            Height          =   778
+            Left            =   80
+            ScaleHeight     =   0.5
+            ScaleLeft       =   1
+            ScaleMode       =   0  'User
+            ScaleWidth      =   0.344
+            TabIndex        =   108
+            TabStop         =   0   'False
+            Top             =   240
+            Width           =   550
+         End
       End
-      Begin VB.CommandButton Command23 
+      Begin VB.ListBox List16 
+         Height          =   2400
+         Left            =   10680
+         TabIndex        =   106
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List15 
+         Height          =   2400
+         Left            =   10080
+         TabIndex        =   105
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List14 
+         Height          =   2400
+         Left            =   9480
+         TabIndex        =   104
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List13 
+         Height          =   2400
+         Left            =   8880
+         TabIndex        =   103
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List8 
+         Height          =   2400
+         Left            =   8280
+         TabIndex        =   102
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List6 
+         Height          =   2400
+         Left            =   7680
+         TabIndex        =   101
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List5 
+         Height          =   2400
+         Left            =   7080
+         TabIndex        =   100
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List4 
+         Height          =   2400
+         Left            =   6480
+         TabIndex        =   99
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List3 
+         Height          =   2400
+         Left            =   5880
+         TabIndex        =   98
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List2 
+         Height          =   2400
+         Left            =   5280
+         TabIndex        =   97
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.Frame FrmCalcFuncValue 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Funktionswert"
+         Height          =   1095
+         Left            =   2040
+         TabIndex        =   91
+         Top             =   5880
+         Width           =   2175
+         Begin VB.TextBox TxtCalcFuncValueY 
+            Enabled         =   0   'False
+            Height          =   285
+            Left            =   1140
+            Locked          =   -1  'True
+            TabIndex        =   96
+            Top             =   720
+            Width           =   615
+         End
+         Begin VB.TextBox TxtCalcFuncValueX 
+            Height          =   285
+            Left            =   360
+            TabIndex        =   94
+            Top             =   720
+            Width           =   495
+         End
+         Begin VB.CommandButton BtnCalcFuncValue 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "Funktionswert errechnen"
+            Height          =   375
+            Left            =   120
+            Style           =   1  'Graphical
+            TabIndex        =   92
+            Top             =   240
+            Width           =   1935
+         End
+         Begin VB.Label Label5 
+            BackStyle       =   0  'Transparent
+            Caption         =   ") ="
+            Height          =   255
+            Left            =   900
+            TabIndex        =   95
+            Top             =   720
+            Width           =   255
+         End
+         Begin VB.Label Label22 
+            BackStyle       =   0  'Transparent
+            Caption         =   "f ("
+            Height          =   255
+            Left            =   180
+            TabIndex        =   93
+            Top             =   720
+            Width           =   255
+         End
+      End
+      Begin VB.Frame FrmPlotSettings 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Plot-Settings"
+         Height          =   1455
+         Left            =   2040
+         TabIndex        =   86
+         Top             =   4320
+         Width           =   2175
+         Begin VB.CheckBox ChkAlwaysInForeground 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "Immer im Vordergrund"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   90
+            Top             =   1080
+            Width           =   1935
+         End
+         Begin VB.CheckBox ChkAxisLabels 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "Koordinaten"
+            Height          =   255
+            Left            =   120
+            TabIndex        =   89
+            Top             =   840
+            Value           =   1  'Checked
+            Width           =   1455
+         End
+         Begin VB.CheckBox ChkAxes 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "Achsenkreuz"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   88
+            Top             =   600
+            Value           =   1  'Checked
+            Width           =   1335
+         End
+         Begin VB.CheckBox ChkGrid 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "Raster"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   87
+            Top             =   360
+            Value           =   1  'Checked
+            Width           =   855
+         End
+      End
+      Begin VB.Frame FmCalcIntegral 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Integral"
+         Height          =   1935
+         Left            =   9600
+         TabIndex        =   75
+         Top             =   360
+         Width           =   1935
+         Begin VB.TextBox TxtIntAbs 
+            Height          =   375
+            Left            =   1100
+            TabIndex        =   84
+            Top             =   1440
+            Width           =   735
+         End
+         Begin VB.TextBox TxtIntSum 
+            Height          =   375
+            Left            =   120
+            TabIndex        =   82
+            Top             =   1440
+            Width           =   735
+         End
+         Begin VB.TextBox TxtIntUpperBound 
+            Height          =   285
+            Left            =   1200
+            TabIndex        =   80
+            Text            =   "0"
+            Top             =   720
+            Width           =   615
+         End
+         Begin VB.TextBox TxtIntLowerBound 
+            Height          =   285
+            Left            =   1200
+            TabIndex        =   78
+            Text            =   "0"
+            Top             =   360
+            Width           =   615
+         End
+         Begin VB.CommandButton BtnCalcIntegral 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "Integral errechnen"
+            Height          =   855
+            Left            =   120
+            Style           =   1  'Graphical
+            TabIndex        =   76
+            Top             =   240
+            Width           =   855
+         End
+         Begin VB.Label Label32 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Betrag"
+            Height          =   195
+            Left            =   1080
+            TabIndex        =   83
+            Top             =   1200
+            Width           =   465
+         End
+         Begin VB.Label Label31 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Summe"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   81
+            Top             =   1200
+            Width           =   525
+         End
+         Begin VB.Label Label26 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "b"
+            Height          =   195
+            Left            =   1080
+            TabIndex        =   79
+            Top             =   720
+            Width           =   90
+         End
+         Begin VB.Label Label25 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "a"
+            Height          =   195
+            Left            =   1080
+            TabIndex        =   77
+            Top             =   375
+            Width           =   90
+         End
+      End
+      Begin VB.CheckBox ChkGridSpacingLock 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Lock"
+         Height          =   375
+         Left            =   2160
+         TabIndex        =   74
+         Top             =   2040
+         Width           =   1335
+      End
+      Begin VB.CommandButton BtnExtremum 
          BackColor       =   &H00C0E0FF&
          Caption         =   "Extrema"
          Height          =   375
@@ -579,7 +575,6 @@ Begin VB.Form FrmMain
          Begin VB.CommandButton BtnHornerSchema 
             BackColor       =   &H0080C0FF&
             Caption         =   "Horner Schema (Lücken, Pole und Nullstellen) + Linearfaktorzerlegung"
-            Enabled         =   0   'False
             Height          =   615
             Left            =   120
             Style           =   1  'Graphical
@@ -622,10 +617,9 @@ Begin VB.Form FrmMain
             Top             =   2400
             Width           =   615
          End
-         Begin VB.CommandButton Command21 
+         Begin VB.CommandButton BtnHornerSchemaShow 
             BackColor       =   &H0080C0FF&
             Caption         =   "Anzeigen"
-            Enabled         =   0   'False
             Height          =   615
             Left            =   3120
             Style           =   1  'Graphical
@@ -744,7 +738,6 @@ Begin VB.Form FrmMain
       Begin VB.Frame FrmMainMenu 
          BackColor       =   &H0080C0FF&
          Caption         =   "Hauptmenü"
-         Enabled         =   0   'False
          Height          =   1095
          Left            =   600
          TabIndex        =   6
@@ -781,9 +774,9 @@ Begin VB.Form FrmMain
             Width           =   1095
          End
       End
-      Begin VB.Frame Frame4 
+      Begin VB.Frame FrmDegCoef 
          BackColor       =   &H0080C0FF&
-         Caption         =   "Grad    Koeffizient"
+         Caption         =   "Grad = Koeffizient"
          Height          =   975
          Left            =   600
          TabIndex        =   56
@@ -817,7 +810,7 @@ Begin VB.Form FrmMain
             Top             =   240
             Width           =   495
          End
-         Begin VB.TextBox TxtGradToSetCoefficient 
+         Begin VB.TextBox TxtDegToSetCoef 
             Height          =   285
             Left            =   120
             TabIndex        =   1
@@ -836,7 +829,7 @@ Begin VB.Form FrmMain
             Width           =   255
          End
       End
-      Begin VB.CommandButton Command16 
+      Begin VB.CommandButton BtnCoefDecr 
          Caption         =   "-"
          Height          =   255
          Left            =   120
@@ -844,7 +837,7 @@ Begin VB.Form FrmMain
          Top             =   8040
          Width           =   375
       End
-      Begin VB.CommandButton Command15 
+      Begin VB.CommandButton BtnCoefIncr 
          Caption         =   "+"
          Height          =   255
          Left            =   120
@@ -1000,16 +993,14 @@ Begin VB.Form FrmMain
          Begin VB.CommandButton BtnCalcCodomain 
             BackColor       =   &H0080C0FF&
             Caption         =   "Wertebereich errechnen"
-            Enabled         =   0   'False
             Height          =   495
             Left            =   120
             Style           =   1  'Graphical
-            TabIndex        =   101
+            TabIndex        =   85
             Top             =   240
             Width           =   1095
          End
          Begin VB.TextBox TxtCodomainUpperBound 
-            Enabled         =   0   'False
             Height          =   285
             Left            =   720
             Locked          =   -1  'True
@@ -1018,7 +1009,6 @@ Begin VB.Form FrmMain
             Width           =   495
          End
          Begin VB.TextBox TxtCodomainLowerBound 
-            Enabled         =   0   'False
             Height          =   285
             Left            =   120
             Locked          =   -1  'True
@@ -1042,10 +1032,9 @@ Begin VB.Form FrmMain
             Top             =   840
             Width           =   495
          End
-         Begin VB.Label Label17 
+         Begin VB.Label LblCodomain 
             BackStyle       =   0  'Transparent
             Caption         =   "Wertebereich:"
-            Enabled         =   0   'False
             Height          =   255
             Left            =   120
             TabIndex        =   55
@@ -1063,7 +1052,7 @@ Begin VB.Form FrmMain
          Top             =   7080
          Width           =   2175
       End
-      Begin ComctlLib.Slider Slider1 
+      Begin ComctlLib.Slider SldCoef 
          Height          =   7695
          Left            =   120
          TabIndex        =   52
@@ -1076,9 +1065,7 @@ Begin VB.Form FrmMain
          Orientation     =   1
          Min             =   -10000
          Max             =   10000
-         SelStart        =   -1000
          TickStyle       =   3
-         Value           =   -1000
       End
       Begin VB.Label Label1 
          BackStyle       =   0  'Transparent
@@ -1260,7 +1247,7 @@ Begin VB.Form FrmMain
       End
    End
    Begin MSComDlg.CommonDialog Cdg1 
-      Left            =   1200
+      Left            =   840
       Top             =   0
       _ExtentX        =   847
       _ExtentY        =   847
@@ -1273,11 +1260,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, Faktor, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, Plus As Boolean, C(), GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, Grad1, DegDen, DegAsymptote As Integer, A1, A2, DefiL, WXK As Boolean, Element
-Dim CoefAsymptote() As Double
-
 Option Explicit
 
+Dim X, Y, X1, Y1, Y2, X2, I, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY, MNS As Boolean, MENX, MENY, MCX, MCY, GradDiff, DragX, DragY, DiffZ, DiffN, DiffZA, DiffNA, E, DIFFNR, ASYM, Z, DegAsymptote As Integer, A1, A2, WXK As Boolean, Element
+Dim CoefAsymptote() As Double
+Dim CoefIncr As Boolean
 
 Dim aX, aY, aY2, dx, dy
 
@@ -1365,134 +1352,81 @@ Private Sub BtnHide_Click()
     FrmControl.Visible = False
 End Sub
 
-Private Sub BtnDifferentiate_Click()
-    If IsNotRationalFunction = True Then
-        DegNum = TxtDegreeNumerator.Text
-        For I = 1 To DegNum
-            CoefNum(I - 1) = CoefNum(I) * (I)
-        Next I
-        CoefNum(DegNum) = 0
-    Else
-        Call Graph2
-    End If
-End Sub
-
 Private Sub BtnCalcCodomain_Click()
     If IsNotRationalFunction = True Then
-        DegNum = TxtDegreeNumerator.Text
-        For G = 0 To DegNum
-            Y1 = Y1 + CoefNum(G) * TxtIntvLowerBound.Text ^ G
-        Next G
-        TxtCodomainLowerBound.Text = Y1
-        Y1 = 0
-        
-        For G = 0 To DegNum
-            Y1 = Y1 + CoefNum(G) * TxtIntvUpperBound.Text ^ G
-        Next G
-        TxtCodomainUpperBound.Text = Y1
-        Y1 = 0
+        TxtCodomainLowerBound.Text = GetFuncvalByXvalFromNonFractionalFunction(TxtIntvLowerBound.Text, CoefNum)
+        TxtCodomainUpperBound.Text = GetFuncvalByXvalFromNonFractionalFunction(TxtIntvUpperBound.Text, CoefNum)
     Else
-        DegNum = TxtDegreeNumerator.Text
-        For G = 0 To DegNum
-            Y1 = Y1 + CoefNum(G) * TxtIntvLowerBound.Text ^ G
-        Next G
-        
-        DegNum = TxtDegreeDenominator.Text
-        For G = 0 To DegNum
-            Y2 = Y2 + CoefDen(G) * TxtIntvLowerBound.Text ^ G
-        Next G
-        TxtCodomainLowerBound.Text = Y1 / Y2
-        
-        Y1 = 0
-        Y2 = 0
-        
-        DegNum = TxtDegreeNumerator.Text
-        For G = 0 To DegNum
-            Y1 = Y1 + CoefNum(G) * TxtIntvUpperBound.Text ^ G
-        Next G
-        
-        DegNum = TxtDegreeDenominator.Text
-        For G = 0 To DegNum
-            Y2 = Y2 + CoefDen(G) * TxtIntvUpperBound.Text ^ G
-        Next G
-        TxtCodomainUpperBound.Text = Y1 / Y2
-        
-        Y1 = 0
-        Y2 = 0
+        TxtCodomainLowerBound.Text = _
+        GetFuncvalByXvalFromNonFractionalFunction(TxtIntvLowerBound.Text, CoefNum) / _
+        GetFuncvalByXvalFromNonFractionalFunction(TxtIntvLowerBound.Text, CoefDen)
+
+        TxtCodomainUpperBound.Text = _
+        GetFuncvalByXvalFromNonFractionalFunction(TxtIntvUpperBound.Text, CoefNum) / _
+        GetFuncvalByXvalFromNonFractionalFunction(TxtIntvUpperBound.Text, CoefDen)
     End If
 End Sub
 
 Private Sub BtnCalcFuncValue_Click()
-    DegNum = TxtDegreeNumerator.Text
-    
-    For G = 0 To DegNum
-        Y1 = Y1 + CoefNum(G) * TxtCalcFuncValueX.Text ^ G
-    Next G
+    Dim Value As Double
+
+    Value = GetFuncvalByXvalFromNonFractionalFunction(CDbl(TxtCalcFuncValueX.Text), CoefNum)
     
     If IsNotRationalFunction = False Then
-        DegNum = TxtDegreeDenominator.Text
-        
-        For G = 0 To DegNum
-            Y2 = Y2 + CoefDen(G) * TxtCalcFuncValueX.Text ^ G
-        Next G
-        
-        Y1 = Y1 / Y2
+        Value = Value / GetFuncvalByXvalFromNonFractionalFunction(CDbl(TxtCalcFuncValueX.Text), CoefDen)
     End If
     
-    TxtCalcFuncValueY.Text = Y1
-    Y1 = 0
-    Y2 = 0
+    TxtCalcFuncValueY.Text = Value
 End Sub
 
 
-Private Sub Command15_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Plus = True
-    Timer2.Interval = 250
+Private Sub BtnCoefIncr_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    CoefIncr = True
+    TmrCoefIncrDecr.Interval = 250
 End Sub
 
-Private Sub Command15_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Timer2.Interval = 0
+Private Sub BtnCoefIncr_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    TmrCoefIncrDecr.Interval = 0
 End Sub
 
-Private Sub Command16_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-Plus = False
-Timer2.Interval = 250
+Private Sub BtnCoefDecr_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    CoefIncr = False
+    TmrCoefIncrDecr.Interval = 250
 End Sub
 
-Private Sub Command16_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Timer2.Interval = 0
+Private Sub BtnCoefDecr_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    TmrCoefIncrDecr.Interval = 0
 End Sub
-'
-'Private Sub BtnAsymptote_Click()
-'If IsNotRationalFunction = False Then
-'If DegNum > DegDen Then
-'GradDiff = DegNum - DegDen
-'ReDim C(GradDiff)
-'For i = 1 To GradDiff 'DegDen
-'CoefNum(i + DegDen) = CoefNum(i + DegDen) - CoefDen(i)
-'Next i
-'
-'For i = 1 To DegDen
-'CoefNum(i + GradDiff) = 0
-'Next i
-'End If
-'End If
-'End Sub
-
 
 Private Sub BtnAsymptote_Click()
-    DegNum = CDbl(TxtDegreeNumerator.Text)
-    DegDen = CDbl(TxtDegreeDenominator.Text)
-    
     If IsNotRationalFunction = False Then
+        Dim AllDenCoefsAreZero As Boolean
+        Dim DegCur As Integer
+        
+        ' Check if all denominator coefficients are zero and exit sub if so
+        ' Not sure if logic is correct
+        AllDenCoefsAreZero = True
+        
+        For DegCur = 0 To DegDen
+            If CoefDen(DegCur) <> 0 Then
+                AllDenCoefsAreZero = False
+                Exit For
+            End If
+        Next DegCur
+        
+        If AllDenCoefsAreZero Then
+            MsgBox "Asymptote nicht definiert!", , "Hinweis"
+            Exit Sub
+        End If
+        
         DegAsymptote = DegNum - DegDen
         
-        ' If there is as asymptote
+        ' If there is an asymptote
         If DegAsymptote >= 0 Then
             Dim CoefNumAsymptote() As Double, CoefDenAsymptote() As Double
-            ReDim CoefNumAsymptote(DegNum + 1)
-            ReDim CoefDenAsymptote(DegDen + 1)
-            ReDim CoefAsymptote(DegAsymptote + 1)
+            ReDim CoefNumAsymptote(0 To DegNum)
+            ReDim CoefDenAsymptote(0 To DegDen)
+            ReDim CoefAsymptote(0 To DegAsymptote)
             
             Dim I As Integer
             Dim K As Integer
@@ -1510,6 +1444,17 @@ Private Sub BtnAsymptote_Click()
                 Next K
             Next I
             
+            ' XXX Fill structure and pass it to the Graph routine - might help to unify all GraphN-rountines into one
+            Dim Func As RationalFunction
+            With Func
+                .IsRational = False
+                .DegNum = DegAsymptote
+                .DegDen = Empty
+                ReDim .CoefNum(0 To DegAsymptote)
+                .CoefNum = CoefAsymptote
+                Erase .CoefDen
+            End With
+            
             ' Draw the graph
             Call Graph3
         End If
@@ -1519,14 +1464,14 @@ End Sub
 Private Sub BtnHornerSchema_Click()
     Dim Start, Ende, VZ
     'On Error Resume Next
-    Grad1 = TxtDegreeNumerator.Text
+    DegNum = TxtDegreeNumerator.Text
     DegDen = TxtDegreeDenominator.Text
     'Call HornerSchema
     
     If IsNotRationalFunction = True Then
-        Newton CoefNum, Grad1, True
+        Newton CoefNum, DegNum, True
     Else
-        Newton CoefNum, Grad1, True
+        Newton CoefNum, DegNum, True
         Newton CoefDen, DegDen, False
     End If
 
@@ -1538,7 +1483,7 @@ Private Sub BtnHornerSchema_Click()
         '''''End If
         '''''If Factor1 <> 1 Then Text17.Text = Text17.Text & Factor1 & "*("
         
-        For I = 1 To Grad1
+        For I = 1 To DegNum
             If Newton1(I) < 0 Then
                 VZ = "+"
             Else
@@ -1568,7 +1513,7 @@ Private Sub BtnHornerSchema_Click()
         
         List1.Clear
         List2.Clear
-        For I = 1 To Grad1
+        For I = 1 To DegNum
             If Newton1(I - 1) <> "" Then List1.AddItem (Newton1(I - 1))
         Next I
         For I = 1 To DegDen
@@ -1591,7 +1536,7 @@ Private Sub BtnHornerSchema_Click()
             If Element = False Then List3.AddItem (List1.List(I)): List4.AddItem (1)
         Next I
             
-        '''    For I = 1 To Grad1 - 1
+        '''    For I = 1 To DegNum - 1
         '''        If List1.List(I) <> List1.List(I - 1) Then
         '''        List3.AddItem (List1.List(I))
         '''        List4.AddItem (1)
@@ -1651,7 +1596,7 @@ Private Sub BtnHornerSchema_Click()
         '''''End If
         '''''If Factor1 <> 1 Then Text17.Text = Text17.Text & Factor1 & "*("
     
-        For I = 1 To Grad1
+        For I = 1 To DegNum
         
             If Newton1(I) < 0 Then
                 VZ = "+"
@@ -1667,7 +1612,7 @@ Private Sub BtnHornerSchema_Click()
         Newton1(1) = Newton1(1)
         Newton1(2) = Newton1(2)
         Newton1(3) = Newton1(3)
-        For I = 1 To Grad1
+        For I = 1 To DegNum
             If Newton1(I - 1) <> "" Then List1.AddItem (Newton1(I - 1))
         Next I
         
@@ -1688,7 +1633,7 @@ Private Sub BtnHornerSchema_Click()
             If Element = False Then List3.AddItem (List1.List(I)): List4.AddItem (1)
         Next I
         
-        '    For I = 1 To Grad1 - 1
+        '    For I = 1 To DegNum - 1
         '    If List1.List(I) <> List1.List(I - 1) Then
         '    List3.AddItem (List1.List(I))
         '    List4.AddItem (1)
@@ -1707,71 +1652,43 @@ Private Sub BtnHornerSchema_Click()
     End If
 End Sub
 
-Private Sub BtnIntegrate_Click()
-    'DegNum = TxtDegreeNumerator.Text
-    'For i = 1 To DegNum
-    '   CoefNum(i - 1) = CoefNum(i) * (i)
-    'Next i
-    'CoefNum(DegNum) = 0
-    DegNum = TxtDegreeNumerator.Text
-    ReDim C(DegNum + 1)
-    For I = 0 To DegNum + 1
-        C(I) = CoefNum(I)
-    Next I
-    ReDim CoefNum(DegNum + 2)
-    CoefNum(0) = 0
-    For I = 0 To DegNum + 1
-        CoefNum(I + 1) = C(I) / (I + 1)
-    Next I
-    TxtDegreeNumerator.Text = TxtDegreeNumerator.Text + 1
-    DegNum = TxtDegreeNumerator.Text
 
-    X = -100
-    FrmMain.DrawWidth = TxtLineWidth.Text
-    FrmMain.ForeColor = PicColorMain.BackColor
-    For X1 = 1 To STPX
-        V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
-        
-        I = X1 / STPX * FrmMain.ScaleWidth
-        
-        'DegNum = TxtDegreeNumerator.Text
-        
-        For G = 0 To DegNum
-            Y1 = Y1 + CoefNum(G) * V ^ G
-        Next G
-        
-        If IsNotRationalFunction = False Then
-            DegNum = TxtDegreeDenominator.Text
-            
-            For G = 0 To DegNum
-                Y2 = Y2 + CoefDen(G) * V ^ G
-            Next G
-            
-            Y1 = Y1 / Y2
+Private Sub BtnDifferentiate_Click()
+    If IsNotRationalFunction = True Then
+        ' Differentiate
+        If DegNum > 0 Then
+            For I = 1 To DegNum
+                CoefNum(I - 1) = CoefNum(I) * I
+            Next I
+            DegNum = DegNum - 1
+            ReDim Preserve CoefNum(0 To DegNum)
+        Else
+            MsgBox "Funktion kann nicht mehr weiter differenziert werden."
         End If
-        
-        Y1 = FrmMain.ScaleHeight / 2 - Y1
-        
-        If Y < FrmMain.ScaleHeight + KSY + 100 Then ' +1
-            If Y > -FrmMain.ScaleHeight / 2 + KSY + 1 Then
-                If FrmMain.ScaleWidth / 2 + TxtIntvLowerBound.Text < I Then
-                    If FrmMain.ScaleWidth / 2 + TxtIntvUpperBound.Text > I Then
-                        FrmMain.Line (X - KSX, Y - KSY)-(I - KSX, Y1 - KSY)
-                    End If
-                End If
-            End If
-        End If
-        
-        Y = Y1
-        X = (X1 - 0) / STPX * FrmMain.ScaleWidth
-        Y1 = 0
-        Y2 = 0
-    Next X1
-    FrmMain.DrawWidth = 1
+    Else
+        ' Just draw the differentiated graph
+        Call Graph2 'XXX Wieso hier was zeichnen? Was wird da genau gezeichnet? Wieso kann ich nicht Zähler und Nenner ableiten? -> Ableitung it Quotientenregel: http://www.netalive.org/rationale-funktionen/chapters/3.5.html
+    End If
 End Sub
 
 
-Private Sub Command21_Click()
+Private Sub BtnIntegrate_Click()
+    If IsNotRationalFunction = True Then
+        ' Integrate
+        ReDim Preserve CoefNum(0 To DegNum + 1)
+        For I = DegNum To 0 Step -1
+            CoefNum(I + 1) = CoefNum(I) / (I + 1)
+        Next I
+        CoefNum(0) = 0
+        DegNum = DegNum + 1
+        TxtDegreeNumerator.Text = DegNum
+    Else
+        MsgBox "Integration not yet implemented for rational functions!"
+    End If
+End Sub
+
+
+Private Sub BtnHornerSchemaShow_Click()
     ' *** Das ganze '0.0001' kann wahrscheinlich weggelassen werden, da Definitionslücken ja jetzt übersprungen werden
     FrmMain.DrawWidth = 3
     
@@ -1902,11 +1819,11 @@ Private Sub BtnCalcIntegral_Click()
             End If
         Next I
     Else
-        MsgBox "Not yet implemented for rational functions!"
+        MsgBox "Calculation of integral not yet implemented for rational functions!"
     End If
 End Sub
 
-Private Sub Command23_Click()
+Private Sub BtnExtremum_Click()
     ReDim ZAbl1(0 To DegNum - 1)
     For I = 1 To UBound(CoefNum)
         ZAbl1(I - 1) = CoefNum(I) * I
@@ -1930,7 +1847,7 @@ Private Sub Command23_Click()
     '''NAbl2(I - 1) = CoefDen(I) * I
     '''Next I
     
-    Newton ZAbl1, Grad1 - 1, True
+    Newton ZAbl1, DegNum - 1, True
     
     For I = 0 To UBound(Newton1) - 1
         List13.AddItem (Newton1(I))
@@ -1941,7 +1858,7 @@ Private Sub Command23_Click()
         ZAbl2(I - 1) = ZAbl1(I) * I
     Next I
     
-    Newton ZAbl2, Grad1 - 2, True
+    Newton ZAbl2, DegNum - 2, True
     
     For I = 0 To UBound(Newton1) - 1
         List14.AddItem (Newton1(I))
@@ -1949,7 +1866,7 @@ Private Sub Command23_Click()
     
     
     For I = 0 To List13.ListCount - 1
-        If fv(List13.List(I) + 10 ^ -5, CoefNum, Grad1) < fv(List13.List(I), CoefNum, Grad1) Then
+        If fv(List13.List(I) + 10 ^ -5, CoefNum, DegNum) < fv(List13.List(I), CoefNum, DegNum) Then
         List15.AddItem (List13.List(I))
         Else
         List16.AddItem (List13.List(I))
@@ -1981,34 +1898,6 @@ Private Sub CmdClear_Click()
 End Sub
 
 Private Sub BtnCoefficients_Click()
-    Grad1 = TxtDegreeNumerator.Text
-    DegDen = TxtDegreeDenominator.Text
-    Frame4.Enabled = True
-    FrmMainMenu.Enabled = True
-    Label17.Enabled = True
-    TxtCodomainLowerBound.Enabled = True
-    TxtCodomainUpperBound.Enabled = True
-    BtnSaveCoefficients.Enabled = True
-    BtnDifferentiate.Enabled = True
-    BtnCalcCodomain.Enabled = True
-    Command15.Enabled = True
-    Command16.Enabled = True
-    BtnHornerSchema.Enabled = True
-    Command21.Enabled = True
-    Slider1.Enabled = True
-
-    If TxtDegreeNumerator.Text < 0 Then TxtDegreeNumerator.Text = 0
-    If TxtDegreeDenominator.Text < 0 Then TxtDegreeNumerator.Text = 0
-    TxtDegreeNumerator.Text = Int(TxtDegreeNumerator.Text)
-    TxtDegreeDenominator.Text = Int(TxtDegreeDenominator.Text)
-    DegNum = TxtDegreeNumerator.Text
-    If ChkRationalFunction.Value = 1 Then
-        IsNotRationalFunction = False
-    Else
-        IsNotRationalFunction = True
-    End If
-    
-    If ChkRationalFunction.Value = 1 Then DegDen = TxtDegreeDenominator.Text
     FrmCoefficients.Show (1)
 End Sub
 
@@ -2113,7 +2002,7 @@ Private Sub BtnLoadCoefficients_Click()
     IsNotRationalFunction = Not GRP1.GRF
     TxtDegreeNumerator.Text = GRP1.ZG
     DegNum = GRP1.ZG
-    Grad1 = GRP1.ZG
+    DegNum = GRP1.ZG
     DegDen = GRP1.NG
     TxtDegreeDenominator.Text = GRP1.NG
     TxtIntvLowerBound.Text = GRP1.DefL
@@ -2287,13 +2176,11 @@ Private Sub Form_Load()
 
  
     B = False
-  
-    Faktor = Slider1.Value
 
     Call Raster
     Call Koordinaten
 
-    Plus = True
+    CoefIncr = True
 
     If Command() <> "" Then
         Dim FileNum, Länge, GRP1 As GRP
@@ -2306,7 +2193,7 @@ Private Sub Form_Load()
         IsNotRationalFunction = 1 - Int(Trim(GRP1.GRF))
         TxtDegreeNumerator.Text = Trim(GRP1.ZG)
         DegNum = Trim(GRP1.ZG)
-        Grad1 = Trim(GRP1.ZG)
+        DegNum = Trim(GRP1.ZG)
         DegDen = Trim(GRP1.NG)
         TxtDegreeDenominator.Text = Trim(GRP1.NG)
         TxtIntvLowerBound.Text = Trim(GRP1.DefL)
@@ -2334,6 +2221,13 @@ Private Sub Form_Load()
         End If
     
         FrmMainMenu.Enabled = True
+    
+    Else
+        DegNum = 0
+        DegDen = 0
+        ReDim CoefNum(0 To DegNum)
+        ReDim CoefDen(0 To DegDen)
+        IsNotRationalFunction = True
     End If
     
     FrmColor.Tag = FrmColor.Width
@@ -2531,21 +2425,35 @@ Private Sub LblMoveMenu_MouseDown(Button As Integer, Shift As Integer, X As Sing
     FrmControl.Drag 1
 End Sub
 
-Private Sub OptNumerator_Click()
-    If OptNumerator.Value = True Then
-        DegNum = TxtDegreeNumerator.Text
+Private Sub ToggleOptNumDen()
+    Dim Deg As Integer
+    
+    If OptNumerator.Value Then
+        Deg = CInt(TxtDegreeNumerator.Text)
+        
+         ' XXX Dieser Block kommt so ähnlich mehrfach vor. Zusamenfassen und in Sub auslagern?
+        If CInt(TxtDegToSetCoef.Text) > Deg Then TxtDegToSetCoef.Text = Deg
+        Deg = CInt(TxtDegToSetCoef.Text)
+        SldCoef.Value = CoefNum(Deg) * -100
+        TxtSetCoefficient.Text = CoefNum(Deg)
     Else
-        DegNum = TxtDegreeDenominator.Text
+        Deg = CInt(TxtDegreeDenominator.Text)
+                
+        If CInt(TxtDegToSetCoef.Text) > Deg Then TxtDegToSetCoef.Text = Deg
+        Deg = CInt(TxtDegToSetCoef.Text)
+        SldCoef.Value = CoefDen(Deg) * -100
+        TxtSetCoefficient.Text = CoefDen(Deg)
     End If
+End Sub
 
-    If TxtGradToSetCoefficient.Text <> "" Then
-        If TxtGradToSetCoefficient.Text < 0 Then TxtGradToSetCoefficient.Text = 0
-    End If
 
-    If TxtGradToSetCoefficient.Text > DegNum Then TxtGradToSetCoefficient.Text = DegNum
-    TxtGradToSetCoefficient.Text = Int(TxtGradToSetCoefficient.Text)
-    Slider1.Value = CoefNum(TxtGradToSetCoefficient.Text) * -100
-    TxtSetCoefficient.Text = CoefNum(TxtGradToSetCoefficient.Text)
+Private Sub OptNumerator_Click()
+    Call ToggleOptNumDen
+End Sub
+
+
+Private Sub OptDenominator_Click()
+    Call ToggleOptNumDen
 End Sub
 
 Private Sub PicColorPalette_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -2574,35 +2482,121 @@ Private Sub LblColorSelCustom_MouseUp(Button As Integer, Shift As Integer, X As 
     Next I
 End Sub
 
-Private Sub Slider1_Scroll()
-    If Faktor <> Slider1.Value Then
-        If TxtGradToSetCoefficient.Text <> "" Then
-            TxtSetCoefficient.Text = -Slider1.Value / 100
-            FrmMain.Cls
-            If OptNumerator.Value = True Then
-                DegNum = TxtDegreeNumerator.Text
-                CoefNum(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-                For G = 0 To DegNum
-                    Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
-                Next G
-            Else
-                DegNum = TxtDegreeDenominator.Text
-                CoefDen(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-                For G = 0 To DegNum
-                    Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
-                Next G
-            End If
-            X = 0
-            
-            Draw
-        End If
+Private Sub SldCoef_Scroll()
+    Dim GradToSetCoefficient As Integer
+    GradToSetCoefficient = CInt(TxtDegToSetCoef.Text)
+    
+    TxtSetCoefficient.Text = -SldCoef.Value / 100
+    
+    If OptNumerator.Value = True Then
+        CoefNum(GradToSetCoefficient) = -SldCoef.Value / 100
+    Else
+        CoefDen(GradToSetCoefficient) = -SldCoef.Value / 100
     End If
+    
+    Draw
 End Sub
+
 
 Private Sub TxtDegreeNumerator_GotFocus()
     TxtDegreeNumerator.SelStart = 0
     TxtDegreeNumerator.SelLength = Len(TxtDegreeNumerator.Text)
+    
+    TxtDegreeNumerator.Tag = TxtDegreeNumerator.Text
 End Sub
+
+
+Private Sub TxtDegreeNumerator_LostFocus()
+    ' Reset to previous value if no valid number got entered
+    If TxtDegreeNumerator.Tag <> "" Then
+        TxtDegreeNumerator.Text = TxtDegreeNumerator.Tag
+    End If
+End Sub
+
+
+Private Sub TxtDegreeNumerator_Validate(Cancel As Boolean)
+    Cancel = True
+    
+    If IsNumeric(TxtDegreeNumerator.Text) Then
+        If CInt(TxtDegreeNumerator.Text) = TxtDegreeNumerator.Text Then
+            If CInt(TxtDegreeNumerator.Text) >= 0 Then
+                Cancel = False
+            End If
+        End If
+    End If
+End Sub
+
+
+Private Sub TxtDegreeNumerator_KeyPress(KeyAscii As Integer)
+    ' The (valid) needs to be set by pressing Return
+    If KeyAscii = vbKeyReturn Then
+        Dim InputInvalid As Boolean
+        Call TxtDegreeNumerator_Validate(InputInvalid)
+        If Not InputInvalid Then
+            DegNum = CInt(TxtDegreeNumerator.Text)
+            ReDim Preserve CoefNum(0 To DegNum)
+            
+            If OptNumerator.Value And CInt(TxtDegToSetCoef.Text) > DegNum Then
+                TxtDegToSetCoef.Text = DegNum
+                TxtSetCoefficient.Text = CoefNum(DegNum)
+                SldCoef.Value = CoefNum(DegNum) * -100
+            End If
+        
+            TxtDegreeNumerator.Tag = ""
+        End If
+    End If
+End Sub
+
+
+Private Sub TxtDegreeDenominator_GotFocus()
+    TxtDegreeDenominator.SelStart = 0
+    TxtDegreeDenominator.SelLength = Len(TxtDegreeDenominator.Text)
+    
+    TxtDegreeDenominator.Tag = TxtDegreeDenominator.Text
+End Sub
+
+
+Private Sub TxtDegreeDenominator_LostFocus()
+    ' Reset to previous value if no valid number got entered
+    If TxtDegreeDenominator.Tag <> "" Then
+        TxtDegreeDenominator.Text = TxtDegreeDenominator.Tag
+    End If
+End Sub
+
+
+Private Sub TxtDegreeDenominator_Validate(Cancel As Boolean)
+    Cancel = True
+    
+    If IsNumeric(TxtDegreeDenominator.Text) Then
+        If CInt(TxtDegreeDenominator.Text) = TxtDegreeDenominator.Text Then
+            If CInt(TxtDegreeDenominator.Text) >= 0 Then
+                Cancel = False
+            End If
+        End If
+    End If
+End Sub
+
+
+Private Sub TxtDegreeDenominator_KeyPress(KeyAscii As Integer)
+    ' The (valid) needs to be set by pressing Return
+    If KeyAscii = vbKeyReturn Then
+        Dim InputInvalid As Boolean
+        Call TxtDegreeDenominator_Validate(InputInvalid)
+        If Not InputInvalid Then
+            DegDen = CInt(TxtDegreeDenominator.Text)
+            ReDim Preserve CoefDen(0 To DegDen)
+            
+            If Not OptNumerator.Value And CInt(TxtDegToSetCoef.Text) > DegDen Then
+                TxtDegToSetCoef.Text = DegDen
+                TxtSetCoefficient.Text = CoefDen(DegDen)
+                SldCoef.Value = CoefDen(DegDen) * -100
+            End If
+            
+            TxtDegreeDenominator.Tag = ""
+        End If
+    End If
+End Sub
+
 
 
 
@@ -2737,41 +2731,46 @@ Private Function Nullpunkt()
     End If
 End Function
 
+Private Function GetFuncvalByXvalFromNonFractionalFunction(ByVal X As Double, ByRef Coefficients) As Double
+    Dim Value As Double
+    Dim Deg As Integer
+    Dim D As Integer
+    
+    Deg = UBound(Coefficients)
+    For D = 0 To Deg
+        Value = Value + Coefficients(D) * X ^ D
+    Next D
+    
+    GetFuncvalByXvalFromNonFractionalFunction = Value
+End Function
+
+
 Private Function Graph()
-    If DegNum = 0 And DegDen = 0 Then Exit Function
+    Dim DenValue As Double ' Denominator value
+    Dim DrawWidthOri As Integer
+    DrawWidthOri = FrmMain.DrawWidth
     
     X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text
     FrmMain.ForeColor = PicColorMain.BackColor
     
     For X1 = 1 + KSX * STPX / FrmMain.ScaleWidth To STPX + KSX * STPX / FrmMain.ScaleWidth
-        If IsNotRationalFunction = False Then '***
-            V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2) '***
-            DefiL = 0 '***
-            For G = 0 To DegDen '***
-                DefiL = DefiL + CoefDen(G) * V ^ G '***
-            Next G '*** Überprüfung aud Definitionslücke
-        Else '***
-            DefiL = 1 '***
-        End If '***
-        
-        If DefiL <> 0 Then '***
+        ' Überprüfung auf Definitionslücke: wenn Nenner gleich 0 ist, wäre es Division durch 0 und daher eine Definitionslücke
+        If IsNotRationalFunction = False Then
             V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
-            
+            DenValue = GetFuncvalByXvalFromNonFractionalFunction(V, CoefDen)
+        Else
+            DenValue = 1 ' Neutral element of division
+        End If
+        
+        ' Only draw at the current X-position if there is no definition gap
+        If DenValue <> 0 Then
+            V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
             I = X1 / STPX * FrmMain.ScaleWidth
-            
-            DegNum = TxtDegreeNumerator.Text
-            
-            For G = 0 To DegNum
-                Y1 = Y1 + CoefNum(G) * V ^ G
-            Next G
+            Y1 = GetFuncvalByXvalFromNonFractionalFunction(V, CoefNum)
             
             If IsNotRationalFunction = False Then
-                DegDen = TxtDegreeDenominator.Text
-                
-                For G = 0 To DegDen
-                    Y2 = Y2 + CoefDen(G) * V ^ G
-                Next G
+                Y2 = GetFuncvalByXvalFromNonFractionalFunction(V, CoefDen)
                 
                 Y1 = Y1 / Y2
             End If
@@ -2790,18 +2789,12 @@ Private Function Graph()
             
             Y = Y1
             X = (X1 - 0) / STPX * FrmMain.ScaleWidth
-            Y1 = 0
-            Y2 = 0
-        End If '***
+        End If
     Next X1
     
-    FrmMain.DrawWidth = 1
+    FrmMain.DrawWidth = DrawWidthOri
 End Function
 
-Private Sub TxtDegreeDenominator_GotFocus()
-    TxtDegreeDenominator.SelStart = 0
-    TxtDegreeDenominator.SelLength = Len(TxtDegreeDenominator.Text)
-End Sub
 
 Private Sub TxtCalcFuncValueX_GotFocus()
     TxtCalcFuncValueX.SelStart = 0
@@ -2820,9 +2813,20 @@ Private Sub TxtLineWidth_GotFocus()
 End Sub
 
 Private Sub TxtLineWidth_LostFocus()
-    If TxtLineWidth.Text < 1 Then TxtLineWidth.Text = 1
-    If TxtLineWidth.Text > 10 Then TxtLineWidth.Text = 10
     TxtLineWidth.Text = Int(TxtLineWidth.Text)
+'    FrmMain.DrawWidth = TxtLineWidth.Text
+End Sub
+
+Private Sub TxtLineWidth_Validate(Cancel As Boolean)
+    Cancel = True
+    
+    If IsNumeric(TxtLineWidth.Text) Then
+        If CInt(TxtLineWidth.Text) = TxtLineWidth.Text Then
+            If CInt(TxtLineWidth.Text) > 0 Then
+                Cancel = False
+            End If
+        End If
+    End If
 End Sub
 
 Private Sub TxtIntUpperBound_GotFocus()
@@ -2842,34 +2846,36 @@ End Sub
 
 
 
-Private Sub TxtGradToSetCoefficient_GotFocus()
-    TxtGradToSetCoefficient.SelStart = 0
-    TxtGradToSetCoefficient.SelLength = Len(TxtGradToSetCoefficient.Text)
+Private Sub TxtDegToSetCoef_GotFocus()
+    TxtDegToSetCoef.SelStart = 0
+    TxtDegToSetCoef.SelLength = Len(TxtDegToSetCoef.Text)
 
-    TxtGradToSetCoefficient.Tag = TxtGradToSetCoefficient.Text
+    TxtDegToSetCoef.Tag = TxtDegToSetCoef.Text
 End Sub
 
-Private Sub TxtGradToSetCoefficient_LostFocus()
+Private Sub TxtDegToSetCoef_LostFocus()
     ' Reset to previous value if no valid number got entered
-    If TxtGradToSetCoefficient.Tag <> "" Then
-        TxtGradToSetCoefficient.Text = TxtGradToSetCoefficient.Tag
+    If TxtDegToSetCoef.Tag <> "" Then
+        TxtDegToSetCoef.Text = TxtDegToSetCoef.Tag
     End If
 End Sub
 
 
-Private Sub TxtGradToSetCoefficient_Validate(Cancel As Boolean)
+Private Sub TxtDegToSetCoef_Validate(Cancel As Boolean)
     Cancel = True
     
+    Dim Deg As Integer
+    
     If OptNumerator.Value = True Then
-        DegNum = TxtDegreeNumerator.Text
+        Deg = CInt(TxtDegreeNumerator.Text)
     Else
-        DegNum = TxtDegreeDenominator.Text
+        Deg = CInt(TxtDegreeDenominator.Text)
     End If
     
     
-    If IsNumeric(TxtGradToSetCoefficient.Text) Then
-        If CInt(TxtGradToSetCoefficient.Text) = TxtGradToSetCoefficient.Text Then
-            If CInt(TxtGradToSetCoefficient.Text) >= 0 And CInt(TxtGradToSetCoefficient.Text) <= DegNum Then
+    If IsNumeric(TxtDegToSetCoef.Text) Then
+        If CInt(TxtDegToSetCoef.Text) = TxtDegToSetCoef.Text Then
+            If CInt(TxtDegToSetCoef.Text) >= 0 And CInt(TxtDegToSetCoef.Text) <= Deg Then
                 Cancel = False
             End If
         End If
@@ -2877,22 +2883,23 @@ Private Sub TxtGradToSetCoefficient_Validate(Cancel As Boolean)
 End Sub
 
 
-Private Sub TxtGradToSetCoefficient_KeyPress(KeyAscii As Integer)
+Private Sub TxtDegToSetCoef_KeyPress(KeyAscii As Integer)
     ' The (valid) needs to be set by pressing Return
     If KeyAscii = vbKeyReturn Then
         Dim InputInvalid As Boolean
-        Call TxtGradToSetCoefficient_Validate(InputInvalid)
+        Call TxtDegToSetCoef_Validate(InputInvalid)
         If Not InputInvalid Then
-            DegNum = CInt(TxtGradToSetCoefficient.Text)
-            TxtGradToSetCoefficient.Text = DegNum
+            Dim Deg As Integer
+            Deg = CInt(TxtDegToSetCoef.Text)
+            TxtDegToSetCoef.Text = Deg
             If OptNumerator.Value = True Then
-                TxtSetCoefficient.Text = CoefNum(DegNum)
-                Slider1.Value = CoefNum(TxtGradToSetCoefficient.Text) * -100 ' Invert because of the inverted direction of the slider
+                TxtSetCoefficient.Text = CoefNum(Deg)
+                SldCoef.Value = CoefNum(Deg) * -100 ' Invert because of the inverted direction of the slider
             Else
-                TxtSetCoefficient.Text = CoefDen(DegNum)
-                Slider1.Value = CoefDen(TxtGradToSetCoefficient.Text) * -100
+                TxtSetCoefficient.Text = CoefDen(Deg)
+                SldCoef.Value = CoefDen(Deg) * -100
             End If
-            TxtGradToSetCoefficient.Tag = ""
+            TxtDegToSetCoef.Tag = ""
         End If
     End If
 End Sub
@@ -2942,12 +2949,12 @@ Private Sub TxtSetCoefficient_KeyPress(KeyAscii As Integer)
         Dim InputInvalid As Boolean
         Call TxtSetCoefficient_Validate(InputInvalid)
         If Not InputInvalid Then
-            Slider1.Value = TxtSetCoefficient.Text * -100 ' evtl. mit Int()
+            SldCoef.Value = TxtSetCoefficient.Text * -100 ' evtl. mit Int()
         
             If OptNumerator.Value = True Then
-                CoefNum(TxtGradToSetCoefficient.Text) = TxtSetCoefficient.Text
+                CoefNum(TxtDegToSetCoef.Text) = TxtSetCoefficient.Text
             Else
-                CoefDen(TxtGradToSetCoefficient.Text) = TxtSetCoefficient.Text
+                CoefDen(TxtDegToSetCoef.Text) = TxtSetCoefficient.Text
             End If
             
             Draw
@@ -3142,62 +3149,21 @@ Private Sub TxtOffsetCoordSystemY_GotFocus()
     TxtOffsetCoordSystemY.SelLength = Len(TxtOffsetCoordSystemY.Text)
 End Sub
 
-
-' *** Bildschirmauflösung nur einmal am Anfang erechnen und als Konstante übergeben --> schnelleres Zeichnen des Graphen
-Private Sub Timer1_Timer()
-    If Faktor <> Slider1.Value Then
-        If TxtGradToSetCoefficient.Text <> "" Then
-            FrmMain.Cls
-            CoefNum(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-            For G = 0 To DegNum
-                Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
-            Next G
-            
-            X = 0
-            
-            Call Raster
-            Call Nullpunkt
-            Call Koordinaten
-            Call Graph
-        End If
-    End If
-End Sub
-
-Private Sub Timer2_Timer()
-    If Timer2.Interval = 250 Then Timer2.Interval = 50
+Private Sub TmrCoefIncrDecr_Timer()
+    If TmrCoefIncrDecr.Interval = 250 Then TmrCoefIncrDecr.Interval = 50
     
     ' Only change slider value is coefficient not outside the sliders value range
-    If Plus = True Then
-        If Slider1.Value > -1000 Then
-            Slider1.Value = Slider1.Value - 1
+    If CoefIncr = True Then
+        If SldCoef.Value > -1000 Then
+            SldCoef.Value = SldCoef.Value - 1
         End If
     Else
-        If Slider1.Value < 1000 Then
-            Slider1.Value = Slider1.Value + 1
+        If SldCoef.Value < 1000 Then
+            SldCoef.Value = SldCoef.Value + 1
         End If
     End If
     
-    If Faktor <> Slider1.Value Then
-        TxtSetCoefficient.Text = -Slider1.Value / 100
-        FrmMain.Cls
-        If OptNumerator.Value = True Then
-            DegNum = TxtDegreeNumerator.Text
-            CoefNum(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-            For G = 0 To DegNum
-                Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
-            Next G
-        Else
-            DegNum = TxtDegreeDenominator.Text
-            CoefDen(TxtGradToSetCoefficient.Text) = -Slider1.Value / 100
-            For G = 0 To DegNum
-                Y = Y + CoefNum(G) * (-FrmMain.ScaleWidth / 2) ^ G
-            Next G
-        End If
-        X = 0
-        
-        Draw
-    
-    End If
+    Call SldCoef_Scroll
 End Sub
 
 Private Sub TmrMouseCoordinates_Timer()
@@ -3205,20 +3171,9 @@ Private Sub TmrMouseCoordinates_Timer()
     LblMouseCoordsY.Caption = -Int((Y - FrmMain.ScaleHeight / 2 + KSY) * 100) / 100
 End Sub
 
-'Sub EnableControlsOn(Frm As Form, State As Integer)
-'    Dim I   ' Variable deklarieren.
-'    For I = 0 To Frm.Controls.Count - 1
-'        If Not TypeOf Frm.Controls(I) Is Menu Then
-'            Frm.Controls(I).Enabled = State
-'        End If
-'    Next I
-'End Sub
-
-
-'TxtDegreeNumerator.Text = CmdDraw.Width / Screen.TwipsPerPixelX / 1280 * 13.32
-
 
 Private Function Graph2()
+    Dim C() As Double
     X = -100
     FrmMain.DrawWidth = TxtLineWidth.Text ' mit Screen-Faktoren multiplizieren!
     FrmMain.ForeColor = PicColorMain.BackColor

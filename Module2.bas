@@ -1,5 +1,5 @@
 Attribute VB_Name = "Module2"
-Public N, R, C, E, F, X, Matrix() As Single, Matrix2() As Single, Matrix3() As Single, Horner1(), Horner2(), Ergebnis, Factor1, Factor2
+Public N, R, E, F, X, Matrix() As Single, Matrix2() As Single, Matrix3() As Single, Horner1(), Horner2(), Ergebnis, Factor1, Factor2
 
 Public Function HornerSchema()
     Grad1 = Form1.Text1.Text
