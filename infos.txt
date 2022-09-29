@@ -13,3 +13,6 @@ ToDo
 Bugs
 ====
 * Wenn ich z.B. ein Polynom 7-ten Grades habe und nur für diesen 7-ten Grad einen Koeffizienten von z.B. 1 eingebe, stürzt das Programm in Graph ab.
+* Lade ich eine gebrochen rationale Funktion, dann wird diese geplottet. Stelle ich dann die Breite in Einheiten von 20 auf 30, wird nur noch der linke Teil des Graphen gezeichnet. Auch wenn ich diesen Wert wieder zurückstelle, wird der Graph nicht mehr vollständig gezeichnet.
+* Prüfen, on das Horner-Schema richtig implementiert ist bzw. wie dies überhaupt funktionieren kann, da ja hierfür Nullstellen ermittelt werden müssen.
+  -> Nullstellen von Polynomen richtig raten (Satz über rationale Nullstellen): https://www.youtube.com/watch?v=bvSbgQ16wKQ

@@ -6,8 +6,7 @@ Public Function HornerSchema()
     Grad1 = Form1.Text1.Text
     DegDen = Form1.Text14.Text
     
-    If IsRationalFunction = False Then
-    
+    If Not IsRationalFunction Then
         If Grad1 > 0 Then
             ReDim Horner1(1 To Grad1)
         Else

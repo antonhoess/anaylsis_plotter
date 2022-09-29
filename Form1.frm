@@ -1262,7 +1262,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim X, Y, X1, Y1, Y2, X2, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY, DragX, DragY, Element
+Dim X, Y, X1, Y1, Y2, X2, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY, Element
+Dim DragX As Integer, DragY As Integer ' For drag&drop the control panel
 Dim WXK As Boolean 'Wiederholte X-Koordinate
 Dim CoefIncr As Boolean
 
@@ -1463,16 +1464,18 @@ End Sub
 
 Private Sub BtnHornerSchema_Click()
     Dim Start, Ende, VZ
+    Dim I As Integer
+    Dim Newton1() As Double, Newton2() As Double
     'On Error Resume Next
     DegNum = TxtDegreeNumerator.Text
     DegDen = TxtDegreeDenominator.Text
     'Call HornerSchema
     
     If Not IsRationalFunction Then
-        Newton CoefNum, DegNum, True
+        Newton1 = Newton(CoefNum, DegNum, True)
     Else
-        Newton CoefNum, DegNum, True
-        Newton CoefDen, DegDen, False
+        Newton2 = Newton(CoefNum, DegNum, True)
+        Newton1 = Newton(CoefDen, DegDen, False)
     End If
 
     If IsRationalFunction Then
@@ -1613,7 +1616,7 @@ Private Sub BtnHornerSchema_Click()
         Newton1(2) = Newton1(2)
         Newton1(3) = Newton1(3)
         For I = 1 To DegNum
-            If Newton1(I - 1) <> "" Then List1.AddItem (Newton1(I - 1))
+            If Newton1(I - 1) <> 0 Then List1.AddItem (Newton1(I - 1))
         Next I
         
         List3.Clear
@@ -1762,7 +1765,7 @@ Private Sub BtnHornerSchemaShow_Click()
                 
                 DegNum = TxtDegreeDenominator.Text
                 For G = 0 To DegNum
-                    Y 2 = Y2 + CoefDen(G) * (Int(List7.List(I)) + 0.0001) ^ G
+                    Y2 = Y2 + CoefDen(G) * (Int(List7.List(I)) + 0.0001) ^ G
                 Next G
                 
                 FrmMain.Circle (List7.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
@@ -1878,6 +1881,7 @@ End Sub
 
 Private Sub BtnExtremum_Click()
     Dim I As Integer
+    Dim Newton1() As Double, Newton2() As Double
     ReDim ZAbl1(0 To DegNum - 1)
     For I = 1 To UBound(CoefNum)
         ZAbl1(I - 1) = CoefNum(I) * I
@@ -1901,7 +1905,7 @@ Private Sub BtnExtremum_Click()
     '''NAbl2(I - 1) = CoefDen(I) * I
     '''Next I
     
-    Newton ZAbl1, DegNum - 1, True
+    Newton2 = Newton(ZAbl1, DegNum - 1, True)
     
     For I = 0 To UBound(Newton1) - 1
         List13.AddItem (Newton1(I))
@@ -1912,7 +1916,7 @@ Private Sub BtnExtremum_Click()
         ZAbl2(I - 1) = ZAbl1(I) * I
     Next I
     
-    Newton ZAbl2, DegNum - 2, True
+    Newton2 = Newton(ZAbl2, DegNum - 2, True)
     
     For I = 0 To UBound(Newton1) - 1
         List14.AddItem (Newton1(I))
@@ -1920,7 +1924,7 @@ Private Sub BtnExtremum_Click()
     
     
     For I = 0 To List13.ListCount - 1
-        If fv(List13.List(I) + 10 ^ -5, CoefNum, DegNum) < fv(List13.List(I), CoefNum, DegNum) Then
+        If fv(List13.List(I) + 10 ^ -5, CoefNum) < fv(List13.List(I), CoefNum) Then
         List15.AddItem (List13.List(I))
         Else
         List16.AddItem (List13.List(I))
