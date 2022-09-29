@@ -1,5 +1,5 @@
 Attribute VB_Name = "NewtonMethod"
-Public Koefficients2, ZAbl1(), ZAbl2(), NAbl1(), NAbl2(), Grad5
+Public Koefficients2, Grad5
 
 ' N2 = Store Result to array Newton2. There is Newton1 and Newton2, which are global and get processed alter by the calling function
 Public Function Newton(Koefficients, Grad4, N2 As Boolean)
@@ -55,8 +55,8 @@ Public Function Newton(Koefficients, Grad4, N2 As Boolean)
             For I = 1 To 1000
                 Checkvalue = Xneu
                 
-                Xneu = Xneu - fv(Xneu, Koefficients2) / fav(Xneu, Koefficients2)
-                If Xneu - fv(Xneu, Koefficients2) / fav(Xneu, Koefficients2) = Checkvalue Then Exit For
+                Xneu = Xneu - GetFuncvalByXvalFromNonFractionalFunction(Xneu, Koefficients2) / GetFuncvalByXvalFromNonFractionalFunction(Xneu, DifferentiateFunctionCoefs(Koefficients2))
+                If Xneu - GetFuncvalByXvalFromNonFractionalFunction(Xneu, Koefficients2) / GetFuncvalByXvalFromNonFractionalFunction(Xneu, DifferentiateFunctionCoefs(Koefficients2)) = Checkvalue Then Exit For
                 If I = 999 Then Exit Do
             Next I
             
@@ -111,20 +111,30 @@ Public Sub Polynomdivision(Koefficients2, X)
     Next I
 End Sub
 
-' Evaluate function value at x
-Public Function fv(X, Koefficients2)
-    fv = 0
-    For I = 0 To UBound(Koefficients2)
-        fv = fv + Koefficients2(I) * X ^ I
-    Next I
+
+Public Function GetFuncvalByXvalFromNonFractionalFunction(ByVal X As Double, ByRef Coefficients) As Double
+    Dim Value As Double
+    Dim Deg As Integer
+    Dim D As Integer
+    
+    Deg = UBound(Coefficients)
+    For D = 0 To Deg
+        Value = Value + Coefficients(D) * X ^ D
+    Next D
+    
+    GetFuncvalByXvalFromNonFractionalFunction = Value
 End Function
 
-' Evaluate derived function value at x
-Public Function fav(X, Koefficients2)
-    fav = 0
-    For I = 1 To UBound(Koefficients2)
-        fav = fav + (Koefficients2(I) * I) * X ^ (I - 1)
+
+Public Function DifferentiateFunctionCoefs(ByRef Coefficients) As Double()
+    Dim Degree As Integer
+    Degree = UBound(Coefficients)
+    Dim Result() As Double
+    ReDim Result(0 To Degree - 1)
+
+    For I = 1 To Degree
+        Result(I - 1) = Coefficients(I) * I
     Next I
+    
+    DifferentiateFunctionCoefs = Result
 End Function
-
-

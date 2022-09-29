@@ -1474,8 +1474,8 @@ Private Sub BtnHornerSchema_Click()
     If Not IsRationalFunction Then
         Newton1 = Newton(CoefNum, DegNum, True)
     Else
-        Newton2 = Newton(CoefNum, DegNum, True)
-        Newton1 = Newton(CoefDen, DegDen, False)
+        Newton1 = Newton(CoefNum, DegNum, True)
+        Newton2 = Newton(CoefDen, DegDen, False)
     End If
 
     If IsRationalFunction Then
@@ -1881,21 +1881,24 @@ End Sub
 
 Private Sub BtnExtremum_Click()
     Dim I As Integer
-    Dim Newton1() As Double, Newton2() As Double
+    Dim Newton1() As Double
+    Dim ZAbl1(), ZAbl2()
+    ' Dim NAbl1(), NAbl2()
+    
     ReDim ZAbl1(0 To DegNum - 1)
     For I = 1 To UBound(CoefNum)
         ZAbl1(I - 1) = CoefNum(I) * I
     Next I
     
-    ZAbl1(0) = ZAbl1(0)
-    ZAbl1(1) = ZAbl1(1)
-    ZAbl1(2) = ZAbl1(2)
-    ZAbl1(3) = ZAbl1(3)
-    
-    ZAbl2(0) = ZAbl2(0)
-    ZAbl2(1) = ZAbl2(1)
-    ZAbl2(2) = ZAbl2(2)
-    ZAbl2(3) = ZAbl2(3)
+'    ZAbl1(0) = ZAbl1(0)
+'    ZAbl1(1) = ZAbl1(1)
+'    ZAbl1(2) = ZAbl1(2)
+'    ZAbl1(3) = ZAbl1(3)
+'
+'    ZAbl2(0) = ZAbl2(0)
+'    ZAbl2(1) = ZAbl2(1)
+'    ZAbl2(2) = ZAbl2(2)
+'    ZAbl2(3) = ZAbl2(3)
     '''For I = 1 To UBound(CoefDen)
     '''NAbl1(I - 1) = CoefDen(I) * I
     '''Next I
@@ -1905,7 +1908,7 @@ Private Sub BtnExtremum_Click()
     '''NAbl2(I - 1) = CoefDen(I) * I
     '''Next I
     
-    Newton2 = Newton(ZAbl1, DegNum - 1, True)
+    Newton1 = Newton(ZAbl1, DegNum - 1, True)
     
     For I = 0 To UBound(Newton1) - 1
         List13.AddItem (Newton1(I))
@@ -1916,7 +1919,7 @@ Private Sub BtnExtremum_Click()
         ZAbl2(I - 1) = ZAbl1(I) * I
     Next I
     
-    Newton2 = Newton(ZAbl2, DegNum - 2, True)
+    Newton1 = Newton(ZAbl2, DegNum - 2, True)
     
     For I = 0 To UBound(Newton1) - 1
         List14.AddItem (Newton1(I))
@@ -1924,7 +1927,7 @@ Private Sub BtnExtremum_Click()
     
     
     For I = 0 To List13.ListCount - 1
-        If fv(List13.List(I) + 10 ^ -5, CoefNum) < fv(List13.List(I), CoefNum) Then
+        If GetFuncvalByXvalFromNonFractionalFunction(List13.List(I) + 10 ^ -5, CoefNum) < GetFuncvalByXvalFromNonFractionalFunction(List13.List(I), CoefNum) Then
         List15.AddItem (List13.List(I))
         Else
         List16.AddItem (List13.List(I))
@@ -2795,18 +2798,6 @@ Private Function Nullpunkt()
     End If
 End Function
 
-Private Function GetFuncvalByXvalFromNonFractionalFunction(ByVal X As Double, ByRef Coefficients) As Double
-    Dim Value As Double
-    Dim Deg As Integer
-    Dim D As Integer
-    
-    Deg = UBound(Coefficients)
-    For D = 0 To Deg
-        Value = Value + Coefficients(D) * X ^ D
-    Next D
-    
-    GetFuncvalByXvalFromNonFractionalFunction = Value
-End Function
 
 Private Function GraphInternal(ByRef Func As RationalFunction)
     Dim I As Double
