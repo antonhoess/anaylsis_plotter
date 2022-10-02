@@ -248,28 +248,28 @@ Begin VB.Form FrmMain
             Width           =   550
          End
       End
-      Begin VB.ListBox List16 
+      Begin VB.ListBox LstTip 
          Height          =   2400
          Left            =   10680
          TabIndex        =   106
          Top             =   5760
          Width           =   615
       End
-      Begin VB.ListBox List15 
+      Begin VB.ListBox LstHop 
          Height          =   2400
          Left            =   10080
          TabIndex        =   105
          Top             =   5760
          Width           =   615
       End
-      Begin VB.ListBox List14 
+      Begin VB.ListBox LstNullsFdd 
          Height          =   2400
          Left            =   9480
          TabIndex        =   104
          Top             =   5760
          Width           =   615
       End
-      Begin VB.ListBox List13 
+      Begin VB.ListBox LstNullsFd 
          Height          =   2400
          Left            =   8880
          TabIndex        =   103
@@ -300,7 +300,7 @@ Begin VB.Form FrmMain
          Top             =   5760
          Width           =   615
       End
-      Begin VB.ListBox List4 
+      Begin VB.ListBox LstNullsNumMultiFactors 
          Height          =   2400
          Left            =   6480
          TabIndex        =   99
@@ -308,7 +308,7 @@ Begin VB.Form FrmMain
          Top             =   5760
          Width           =   615
       End
-      Begin VB.ListBox List3 
+      Begin VB.ListBox LstNullsNumMulti 
          Height          =   2400
          Left            =   5880
          TabIndex        =   98
@@ -316,7 +316,7 @@ Begin VB.Form FrmMain
          Top             =   5760
          Width           =   615
       End
-      Begin VB.ListBox List2 
+      Begin VB.ListBox LstNullsDen 
          Height          =   2400
          Left            =   5280
          TabIndex        =   97
@@ -542,7 +542,7 @@ Begin VB.Form FrmMain
          Top             =   4800
          Width           =   1695
       End
-      Begin VB.ListBox List1 
+      Begin VB.ListBox LstNullsNum 
          Height          =   2400
          Left            =   4680
          TabIndex        =   43
@@ -558,14 +558,16 @@ Begin VB.Form FrmMain
          TabIndex        =   66
          Top             =   240
          Width           =   4815
-         Begin VB.TextBox Text17 
+         Begin VB.TextBox TxtLinFacNum 
+            Enabled         =   0   'False
             Height          =   375
             Left            =   120
             TabIndex        =   36
             Top             =   960
             Width           =   4575
          End
-         Begin VB.TextBox Text18 
+         Begin VB.TextBox TxtLinFacDen 
+            Enabled         =   0   'False
             Height          =   375
             Left            =   120
             TabIndex        =   37
@@ -1067,6 +1069,33 @@ Begin VB.Form FrmMain
          Max             =   10000
          TickStyle       =   3
       End
+      Begin VB.Label Label2 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS f''"
+         Height          =   255
+         Left            =   9600
+         TabIndex        =   125
+         Top             =   5520
+         Width           =   375
+      End
+      Begin VB.Label Label10 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS f'"
+         Height          =   255
+         Left            =   0
+         TabIndex        =   124
+         Top             =   0
+         Width           =   375
+      End
+      Begin VB.Label Label23 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS f'"
+         Height          =   255
+         Left            =   9000
+         TabIndex        =   123
+         Top             =   5520
+         Width           =   375
+      End
       Begin VB.Label Label1 
          BackStyle       =   0  'Transparent
          Caption         =   "Y:"
@@ -1353,26 +1382,26 @@ End Sub
 
 Private Sub BtnCalcCodomain_Click()
     If Not IsRationalFunction Then
-        TxtCodomainLowerBound.Text = GetFuncvalByXvalFromNonFractionalFunction(TxtIntvLowerBound.Text, CoefNum)
-        TxtCodomainUpperBound.Text = GetFuncvalByXvalFromNonFractionalFunction(TxtIntvUpperBound.Text, CoefNum)
+        TxtCodomainLowerBound.Text = GetFuncValByX(TxtIntvLowerBound.Text, CoefNum)
+        TxtCodomainUpperBound.Text = GetFuncValByX(TxtIntvUpperBound.Text, CoefNum)
     Else
         TxtCodomainLowerBound.Text = _
-        GetFuncvalByXvalFromNonFractionalFunction(TxtIntvLowerBound.Text, CoefNum) / _
-        GetFuncvalByXvalFromNonFractionalFunction(TxtIntvLowerBound.Text, CoefDen)
+        GetFuncValByX(TxtIntvLowerBound.Text, CoefNum) / _
+        GetFuncValByX(TxtIntvLowerBound.Text, CoefDen)
 
         TxtCodomainUpperBound.Text = _
-        GetFuncvalByXvalFromNonFractionalFunction(TxtIntvUpperBound.Text, CoefNum) / _
-        GetFuncvalByXvalFromNonFractionalFunction(TxtIntvUpperBound.Text, CoefDen)
+        GetFuncValByX(TxtIntvUpperBound.Text, CoefNum) / _
+        GetFuncValByX(TxtIntvUpperBound.Text, CoefDen)
     End If
 End Sub
 
 Private Sub BtnCalcFuncValue_Click()
     Dim Value As Double
 
-    Value = GetFuncvalByXvalFromNonFractionalFunction(CDbl(TxtCalcFuncValueX.Text), CoefNum)
+    Value = GetFuncValByX(CDbl(TxtCalcFuncValueX.Text), CoefNum)
     
     If IsRationalFunction Then
-        Value = Value / GetFuncvalByXvalFromNonFractionalFunction(CDbl(TxtCalcFuncValueX.Text), CoefDen)
+        Value = Value / GetFuncValByX(CDbl(TxtCalcFuncValueX.Text), CoefDen)
     End If
     
     TxtCalcFuncValueY.Text = Value
@@ -1463,129 +1492,136 @@ Private Sub BtnAsymptote_Click()
 End Sub
 
 Private Sub BtnHornerSchema_Click()
-    Dim Start, Ende, VZ
+    Dim Start, Ende
+    Dim Sign As String
     Dim I As Integer
     Dim Newton1() As Double, Newton2() As Double
-    'On Error Resume Next
-    DegNum = TxtDegreeNumerator.Text
-    DegDen = TxtDegreeDenominator.Text
-    'Call HornerSchema
+    'XXX Call HornerSchema
     
     If Not IsRationalFunction Then
-        Newton1 = Newton(CoefNum, DegNum, True)
+        Newton1 = Newton((CoefNum), True)
     Else
-        Newton1 = Newton(CoefNum, DegNum, True)
-        Newton2 = Newton(CoefDen, DegDen, False)
+        Newton1 = Newton((CoefNum), True)
+        Newton2 = Newton((CoefDen), False)
     End If
 
+    ' XXX
+    LstNullsNum.Clear
+    LstNullsDen.Clear
+    LstNullsNumMulti.Clear
+    LstNullsNumMultiFactors.Clear
+    List5.Clear
+    List6.Clear
+    
     If IsRationalFunction Then
         '''''If Matrix2(0) < 0 Then
-        '''''Text17.Text = "Y= -"
+        '''''TxtLinFacNum.Text = "Y= -"
         '''''Else
-        '''''Text17.Text = "Y="
+        '''''TxtLinFacNum.Text = "Y="
         '''''End If
-        '''''If Factor1 <> 1 Then Text17.Text = Text17.Text & Factor1 & "*("
+        '''''If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & Factor1 & "*("
         
         For I = 1 To DegNum
             If Newton1(I) < 0 Then
-                VZ = "+"
+                Sign = "+"
             Else
-                VZ = "-"
+                Sign = "-"
             End If
-            Text17.Text = Text17.Text & " (x " + VZ + Str(Abs(Newton1(I))) + ")"
+            TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(Newton1(I - 1))) + ")"
         Next I
         
-        If Factor1 <> 1 Then Text17.Text = Text17.Text & " )"
+        If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & " )"
         
         '''''If Matrix3(0) < 0 Then
-        '''''Text18.Text = "Y= -"
+        '''''TxtLinFacDen.Text = "Y= -"
         '''''Else
-        '''''Text18.Text = "Y="
+        '''''TxtLinFacDen.Text = "Y="
         '''''End If
-        '''''If Factor2 <> 1 Then Text18.Text = Text18.Text & Factor2 & "*("
+        '''''If Factor2 <> 1 Then TxtLinFacDen.Text = TxtLinFacDen.Text & Factor2 & "*("
         
         For I = 1 To DegDen
             If Newton2(I) < 0 Then
-                VZ = "+"
+                Sign = "+"
             Else
-                VZ = "-"
+                Sign = "-"
             End If
-            Text18.Text = Text18.Text & " (x " + VZ + Str(Abs(Newton2(I))) + ")"
+            TxtLinFacDen.Text = TxtLinFacDen.Text & " (x " + Sign + Str(Abs(Newton2(I))) + ")"
         Next I
-        '''''If Factor2 <> 1 Then Text18.Text = Text18.Text & " )"
+        '''''If Factor2 <> 1 Then TxtLinFacDen.Text = TxtLinFacDen.Text & " )"
         
-        List1.Clear
-        List2.Clear
+'        LstNullsNum.Clear
+'        LstNullsDen.Clear
         For I = 1 To DegNum
-            If Newton1(I - 1) <> "" Then List1.AddItem (Newton1(I - 1))
+            If Newton1(I - 1) <> "" Then LstNullsNum.AddItem (Newton1(I - 1))
         Next I
         For I = 1 To DegDen
-            If Newton2(I - 1) <> "" Then List2.AddItem (Newton2(I - 1))
+            If Newton2(I - 1) <> "" Then LstNullsDen.AddItem (Newton2(I - 1))
         Next I
         
-        List3.Clear
-        List4.Clear
-        List3.List(0) = List1.List(0)
-        List4.List(0) = 1
-        For I = 1 To List1.ListCount - 1
+'        LstNullsNumMulti.Clear
+'        LstNullsNumMultiFactors.Clear
+        LstNullsNumMulti.List(0) = LstNullsNum.List(0)
+        LstNullsNumMultiFactors.List(0) = 1
+        For I = 1 To LstNullsNum.ListCount - 1
             Element = False
-            For U = 0 To List3.ListCount - 1
-                If List3.List(U) = List1.List(I) Then
-                List4.List(U) = List4.List(U) + 1
+            For U = 0 To LstNullsNumMulti.ListCount - 1
+                If LstNullsNumMulti.List(U) = LstNullsNum.List(I) Then
+                LstNullsNumMultiFactors.List(U) = LstNullsNumMultiFactors.List(U) + 1
                 Element = True
                 Exit For
                 End If
             Next U
-            If Element = False Then List3.AddItem (List1.List(I)): List4.AddItem (1)
+            If Element = False Then LstNullsNumMulti.AddItem (LstNullsNum.List(I)): LstNullsNumMultiFactors.AddItem (1)
         Next I
             
         '''    For I = 1 To DegNum - 1
-        '''        If List1.List(I) <> List1.List(I - 1) Then
-        '''        List3.AddItem (List1.List(I))
-        '''        List4.AddItem (1)
+        '''        If LstNullsNum.List(I) <> LstNullsNum.List(I - 1) Then
+        '''        LstNullsNumMulti.AddItem (LstNullsNum.List(I))
+        '''        LstNullsNumMultiFactors.AddItem (1)
         '''        Else
-        '''        List4.List(List4.ListCount - 1) = List4.List(List4.ListCount - 1) + 1
+        '''        LstNullsNumMultiFactors.List(LstNullsNumMultiFactors.ListCount - 1) = LstNullsNumMultiFactors.List(LstNullsNumMultiFactors.ListCount - 1) + 1
         '''        End If
         '''    Next I
-        List5.Clear
-        List6.Clear
-        List5.List(0) = List2.List(0)
+        
+'        List5.Clear
+'        List6.Clear
+        List5.List(0) = LstNullsDen.List(0)
         List6.List(0) = 1
         For I = 1 To DegDen - 1
-            If List2.List(I) <> List2.List(I - 1) Then
-                List5.AddItem (List2.List(I))
+            If LstNullsDen.List(I) <> LstNullsDen.List(I - 1) Then
+                List5.AddItem (LstNullsDen.List(I))
                 List6.AddItem (1)
             Else
                 List6.List(List6.ListCount - 1) = List6.List(List6.ListCount - 1) + 1
             End If
         Next I
         
-        If List1.ListCount > List2.ListCount Then
-            Ende = List1.ListCount
+        If LstNullsNum.ListCount > LstNullsDen.ListCount Then
+            Ende = LstNullsNum.ListCount
         Else
-            Ende = List2.ListCount
+            Ende = LstNullsDen.ListCount
         End If
         
-        For N = 0 To List3.ListCount
+        For N = 0 To LstNullsNumMulti.ListCount
             For I = 0 To Ende
-                If List3.List(N) = List5.List(I) Then
-                List7.AddItem (List3.List(N))
-                    If List4.List(N) = List6.List(I) Then
-                        List4.List(N) = "-"
+                If LstNullsNumMulti.List(N) = List5.List(I) Then
+                List7.AddItem (LstNullsNumMulti.List(N))
+                    If LstNullsNumMultiFactors.List(N) = List6.List(I) Then
+                        LstNullsNumMultiFactors.List(N) = "-"
                         List6.List(I) = "-"
-                    ElseIf List4.List(N) > List6.List(I) Then
-                        List4.List(N) = List4.List(N) - List6.List(I)
+                    ElseIf LstNullsNumMultiFactors.List(N) > List6.List(I) Then
+                        LstNullsNumMultiFactors.List(N) = LstNullsNumMultiFactors.List(N) - List6.List(I)
                         List6.List(I) = "-"
                     Else
-                        List6.List(I) = List6.List(I) - List4.List(N)
-                        List4.List(N) = "-"
+                        List6.List(I) = List6.List(I) - LstNullsNumMultiFactors.List(N)
+                        LstNullsNumMultiFactors.List(N) = "-"
                     End If
                 End If
             Next I
         Next N
         
-        For I = 0 To List3.ListCount - 1
-            If List4.List(I) <> "-" Then List9.AddItem (List3.List(I)): List10.AddItem (List4.List(I))
+        For I = 0 To LstNullsNumMulti.ListCount - 1
+            If LstNullsNumMultiFactors.List(I) <> "-" Then List9.AddItem (LstNullsNumMulti.List(I)): List10.AddItem (LstNullsNumMultiFactors.List(I))
         Next I
         
         For I = 0 To List5.ListCount - 1
@@ -1593,64 +1629,69 @@ Private Sub BtnHornerSchema_Click()
         Next I
     Else
         '''''If Matrix2(0) < 0 Then
-        '''''Text17.Text = "Y= -"
+        '''''TxtLinFacNum.Text = "Y= -"
         '''''Else
-        '''''Text17.Text = "Y="
+        '''''TxtLinFacNum.Text = "Y="
         '''''End If
-        '''''If Factor1 <> 1 Then Text17.Text = Text17.Text & Factor1 & "*("
+        '''''If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & Factor1 & "*("
     
-        For I = 1 To DegNum
-        
-            If Newton1(I) < 0 Then
-                VZ = "+"
-            Else
-                VZ = "-"
+        ' Write factors to text box
+        If UBound(Newton1) = DegNum Then
+            For I = 1 To DegNum
+                If Newton1(I) < 0 Then
+                    Sign = "+"
+                Else
+                    Sign = "-"
+                End If
+                TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(Newton1(I - 1))) + ")"
+            Next I
+            
+            ' Remove leading space in that output string
+            If Len(TxtLinFacNum.Text) > 0 Then
+                TxtLinFacNum.Text = Mid(TxtLinFacNum.Text, 1)
             End If
-            Text17.Text = Text17.Text & " (x " + VZ + Str(Abs(Newton1(I))) + ")"
-        Next I
-    '''''If Factor1 <> 1 Then Text17.Text = Text17.Text & " )"
+            'If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & " )"
+        Else
+            TxtLinFacNum.Text = "Cannot calculate linear factors!"
+        End If
     
-        List1.Clear
-        Newton1(0) = Newton1(0)
-        Newton1(1) = Newton1(1)
-        Newton1(2) = Newton1(2)
-        Newton1(3) = Newton1(3)
-        For I = 1 To DegNum
-            If Newton1(I - 1) <> 0 Then List1.AddItem (Newton1(I - 1))
+        ' Add nulls to list
+        For I = 1 To UBound(Newton1)
+            If Newton1(I - 1) <> 0 Then LstNullsNum.AddItem (Newton1(I - 1))
         Next I
         
-        List3.Clear
-        List4.Clear
-        List3.List(0) = List1.List(0)
-        List4.List(0) = 1
+
+        LstNullsNumMulti.List(0) = LstNullsNum.List(0)
+        LstNullsNumMultiFactors.List(0) = 1
         
-        For I = 1 To List1.ListCount - 1
+        For I = 1 To LstNullsNum.ListCount - 1
             Element = False
-            For U = 0 To List3.ListCount - 1
-                If List3.List(U) = List1.List(I) Then
-                    List4.List(U) = List4.List(U) + 1
+            For U = 0 To LstNullsNumMulti.ListCount - 1
+                If LstNullsNumMulti.List(U) = LstNullsNum.List(I) Then
+                    LstNullsNumMultiFactors.List(U) = LstNullsNumMultiFactors.List(U) + 1
                     Element = True
                     Exit For
                 End If
             Next U
-            If Element = False Then List3.AddItem (List1.List(I)): List4.AddItem (1)
+            If Element = False Then LstNullsNumMulti.AddItem (LstNullsNum.List(I)): LstNullsNumMultiFactors.AddItem (1)
         Next I
         
         '    For I = 1 To DegNum - 1
-        '    If List1.List(I) <> List1.List(I - 1) Then
-        '    List3.AddItem (List1.List(I))
-        '    List4.AddItem (1)
+        '    If LstNullsNum.List(I) <> LstNullsNum.List(I - 1) Then
+        '    LstNullsNumMulti.AddItem (LstNullsNum.List(I))
+        '    LstNullsNumMultiFactors.AddItem (1)
         '    Else
-        '    List4.List(List4.ListCount - 1) = List4.List(List4.ListCount - 1) + 1
+        '    LstNullsNumMultiFactors.List(LstNullsNumMultiFactors.ListCount - 1) = LstNullsNumMultiFactors.List(LstNullsNumMultiFactors.ListCount - 1) + 1
         '    End If
         '    Next I
     
-        For I = 0 To List3.ListCount
-            List9.AddItem (List3.List(I))
+        ' XXX Copy list entries - why do we have them twice
+        For I = 0 To LstNullsNumMulti.ListCount
+            List9.AddItem (LstNullsNumMulti.List(I))
         Next I
         
-        For I = 0 To List3.ListCount
-            List10.AddItem (List4.List(I))
+        For I = 0 To LstNullsNumMulti.ListCount
+            List10.AddItem (LstNullsNumMultiFactors.List(I))
         Next I
     End If
 End Sub
@@ -1744,13 +1785,14 @@ End Sub
 
 Private Sub BtnHornerSchemaShow_Click()
     Dim I As Integer
+    Dim X As Double
     ' *** Das ganze '0.0001' kann wahrscheinlich weggelassen werden, da Definitionslücken ja jetzt übersprungen werden
     FrmMain.DrawWidth = 3
     
     If IsRationalFunction Then
         For I = 0 To List7.ListCount - 1
             If List7.List(I) <> "" Then
-                DegNum = TxtDegreeNumerator.Text
+'                DegNum = TxtDegreeNumerator.Text
                 For G = 0 To DegNum
                     Y1 = Y1 + CoefNum(G) * (Int(List7.List(I)) + 0.0001) ^ G
                 Next G
@@ -1758,13 +1800,13 @@ Private Sub BtnHornerSchemaShow_Click()
                 FrmMain.Circle (List7.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
                 Y1 = 0
             Else
-                DegNum = TxtDegreeNumerator.Text
+'                DegNum = TxtDegreeNumerator.Text
                 For G = 0 To DegNum
                     Y1 = Y1 + CoefNum(G) * (Int(List7.List(I)) + 0.0001) ^ G
                 Next G
                 
-                DegNum = TxtDegreeDenominator.Text
-                For G = 0 To DegNum
+'                DegNum = TxtDegreeDenominator.Text
+                For G = 0 To DegDen  'DegNum
                     Y2 = Y2 + CoefDen(G) * (Int(List7.List(I)) + 0.0001) ^ G
                 Next G
                 
@@ -1776,7 +1818,7 @@ Private Sub BtnHornerSchemaShow_Click()
         
         For I = 0 To List9.ListCount - 1
             If List9.List(I) <> "" Then
-                DegNum = TxtDegreeNumerator.Text
+                'DegNum = TxtDegreeNumerator.Text
                 For G = 0 To DegNum
                     Y1 = Y1 + CoefNum(G) * (Int(List9.List(I)) + 0.0001) ^ G
                 Next G
@@ -1784,13 +1826,13 @@ Private Sub BtnHornerSchemaShow_Click()
                 FrmMain.Circle (List9.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
                 Y1 = 0
             Else
-                DegNum = TxtDegreeNumerator.Text
+                'DegNum = TxtDegreeNumerator.Text
                 For G = 0 To DegNum
                     Y1 = Y1 + CoefNum(G) * (Int(List9.List(I)) + 0.0001) ^ G
                 Next G
                 
-                DegNum = TxtDegreeDenominator.Text
-                For G = 0 To DegNum
+                'DegNum = TxtDegreeDenominator.Text
+                For G = 0 To DegDen 'DegNum
                     Y2 = Y2 + CoefDen(G) * (Int(List9.List(I)) + 0.0001) ^ G
                 Next G
                 
@@ -1808,22 +1850,48 @@ Private Sub BtnHornerSchemaShow_Click()
                 FrmMain.DrawStyle = 0
             End If
         Next I
-    Else '****************************************
-        For I = 0 To List3.ListCount - 1
-            If List3.List(I) <> "" Then
-                DegNum = TxtDegreeNumerator.Text
-                For G = 0 To DegNum
-                    Y1 = Y1 + CoefNum(G) * (Int(List3.List(I)) + 0.0001) ^ G
-                Next G
-                
-                FrmMain.Circle (List3.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
-                Y1 = 0
-            End If
-            
-            Y1 = 0
-            Y2 = 0
+    Else
+        ' Draw nulls
+        For I = 0 To LstNullsNumMulti.ListCount - 1
+            X = CDbl(LstNullsNumMulti.List(I))
+            Y1 = GetFuncValByX(X, CoefNum)
+            FrmMain.Circle (X + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2), 0.1, RGB(255, 0, 0)
         Next I
-    End If '****************************************
+        
+        ' Draw Hops and Tips
+        For I = 0 To LstNullsFd.ListCount - 1
+            X = CDbl(LstNullsFd.List(I))
+            Y1 = GetFuncValByX(X, GetDiffFuncCoefs(GetDiffFuncCoefs(CoefNum)))
+            ' Hops
+            If Y1 < 0 Then
+                Y1 = GetFuncValByX(X, CoefNum)
+                FrmMain.Circle (X + FrmMain.ScaleWidth / 2, -Y1 + FrmMain.ScaleHeight / 2), 0.1, RGB(0, 255, 0)
+            Else
+                ' Tips
+                If Y1 > 0 Then
+                    Y1 = GetFuncValByX(X, CoefNum)
+                    FrmMain.Circle (X + FrmMain.ScaleWidth / 2, -Y1 + FrmMain.ScaleHeight / 2), 0.1, RGB(0, 0, 255)
+                End If
+            End If
+        Next I
+        
+        ' Draw Inflection Points and Saddle Points
+        For I = 0 To LstNullsFdd.ListCount - 1
+            X = CDbl(LstNullsFdd.List(I))
+            Y1 = GetFuncValByX(X, GetDiffFuncCoefs(GetDiffFuncCoefs(GetDiffFuncCoefs(CoefNum))))
+            If Y1 <> 0 Then
+                Y1 = GetFuncValByX(X, CoefNum)
+                If GetFuncValByX(X, GetDiffFuncCoefs(CoefNum)) <> 0 Then
+                    ' Inflection Point
+                    FrmMain.Circle (X + FrmMain.ScaleWidth / 2, -Y1 + FrmMain.ScaleHeight / 2), 0.1, RGB(255, 255, 0)
+                Else
+                    ' Saddle Point
+                    FrmMain.Circle (X + FrmMain.ScaleWidth / 2, -Y1 + FrmMain.ScaleHeight / 2), 0.1, RGB(0, 255, 255)
+                End If
+            End If
+        Next I
+        
+    End If
 End Sub
 
 Private Sub BtnCalcIntegral_Click()
@@ -1882,55 +1950,30 @@ End Sub
 Private Sub BtnExtremum_Click()
     Dim I As Integer
     Dim Newton1() As Double
-    Dim ZAbl1(), ZAbl2()
-    ' Dim NAbl1(), NAbl2()
+    Dim ZAbl1() As Double, ZAbl2() As Double
     
-    ReDim ZAbl1(0 To DegNum - 1)
-    For I = 1 To UBound(CoefNum)
-        ZAbl1(I - 1) = CoefNum(I) * I
-    Next I
-    
-'    ZAbl1(0) = ZAbl1(0)
-'    ZAbl1(1) = ZAbl1(1)
-'    ZAbl1(2) = ZAbl1(2)
-'    ZAbl1(3) = ZAbl1(3)
-'
-'    ZAbl2(0) = ZAbl2(0)
-'    ZAbl2(1) = ZAbl2(1)
-'    ZAbl2(2) = ZAbl2(2)
-'    ZAbl2(3) = ZAbl2(3)
-    '''For I = 1 To UBound(CoefDen)
-    '''NAbl1(I - 1) = CoefDen(I) * I
-    '''Next I
-    
-    
-    '''For I = 1 To UBound(CoefDen)
-    '''NAbl2(I - 1) = CoefDen(I) * I
-    '''Next I
-    
-    Newton1 = Newton(ZAbl1, DegNum - 1, True)
+    ' Calculate 1st derivative and add nulls to list
+    ZAbl1 = GetDiffFuncCoefs(CoefNum)
+    Newton1 = Newton((ZAbl1), True)
     
     For I = 0 To UBound(Newton1) - 1
-        List13.AddItem (Newton1(I))
+        LstNullsFd.AddItem (Newton1(I))
     Next I
     
-    ReDim ZAbl2(0 To DegNum - 2)
-    For I = 1 To UBound(ZAbl1)
-        ZAbl2(I - 1) = ZAbl1(I) * I
-    Next I
-    
-    Newton1 = Newton(ZAbl2, DegNum - 2, True)
+    ' Calculate 2nd derivative and add nulls to list
+    ZAbl2 = GetDiffFuncCoefs(ZAbl1)
+    Newton1 = Newton((ZAbl2), True)
     
     For I = 0 To UBound(Newton1) - 1
-        List14.AddItem (Newton1(I))
+        LstNullsFdd.AddItem (Newton1(I))
     Next I
     
-    
-    For I = 0 To List13.ListCount - 1
-        If GetFuncvalByXvalFromNonFractionalFunction(List13.List(I) + 10 ^ -5, CoefNum) < GetFuncvalByXvalFromNonFractionalFunction(List13.List(I), CoefNum) Then
-        List15.AddItem (List13.List(I))
+    ' XXX
+    For I = 0 To LstNullsFd.ListCount - 1
+        If GetFuncValByX(LstNullsFd.List(I) + 10 ^ -5, CoefNum) < GetFuncValByX(LstNullsFd.List(I), CoefNum) Then
+            LstHop.AddItem (LstNullsFd.List(I))
         Else
-        List16.AddItem (List13.List(I))
+            LstTip.AddItem (LstNullsFd.List(I))
         End If
     Next I
 End Sub
@@ -2307,19 +2350,19 @@ Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y A
 
     If B = True Then
         If IsRationalFunction Then
-            DegNum = TxtDegreeNumerator.Text
+'            DegNum = TxtDegreeNumerator.Text
             For G = 0 To DegNum
                 aY = aY + CoefNum(G) * W ^ G
             Next G
             
-            DegNum = TxtDegreeDenominator.Text
-            For G = 0 To DegNum
+'            DegNum = TxtDegreeDenominator.Text
+            For G = 0 To DegDen 'DegNum
                 aY2 = aY2 + CoefDen(G) * W ^ G
             Next G
             aY = aY / aY2
         Else
             'If Not IsRationalFunction Then
-            DegNum = TxtDegreeNumerator.Text
+'            DegNum = TxtDegreeNumerator.Text
             For G = 0 To DegNum
                 aY = aY + CoefNum(G) * W ^ G
             Next G
@@ -2375,8 +2418,8 @@ Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As 
                 End If
             
                 'If WXK = False Then
-                'List13.AddItem (LblMouseCoordsX.Caption)
-                'List14.AddItem (LblMouseCoordsY.Caption)
+                'LstNullsFd.AddItem (LblMouseCoordsX.Caption)
+                'LstNullsFdd.AddItem (LblMouseCoordsY.Caption)
                 'If LblMouseCoordsX.Caption <> 0 Then
                 'If Dimension > 0 Then
                 'C1(Dimension) = C1(Dimension - 1)
@@ -2813,17 +2856,17 @@ Private Function GraphInternal(ByRef Func As RationalFunction)
         ' Überprüfung auf Definitionslücke: wenn Nenner gleich 0 ist, wäre es Division durch 0 und daher eine Definitionslücke
         If Func.IsRational Then
             V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
-            If GetFuncvalByXvalFromNonFractionalFunction(V, Func.CoefDen) = 0 Then DivByZero = True
+            If GetFuncValByX(V, Func.CoefDen) = 0 Then DivByZero = True
         End If
         
         ' Only draw at the current X-position if there is no definition gap
         If Not DivByZero Then
             V = (X1 / STPX * FrmMain.ScaleWidth - FrmMain.ScaleWidth / 2)
             I = X1 / STPX * FrmMain.ScaleWidth
-            Y1 = GetFuncvalByXvalFromNonFractionalFunction(V, Func.CoefNum)
+            Y1 = GetFuncValByX(V, Func.CoefNum)
             
             If Func.IsRational Then
-                Y2 = GetFuncvalByXvalFromNonFractionalFunction(V, Func.CoefDen)
+                Y2 = GetFuncValByX(V, Func.CoefDen)
                 Y1 = Y1 / Y2
             End If
             
@@ -2997,12 +3040,11 @@ End Sub
 Private Sub TxtSetCoefficient_Validate(Cancel As Boolean)
     Cancel = True
     
-    If OptNumerator.Value = True Then
-        DegNum = TxtDegreeNumerator.Text
-    Else
-        DegNum = TxtDegreeDenominator.Text
-    End If
-    
+'    If OptNumerator.Value = True Then
+'        DegNum = TxtDegreeNumerator.Text
+'    Else
+'        DegNum = TxtDegreeDenominator.Text
+'    End If
     
     If IsNumeric(TxtSetCoefficient.Text) Then
         Cancel = False
@@ -3019,9 +3061,9 @@ Private Sub TxtSetCoefficient_KeyPress(KeyAscii As Integer)
             SldCoef.Value = TxtSetCoefficient.Text * -100 ' evtl. mit Int()
         
             If OptNumerator.Value = True Then
-                CoefNum(TxtDegToSetCoef.Text) = TxtSetCoefficient.Text
+                CoefNum(CInt(TxtDegToSetCoef.Text)) = CDbl(TxtSetCoefficient.Text)
             Else
-                CoefDen(TxtDegToSetCoef.Text) = TxtSetCoefficient.Text
+                CoefDen(CInt(TxtDegToSetCoef.Text)) = CDbl(TxtSetCoefficient.Text)
             End If
             
             Draw
