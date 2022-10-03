@@ -5,6 +5,7 @@ Option Explicit
 Public Type NewtonResult
     NullCnt As Integer
     Nulls() As Double
+    Factor As Double
 End Type
 
 
@@ -96,6 +97,8 @@ Public Function Newton(Coef, N2 As Boolean) As NewtonResult
     Else
         Result.NullCnt = 0
     End If
+    
+    Result.Factor = Coef(0)
     
     Newton = Result
 End Function

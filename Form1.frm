@@ -593,40 +593,40 @@ Begin VB.Form FrmMain
          End
          Begin VB.ListBox LstMainPolesOrder 
             Height          =   2400
-            Left            =   3360
+            Left            =   3480
             TabIndex        =   42
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox LstMainPoles 
             Height          =   2400
-            Left            =   2640
+            Left            =   2760
             TabIndex        =   41
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox LstMainNullsMulti 
             Height          =   2400
-            Left            =   1800
+            Left            =   840
             TabIndex        =   40
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox LstMainNulls 
             Height          =   2400
-            Left            =   1080
+            Left            =   120
             TabIndex        =   39
             Top             =   2400
             Width           =   615
          End
-         Begin VB.ListBox LstMainDefL 
+         Begin VB.ListBox LstMainDefGap 
             Height          =   2400
-            Left            =   120
+            Left            =   1800
             TabIndex        =   38
             Top             =   2400
             Width           =   615
          End
-         Begin VB.CommandButton BtnHornerSchemaShow 
+         Begin VB.CommandButton BtnNewtonShow 
             BackColor       =   &H0080C0FF&
             Caption         =   "Anzeigen"
             Height          =   615
@@ -636,31 +636,58 @@ Begin VB.Form FrmMain
             Top             =   240
             Width           =   1575
          End
+         Begin VB.Label Label2941 
+            BackStyle       =   0  'Transparent
+            Caption         =   "Ordnung"
+            Height          =   255
+            Left            =   3600
+            TabIndex        =   136
+            Top             =   2160
+            Width           =   615
+         End
+         Begin VB.Label Label294 
+            BackStyle       =   0  'Transparent
+            Caption         =   "Vielfachheit"
+            Height          =   255
+            Left            =   720
+            TabIndex        =   135
+            Top             =   2160
+            Width           =   975
+         End
+         Begin VB.Label Label292 
+            BackStyle       =   0  'Transparent
+            Caption         =   "NS"
+            Height          =   255
+            Left            =   240
+            TabIndex        =   133
+            Top             =   2160
+            Width           =   375
+         End
          Begin VB.Label Label10 
             Caption         =   "Wendepunkte Sattelpunkte hebbare Difinitionlücken"
             Height          =   1215
-            Left            =   3960
+            Left            =   4080
             TabIndex        =   132
-            Top             =   2400
+            Top             =   2640
             Width           =   855
          End
-         Begin VB.Label Label29 
+         Begin VB.Label Label29412 
             BackStyle       =   0  'Transparent
-            Caption         =   "NS       Vielfachheit   Pole          Ordnung"
+            Caption         =   "Pole"
             Height          =   255
-            Left            =   1080
+            Left            =   2880
             TabIndex        =   68
             Top             =   2160
-            Width           =   2895
+            Width           =   375
          End
          Begin VB.Label Label28 
             BackStyle       =   0  'Transparent
             Caption         =   "Def.-lücken"
             Height          =   255
-            Left            =   120
+            Left            =   1680
             TabIndex        =   67
             Top             =   2160
-            Width           =   975
+            Width           =   855
          End
          Begin VB.Line Line1 
             X1              =   240
@@ -1083,6 +1110,15 @@ Begin VB.Form FrmMain
          Min             =   -10000
          Max             =   10000
          TickStyle       =   3
+      End
+      Begin VB.Label Label29 
+         BackStyle       =   0  'Transparent
+         Caption         =   "Ordnung"
+         Height          =   255
+         Left            =   6960
+         TabIndex        =   134
+         Top             =   2280
+         Width           =   735
       End
       Begin VB.Label Label11 
          BackColor       =   &H0080C0FF&
@@ -1564,12 +1600,125 @@ Private Sub BtnAsymptote_Click()
     End If
 End Sub
 
-Private Sub BtnNewton_Click()
-    Dim Start, Ende
+
+Private Function GetLinearFactorString(Nulls As NewtonResult, Degree As Integer) As String
+    Dim I As Integer
     Dim Sign As String
+    Dim LFS As String
+    
+    If Degree > 0 And Nulls.NullCnt = Degree Then
+        ' Write main factor
+        LFS = Nulls.Factor
+        
+        ' Write linear factors to text box
+        For I = 0 To Nulls.NullCnt - 1
+            If Nulls.Nulls(I) < 0 Then
+                Sign = "+"
+            Else
+                Sign = "-"
+            End If
+            LFS = LFS & " (x " + Sign + Str(Abs(Nulls.Nulls(I))) + ")"
+        Next I
+    Else
+        LFS = "Cannot calculate linear factors!"
+    End If
+        
+    GetLinearFactorString = LFS
+End Function
+
+
+Private Sub MergeNullsToMultiNulls(LstNulls As ListBox, LstNullsMulti As ListBox, LstNullsMultiFactors As ListBox)
+    Dim I As Integer
+    Dim Found As Boolean
+
+    ' Merge nulls to multi-nulls where possible
+    For I = 0 To LstNulls.ListCount - 1
+        Found = False
+        For U = 0 To LstNullsMulti.ListCount - 1
+            If LstNullsMulti.List(U) = LstNulls.List(I) Then
+                LstNullsMultiFactors.List(U) = LstNullsMultiFactors.List(U) + 1
+                Found = True
+                Exit For
+            End If
+        Next U
+        
+        If Not Found Then
+            LstNullsMulti.AddItem (LstNulls.List(I))
+            LstNullsMultiFactors.AddItem (1)
+        End If
+    Next I
+End Sub
+
+
+Private Sub AddNullsToList(Nulls As NewtonResult, LstNulls As ListBox)
+    Dim I As Integer
+    
+    For I = 0 To Nulls.NullCnt - 1
+        LstNulls.AddItem (Nulls.Nulls(I))
+    Next I
+End Sub
+
+
+Call XXXX(LstNullsNumMulti, LstNullsDenMulti)
+Call XXXX(LstNullsDenMulti, LstNullsNumMulti)
+
+Private Function XXXX(LstOuter As ListBox, LstInner As ListBox)
+    ' Determine nulls
+    For I = 0 To LstNullsNumMulti.ListCount - 1 ' Check all numerator nulls
+        'Removable = False ' XXX unpassender Name in diesem Fall, oder?
+        
+        ' Check if the current null is also contained in the denominator nulls
+        MultiplicityDiff = LstNullsNumMultiFactors.List(I)
+        For U = 0 To LstNullsDenMulti.ListCount - 1
+            If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) And LstNullsNumMultiFactors.List(I) > LstNullsDenMultiFactors.List(U) Then
+                MultiplicityDiff = LstNullsNumMultiFactors.List(I) - LstNullsDenMultiFactors.List(U)
+                'Removable = True
+                Exit For
+            End If
+        Next U
+        
+        If MultiplicityDiff > 0 Then
+            LstMainNullsMulti.AddItem (LstNullsNumMulti.List(I))
+            LstMainNullsMulti.AddItem (LstNullsNumMultiFactors.List(I))
+        End If
+    Next I
+    
+    ' Determine definition gaps
+    For I = 0 To LstNullsDenMulti.ListCount - 1 ' Check all denominator nulls
+        Removable = False
+        
+        ' Check if the current null is also contained in the numerator nulls
+        MultiplicityDiff = LstNullsDenMultiFactors.List(I)
+        For U = 0 To LstNullsNumMulti.ListCount - 1
+            If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) And LstNullsNumMultiFactors.List(U) <= LstNullsDenMultiFactors.List(I) Then
+                MultiplicityDiff = LstNullsDenMultiFactors.List(I) - LstNullsNumMultiFactors.List(U)
+                Removable = True
+                Exit For
+            End If
+        Next U
+
+        If Removable Then
+            LstMainDefGap.AddItem (LstNullsDenMulti.List(I))
+        Else
+            LstMainPoles.AddItem (LstNullsDenMulti.List(I))
+            LstMainPolesOrder.AddItem (MultiplicityDiff)
+        End If
+    Next I
+        
+        
+        
+End Function
+
+
+
+Private Sub BtnNewton_Click()
     Dim I As Integer
     Dim NullsNum As NewtonResult, NullsDen As NewtonResult
     Dim Found As Boolean
+    Dim Removable As Boolean
+    Dim MultiplicityDiff As Integer
+    Dim NumValueAtX As Double
+    Dim DenValueAtX As Double
     'XXX Call HornerSchema
     
     If Not IsRationalFunction Then
@@ -1587,8 +1736,8 @@ Private Sub BtnNewton_Click()
     LstNullsDenMulti.Clear
     LstNullsDenMultiFactors.Clear
     
-    LstMainDefL.Clear
-    LstMainNulls.Clear
+    LstMainDefGap.Clear
+    LstMainNullsMulti.Clear
     LstMainNullsMulti.Clear
     LstMainPoles.Clear
     LstMainPolesOrder.Clear
@@ -1597,166 +1746,83 @@ Private Sub BtnNewton_Click()
     TxtLinFacDen.Text = ""
     
     If IsRationalFunction Then
-        ' Write factors to text box
-        For I = 0 To NullsNum.NullCnt - 1
-            If NullsNum.Nulls(I) < 0 Then
-                Sign = "+"
-            Else
-                Sign = "-"
-            End If
-            TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(NullsNum.Nulls(I))) + ")"
-        Next I
+        ' f(x) = p(x) / q(x)
+        '
+        ' Nullstelle + Vielfachheit -> p(x) = 0 && q(x) != 0
+        ' Definitionslücken, zwei Arten:
+        ' -> Hebbare Definitionslücke -> mult(null_den(x)) <= mult(null_num(x))
+        ' -> Polstelle + Ordnung -> p(x) != 0 && q(x) = 0
         
-        For I = 0 To NullsDen.NullCnt - 1
-            If NullsDen.Nulls(I) < 0 Then
-                Sign = "+"
-            Else
-                Sign = "-"
-            End If
-            TxtLinFacDen.Text = TxtLinFacDen.Text & " (x " + Sign + Str(Abs(NullsDen.Nulls(I))) + ")"
-        Next I
+        ' Determine base values
+        ' > Add nulls to list
+        Call AddNullsToList(NullsNum, LstNullsNum)
+        Call AddNullsToList(NullsDen, LstNullsDen)
         
-        ' Add nulls to list
-        For I = 0 To NullsNum.NullCnt - 1
-            LstNullsNum.AddItem (NullsNum.Nulls(I))
-        Next I
-        For I = 0 To NullsDen.NullCnt - 1
-            LstNullsDen.AddItem (NullsDen.Nulls(I))
-        Next I
+        ' > Merge nulls to multi-nulls where possible
+        Call MergeNullsToMultiNulls(LstNullsNum, LstNullsNumMulti, LstNullsNumMultiFactors)
+        Call MergeNullsToMultiNulls(LstNullsDen, LstNullsDenMulti, LstNullsDenMultiFactors)
         
+        ' Write linear factor decomposition to text box
+        TxtLinFacNum.Text = GetLinearFactorString(NullsNum, DegNum)
+        TxtLinFacDen.Text = GetLinearFactorString(NullsDen, DegDen)
         
-        
-        ' Merge nulls to multi-nulls where possible
-        For I = 0 To LstNullsNum.ListCount - 1
-            Found = False
-            For U = 0 To LstNullsNumMulti.ListCount - 1
-                If LstNullsNumMulti.List(U) = LstNullsNum.List(I) Then
-                    LstNullsNumMultiFactors.List(U) = LstNullsNumMultiFactors.List(U) + 1
-                    Found = True
-                    Exit For
-                End If
-            Next U
+        ' Determine nulls
+        For I = 0 To LstNullsNumMulti.ListCount - 1 ' Check all numerator nulls
+            'Removable = False ' XXX unpassender Name in diesem Fall, oder?
             
-            If Not Found Then
-                LstNullsNumMulti.AddItem (LstNullsNum.List(I))
-                LstNullsNumMultiFactors.AddItem (1)
-            End If
-        Next I
-        
-        
-        ' Merge nulls to multi-nulls where possible
-        For I = 0 To LstNullsDen.ListCount - 1
-            Found = False
+            ' Check if the current null is also contained in the denominator nulls
+            MultiplicityDiff = LstNullsNumMultiFactors.List(I)
             For U = 0 To LstNullsDenMulti.ListCount - 1
-                If LstNullsDenMulti.List(U) = LstNullsDen.List(I) Then
-                    LstNullsDenMultiFactors.List(U) = LstNullsDenMultiFactors.List(U) + 1
-                    Found = True
+                If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) And LstNullsNumMultiFactors.List(I) > LstNullsDenMultiFactors.List(U) Then
+                    MultiplicityDiff = LstNullsNumMultiFactors.List(I) - LstNullsDenMultiFactors.List(U)
+                    'Removable = True
                     Exit For
                 End If
             Next U
             
-            If Not Found Then
-                LstNullsDenMulti.AddItem (LstNullsDen.List(I))
-                LstNullsDenMultiFactors.AddItem (1)
-            End If
-        Next I
-
-' XXX nachfolgenden Block wieder reaktivieren
-'
-'        If LstNullsNum.ListCount > LstNullsDen.ListCount Then
-'            Ende = LstNullsNum.ListCount
-'        Else
-'            Ende = LstNullsDen.ListCount
-'        End If
-'
-'        For N = 0 To LstNullsNumMulti.ListCount
-'            For I = 0 To Ende
-'                If LstNullsNumMulti.List(N) = LstNullsDenMulti.List(I) Then
-'                LstMainDefL.AddItem (LstNullsNumMulti.List(N))
-'                    If LstNullsNumMultiFactors.List(N) = LstNullsDenMultiFactors.List(I) Then
-'                        LstNullsNumMultiFactors.List(N) = "-"
-'                        LstNullsDenMultiFactors.List(I) = "-"
-'                    ElseIf LstNullsNumMultiFactors.List(N) > LstNullsDenMultiFactors.List(I) Then
-'                        LstNullsNumMultiFactors.List(N) = LstNullsNumMultiFactors.List(N) - LstNullsDenMultiFactors.List(I)
-'                        LstNullsDenMultiFactors.List(I) = "-"
-'                    Else
-'                        LstNullsDenMultiFactors.List(I) = LstNullsDenMultiFactors.List(I) - LstNullsNumMultiFactors.List(N)
-'                        LstNullsNumMultiFactors.List(N) = "-"
-'                    End If
-'                End If
-'            Next I
-'        Next N
-        
-        For I = 0 To LstNullsNumMulti.ListCount - 1
-            If LstNullsNumMultiFactors.List(I) <> "-" Then
-                LstMainNulls.AddItem (LstNullsNumMulti.List(I))
+            If MultiplicityDiff > 0 Then
+                LstMainNullsMulti.AddItem (LstNullsNumMulti.List(I))
                 LstMainNullsMulti.AddItem (LstNullsNumMultiFactors.List(I))
             End If
         Next I
         
-        For I = 0 To LstNullsDenMulti.ListCount - 1
-            If LstNullsDenMultiFactors.List(I) <> "-" Then
+        ' Determine definition gaps
+        For I = 0 To LstNullsDenMulti.ListCount - 1 ' Check all denominator nulls
+            Removable = False
+            
+            ' Check if the current null is also contained in the numerator nulls
+            MultiplicityDiff = LstNullsDenMultiFactors.List(I)
+            For U = 0 To LstNullsNumMulti.ListCount - 1
+                If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) And LstNullsNumMultiFactors.List(U) <= LstNullsDenMultiFactors.List(I) Then
+                    MultiplicityDiff = LstNullsDenMultiFactors.List(I) - LstNullsNumMultiFactors.List(U)
+                    Removable = True
+                    Exit For
+                End If
+            Next U
+
+            If Removable Then
+                LstMainDefGap.AddItem (LstNullsDenMulti.List(I))
+            Else
                 LstMainPoles.AddItem (LstNullsDenMulti.List(I))
-                LstMainPolesOrder.AddItem (LstNullsDenMultiFactors.List(I))
-            End If
-        Next I
-        
-        ' XXX Add definiton gaps to list
-        For I = 0 To NullsDen.NullCnt - 1
-            If GetFuncValByX(NullsDen.Nulls(I), CoefNum) <> 0 Then
-                LstMainDefL.AddItem (NullsDen.Nulls(I))
+                LstMainPolesOrder.AddItem (MultiplicityDiff)
             End If
         Next I
     
     Else ' Non-rational functions
-        ' Write factors to text box
-        If DegNum > 0 And NullsNum.NullCnt = DegNum Then
-            For I = 0 To NullsNum.NullCnt - 1
-                If NullsNum.Nulls(I) < 0 Then
-                    Sign = "+"
-                Else
-                    Sign = "-"
-                End If
-                TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(NullsNum.Nulls(I))) + ")"
-            Next I
-            
-            ' Remove leading space in that output string
-            If Len(TxtLinFacNum.Text) > 0 Then
-                TxtLinFacNum.Text = Mid(TxtLinFacNum.Text, 2)
-            End If
-            'If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & " )"
-        Else
-            TxtLinFacNum.Text = "Cannot calculate linear factors!"
-        End If
     
-        ' Add nulls to list
-        For I = 0 To NullsNum.NullCnt - 1
-            LstNullsNum.AddItem (NullsNum.Nulls(I))
-        Next I
+        ' Determine base values
+        ' > Add nulls to list
+        Call AddNullsToList(NullsNum, LstNullsNum)
         
-        ' Merge nulls to multi-nulls where possible
-        For I = 0 To LstNullsNum.ListCount - 1
-            Found = False
-            For U = 0 To LstNullsNumMulti.ListCount - 1
-                If LstNullsNumMulti.List(U) = LstNullsNum.List(I) Then
-                    LstNullsNumMultiFactors.List(U) = LstNullsNumMultiFactors.List(U) + 1
-                    Found = True
-                    Exit For
-                End If
-            Next U
-            
-            If Not Found Then
-                LstNullsNumMulti.AddItem (LstNullsNum.List(I))
-                LstNullsNumMultiFactors.AddItem (1)
-            End If
-        Next I
+        ' > Merge nulls to multi-nulls where possible
+        Call MergeNullsToMultiNulls(LstNullsNum, LstNullsNumMulti, LstNullsNumMultiFactors)
     
-        ' XXX Copy list entries - why do we have them twice? Are the many ones just for debugging purposes and the other the proper ones?
-        For I = 0 To LstNullsNumMulti.ListCount - 1
-            LstMainNulls.AddItem (LstNullsNumMulti.List(I))
-        Next I
+        ' Write linear factor decomposition to text box
+        TxtLinFacNum.Text = GetLinearFactorString(NullsNum, DegNum)
         
+        ' Copy list entries - there is no more to evaluate like it is the case with rational functions
         For I = 0 To LstNullsNumMulti.ListCount - 1
+            LstMainNullsMulti.AddItem (LstNullsNumMulti.List(I))
             LstMainNullsMulti.AddItem (LstNullsNumMultiFactors.List(I))
         Next I
     End If
@@ -1783,7 +1849,7 @@ Private Sub BtnDifferentiate_Click()
         ' f'(x) = (h(x)*g'(x) - g(x)*h'(x)) / [h(x)]^2
         Dim CoefNumDiff() As Double
         Dim CoefDenDiff() As Double
-        ReDim CoefNumDiff(0 To DegNum - 1)
+        ReDim CoefNumDiff(0 To DegNum - 1) ' XXX Stürzt ab, wenn DegNum = 0 ist - wohl auch selbiges Problem mit DegDen
         ReDim CoefDenDiff(0 To DegDen - 1)
         
         ' Differentiate numerator and denominator polynomes
@@ -1849,75 +1915,32 @@ Private Sub BtnIntegrate_Click()
 End Sub
 
 
-Private Sub BtnHornerSchemaShow_Click()
+Private Sub BtnNewtonShow_Click()
     Dim I As Integer
     Dim X As Double
-    ' *** Das ganze '0.0001' kann wahrscheinlich weggelassen werden, da Definitionslücken ja jetzt übersprungen werden
+    ' XXX Das ganze '0.0001' kann wahrscheinlich weggelassen werden, da Definitionslücken ja jetzt übersprungen werden
     FrmMain.DrawWidth = 3
     
     If IsRationalFunction Then
-        For I = 0 To LstMainDefL.ListCount - 1
-'            If LstMainDefL.List(I) <> "" Then
-'                Y1 = GetFuncValByX(Int(LstMainDefL.List(I)) + 0.0001, CoefNum)
-''                For G = 0 To DegNum
-''                    Y1 = Y1 + CoefNum(G) * (Int(LstMainDefL.List(I)) + 0.0001) ^ G
-''                Next G
-'
-'                FrmMain.Circle (LstMainDefL.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
-'                Y1 = 0
-'            Else
-                Y1 = GetFuncValByX(Int(LstMainDefL.List(I)) + 0.0001, CoefNum)
-'                For G = 0 To DegNum
-'                    Y1 = Y1 + CoefNum(G) * (Int(LstMainDefL.List(I)) + 0.0001) ^ G
-'                Next G
-                
-                Y2 = GetFuncValByX(Int(LstMainDefL.List(I)) + 0.0001, CoefDen)
-'                For G = 0 To DegDen  'DegNum
-'                    Y2 = Y2 + CoefDen(G) * (Int(LstMainDefL.List(I)) + 0.0001) ^ G
-'                Next G
-                
-                FrmMain.Circle (LstMainDefL.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
-'                Y1 = 0
-'                Y2 = 0
-'            End If
+        For I = 0 To LstMainDefGap.ListCount - 1
+            Y1 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefNum)
+            Y2 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefDen)
+            
+            FrmMain.Circle (LstMainDefGap.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
         Next I
         
-        For I = 0 To LstMainNulls.ListCount - 1
-'            If LstMainNulls.List(I) <> "" Then
-'                'DegNum = TxtDegreeNumerator.Text
-'                Y1 = GetFuncValByX(Int(LstMainNulls.List(I)) + 0.0001, CoefNum)
-''                For G = 0 To DegNum
-''                    Y1 = Y1 + CoefNum(G) * (Int(LstMainNulls.List(I)) + 0.0001) ^ G
-''                Next G
-'
-'                FrmMain.Circle (LstMainNulls.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
-'                Y1 = 0
-'            Else
-                'DegNum = TxtDegreeNumerator.Text
-                Y1 = GetFuncValByX(Int(LstMainNulls.List(I)) + 0.0001, CoefNum)
-'                For G = 0 To DegNum
-'                    Y1 = Y1 + CoefNum(G) * (Int(LstMainNulls.List(I)) + 0.0001) ^ G
-'                Next G
+        For I = 0 To LstMainNullsMulti.ListCount - 1
+            Y1 = GetFuncValByX(Int(LstMainNullsMulti.List(I)) + 0.0001, CoefNum)
+            Y2 = GetFuncValByX(Int(LstMainNullsMulti.List(I)) + 0.0001, CoefDen)
                 
-                'DegNum = TxtDegreeDenominator.Text
-                Y2 = GetFuncValByX(Int(LstMainNulls.List(I)) + 0.0001, CoefDen)
-'                For G = 0 To DegDen 'DegNum
-'                    Y2 = Y2 + CoefDen(G) * (Int(LstMainNulls.List(I)) + 0.0001) ^ G
-'                Next G
-                
-                FrmMain.Circle (LstMainNulls.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2), 0.1, RGB(255, 0, 0)
-'                Y1 = 0
-'                Y2 = 0
-'            End If
+            FrmMain.Circle (LstMainNullsMulti.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2), 0.1, RGB(255, 0, 0)
         Next I
         
         FrmMain.DrawStyle = 2
         
         For I = 0 To LstMainPoles.ListCount - 1
-            If LstMainPoles.List(I) <> "" Then
-                FrmMain.Line (LstMainPoles.List(I) + FrmMain.ScaleWidth / 2, 0)-(LstMainPoles.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight), RGB(255, 0, 0)
-                FrmMain.DrawStyle = 0
-            End If
+            FrmMain.Line (LstMainPoles.List(I) + FrmMain.ScaleWidth / 2, 0)-(LstMainPoles.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight), RGB(255, 0, 0)
+            FrmMain.DrawStyle = 0
         Next I
     Else
         ' Draw nulls
@@ -1959,7 +1982,6 @@ Private Sub BtnHornerSchemaShow_Click()
                 End If
             End If
         Next I
-        
     End If
 End Sub
 
@@ -2221,7 +2243,7 @@ Private Sub BtnOffsetCoordSystem_Click()
 End Sub
 
 
-Private Sub Form_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub Form_DragDrop(source As Control, X As Single, Y As Single)
     Dim ScaleModeTmp
     Dim rect As POINTAPI
     GetCursorPos rect

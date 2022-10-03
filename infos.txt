@@ -18,4 +18,5 @@ Bugs
   -> Nullstellen von Polynomen richtig raten (Satz über rationale Nullstellen): https://www.youtube.com/watch?v=bvSbgQ16wKQ
 * Wieso wird z.B. bei 1/x nur der linke Teil des Graphen gezeichnet?
 * Wieso wird z.B. bei 1/x keine Asymptote gezeichnet?
-* Das Resetten der Parameter, Listen, etc. sauber einbauen und aufrufen. Evtl. auch einen Reset-Button einbauen
+* Das Resetten der Parameter, Listen, etc. sauber einbauen und aufrufen. Evtl. auch einen Reset-Button einbauen.
+* Bei 1/x wird die Linearfaktorzerlegung nicht richtig angezeigt, da der oebere Term nicht richtig angezeigt wird. Was ist bei 2/x?
