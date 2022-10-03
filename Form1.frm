@@ -576,7 +576,7 @@ Begin VB.Form FrmMain
          End
          Begin VB.CommandButton BtnHornerSchema 
             BackColor       =   &H0080C0FF&
-            Caption         =   "Horner Schema (Lücken, Pole und Nullstellen) + Linearfaktorzerlegung"
+            Caption         =   "Newton-Verfahren (Lücken, Pole und Nullstellen) + Linearfaktorzerlegung"
             Height          =   615
             Left            =   120
             Style           =   1  'Graphical
@@ -1074,17 +1074,8 @@ Begin VB.Form FrmMain
          Caption         =   "NS f''"
          Height          =   255
          Left            =   9600
-         TabIndex        =   125
-         Top             =   5520
-         Width           =   375
-      End
-      Begin VB.Label Label10 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "NS f'"
-         Height          =   255
-         Left            =   0
          TabIndex        =   124
-         Top             =   0
+         Top             =   5520
          Width           =   375
       End
       Begin VB.Label Label23 
@@ -1495,7 +1486,7 @@ Private Sub BtnHornerSchema_Click()
     Dim Start, Ende
     Dim Sign As String
     Dim I As Integer
-    Dim Newton1() As Double, Newton2() As Double
+    Dim Newton1 As NewtonResult, Newton2 As NewtonResult
     'XXX Call HornerSchema
     
     If Not IsRationalFunction Then
@@ -1522,12 +1513,12 @@ Private Sub BtnHornerSchema_Click()
         '''''If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & Factor1 & "*("
         
         For I = 1 To DegNum
-            If Newton1(I) < 0 Then
+            If Newton1.Nulls(I) < 0 Then
                 Sign = "+"
             Else
                 Sign = "-"
             End If
-            TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(Newton1(I - 1))) + ")"
+            TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(Newton1.Nulls(I - 1))) + ")"
         Next I
         
         If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & " )"
@@ -1540,35 +1531,31 @@ Private Sub BtnHornerSchema_Click()
         '''''If Factor2 <> 1 Then TxtLinFacDen.Text = TxtLinFacDen.Text & Factor2 & "*("
         
         For I = 1 To DegDen
-            If Newton2(I) < 0 Then
+            If Newton2.Nulls(I) < 0 Then
                 Sign = "+"
             Else
                 Sign = "-"
             End If
-            TxtLinFacDen.Text = TxtLinFacDen.Text & " (x " + Sign + Str(Abs(Newton2(I))) + ")"
+            TxtLinFacDen.Text = TxtLinFacDen.Text & " (x " + Sign + Str(Abs(Newton2.Nulls(I))) + ")"
         Next I
         '''''If Factor2 <> 1 Then TxtLinFacDen.Text = TxtLinFacDen.Text & " )"
         
-'        LstNullsNum.Clear
-'        LstNullsDen.Clear
         For I = 1 To DegNum
-            If Newton1(I - 1) <> "" Then LstNullsNum.AddItem (Newton1(I - 1))
+            If Newton1.Nulls(I - 1) <> "" Then LstNullsNum.AddItem (Newton1.Nulls(I - 1))
         Next I
         For I = 1 To DegDen
-            If Newton2(I - 1) <> "" Then LstNullsDen.AddItem (Newton2(I - 1))
+            If Newton2.Nulls(I - 1) <> "" Then LstNullsDen.AddItem (Newton2.Nulls(I - 1))
         Next I
         
-'        LstNullsNumMulti.Clear
-'        LstNullsNumMultiFactors.Clear
         LstNullsNumMulti.List(0) = LstNullsNum.List(0)
         LstNullsNumMultiFactors.List(0) = 1
         For I = 1 To LstNullsNum.ListCount - 1
             Element = False
             For U = 0 To LstNullsNumMulti.ListCount - 1
                 If LstNullsNumMulti.List(U) = LstNullsNum.List(I) Then
-                LstNullsNumMultiFactors.List(U) = LstNullsNumMultiFactors.List(U) + 1
-                Element = True
-                Exit For
+                    LstNullsNumMultiFactors.List(U) = LstNullsNumMultiFactors.List(U) + 1
+                    Element = True
+                    Exit For
                 End If
             Next U
             If Element = False Then LstNullsNumMulti.AddItem (LstNullsNum.List(I)): LstNullsNumMultiFactors.AddItem (1)
@@ -1583,8 +1570,6 @@ Private Sub BtnHornerSchema_Click()
         '''        End If
         '''    Next I
         
-'        List5.Clear
-'        List6.Clear
         List5.List(0) = LstNullsDen.List(0)
         List6.List(0) = 1
         For I = 1 To DegDen - 1
@@ -1636,19 +1621,19 @@ Private Sub BtnHornerSchema_Click()
         '''''If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & Factor1 & "*("
     
         ' Write factors to text box
-        If UBound(Newton1) = DegNum Then
-            For I = 1 To DegNum
-                If Newton1(I) < 0 Then
+        If DegNum > 0 And Newton1.NullCnt = DegNum Then
+            For I = 0 To Newton1.NullCnt - 1
+                If Newton1.Nulls(I) < 0 Then
                     Sign = "+"
                 Else
                     Sign = "-"
                 End If
-                TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(Newton1(I - 1))) + ")"
+                TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(Newton1.Nulls(I))) + ")"
             Next I
             
             ' Remove leading space in that output string
             If Len(TxtLinFacNum.Text) > 0 Then
-                TxtLinFacNum.Text = Mid(TxtLinFacNum.Text, 1)
+                TxtLinFacNum.Text = Mid(TxtLinFacNum.Text, 2)
             End If
             'If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & " )"
         Else
@@ -1656,15 +1641,17 @@ Private Sub BtnHornerSchema_Click()
         End If
     
         ' Add nulls to list
-        For I = 1 To UBound(Newton1)
-            If Newton1(I - 1) <> 0 Then LstNullsNum.AddItem (Newton1(I - 1))
+        For I = 0 To Newton1.NullCnt - 1
+            'If Newton1(I) <> 0 Then LstNullsNum.AddItem (Newton1(I))
+            LstNullsNum.AddItem (Newton1.Nulls(I))
         Next I
         
 
-        LstNullsNumMulti.List(0) = LstNullsNum.List(0)
-        LstNullsNumMultiFactors.List(0) = 1
+        'LstNullsNumMulti.List(0) = LstNullsNum.List(0)
+        'LstNullsNumMultiFactors.List(0) = 1
         
-        For I = 1 To LstNullsNum.ListCount - 1
+        ' XXX Vllt. stimmt hier die Logik nicht mehr ganz, denn ursprünglich waren bereits Einträge in der Liste (s.o.)
+        For I = 0 To LstNullsNum.ListCount - 1
             Element = False
             For U = 0 To LstNullsNumMulti.ListCount - 1
                 If LstNullsNumMulti.List(U) = LstNullsNum.List(I) Then
@@ -1685,12 +1672,12 @@ Private Sub BtnHornerSchema_Click()
         '    End If
         '    Next I
     
-        ' XXX Copy list entries - why do we have them twice
-        For I = 0 To LstNullsNumMulti.ListCount
+        ' XXX Copy list entries - why do we have them twice? Are the many ones just for debugging purposes and the other the proper ones?
+        For I = 0 To LstNullsNumMulti.ListCount - 1
             List9.AddItem (LstNullsNumMulti.List(I))
         Next I
         
-        For I = 0 To LstNullsNumMulti.ListCount
+        For I = 0 To LstNullsNumMulti.ListCount - 1
             List10.AddItem (LstNullsNumMultiFactors.List(I))
         Next I
     End If
@@ -1949,23 +1936,23 @@ End Sub
 
 Private Sub BtnExtremum_Click()
     Dim I As Integer
-    Dim Newton1() As Double
+    Dim Newton1 As NewtonResult
     Dim ZAbl1() As Double, ZAbl2() As Double
     
     ' Calculate 1st derivative and add nulls to list
     ZAbl1 = GetDiffFuncCoefs(CoefNum)
     Newton1 = Newton((ZAbl1), True)
     
-    For I = 0 To UBound(Newton1) - 1
-        LstNullsFd.AddItem (Newton1(I))
+    For I = 0 To Newton1.NullCnt - 1
+        LstNullsFd.AddItem (Newton1.Nulls(I))
     Next I
     
     ' Calculate 2nd derivative and add nulls to list
     ZAbl2 = GetDiffFuncCoefs(ZAbl1)
     Newton1 = Newton((ZAbl2), True)
     
-    For I = 0 To UBound(Newton1) - 1
-        LstNullsFdd.AddItem (Newton1(I))
+    For I = 0 To Newton1.NullCnt - 1
+        LstNullsFdd.AddItem (Newton1.Nulls(I))
     Next I
     
     ' XXX
