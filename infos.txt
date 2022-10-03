@@ -16,3 +16,6 @@ Bugs
 * Lade ich eine gebrochen rationale Funktion, dann wird diese geplottet. Stelle ich dann die Breite in Einheiten von 20 auf 30, wird nur noch der linke Teil des Graphen gezeichnet. Auch wenn ich diesen Wert wieder zurückstelle, wird der Graph nicht mehr vollständig gezeichnet.
 * Prüfen, on das Horner-Schema richtig implementiert ist bzw. wie dies überhaupt funktionieren kann, da ja hierfür Nullstellen ermittelt werden müssen.
   -> Nullstellen von Polynomen richtig raten (Satz über rationale Nullstellen): https://www.youtube.com/watch?v=bvSbgQ16wKQ
+* Wieso wird z.B. bei 1/x nur der linke Teil des Graphen gezeichnet?
+* Wieso wird z.B. bei 1/x keine Asymptote gezeichnet?
+* Das Resetten der Parameter, Listen, etc. sauber einbauen und aufrufen. Evtl. auch einen Reset-Button einbauen

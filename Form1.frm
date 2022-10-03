@@ -30,19 +30,85 @@ Begin VB.Form FrmMain
       BackColor       =   &H0080C0FF&
       BorderStyle     =   0  'None
       Height          =   8415
-      Left            =   120
+      Left            =   240
       ScaleHeight     =   561
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   777
       TabIndex        =   0
-      Top             =   840
+      Top             =   600
       Width           =   11655
+      Begin VB.ListBox LstTip 
+         BackColor       =   &H00FF0000&
+         Height          =   2400
+         Left            =   10680
+         TabIndex        =   131
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox LstHop 
+         BackColor       =   &H0000FF00&
+         Height          =   2400
+         Left            =   10080
+         TabIndex        =   130
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox LstNullsFdd 
+         BackColor       =   &H00E0E0E0&
+         Height          =   2400
+         Left            =   9480
+         TabIndex        =   129
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox LstNullsFd 
+         BackColor       =   &H00C0C0C0&
+         Height          =   2400
+         Left            =   8880
+         TabIndex        =   128
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox List8 
+         Enabled         =   0   'False
+         Height          =   2400
+         Left            =   8280
+         TabIndex        =   127
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox LstNullsDenMultiFactors 
+         Height          =   2400
+         Left            =   7680
+         TabIndex        =   126
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox LstNullsDenMulti 
+         Height          =   2400
+         Left            =   7080
+         TabIndex        =   125
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
+      Begin VB.ListBox LstNullsDen 
+         BackColor       =   &H80000002&
+         Height          =   2400
+         Left            =   6480
+         TabIndex        =   124
+         TabStop         =   0   'False
+         Top             =   5760
+         Width           =   615
+      End
       Begin VB.Frame FrmColor 
          BackColor       =   &H0080C0FF&
          Caption         =   "Color"
          Height          =   1095
          Left            =   600
-         TabIndex        =   107
+         TabIndex        =   99
          Top             =   5280
          Width           =   675
          Begin VB.PictureBox PicColorSelArea 
@@ -51,7 +117,7 @@ Begin VB.Form FrmMain
             ScaleHeight     =   48
             ScaleMode       =   3  'Pixel
             ScaleWidth      =   96
-            TabIndex        =   109
+            TabIndex        =   101
             Top             =   240
             Width           =   1500
             Begin VB.PictureBox PicColorPalette 
@@ -63,7 +129,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   121
+               TabIndex        =   113
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -77,7 +143,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   120
+               TabIndex        =   112
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -91,7 +157,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   119
+               TabIndex        =   111
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -105,7 +171,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   118
+               TabIndex        =   110
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -119,7 +185,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   117
+               TabIndex        =   109
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -133,7 +199,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   116
+               TabIndex        =   108
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -147,7 +213,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   115
+               TabIndex        =   107
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -161,7 +227,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   114
+               TabIndex        =   106
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -175,7 +241,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   113
+               TabIndex        =   105
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -189,7 +255,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   112
+               TabIndex        =   104
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -203,7 +269,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   111
+               TabIndex        =   103
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -217,7 +283,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   110
+               TabIndex        =   102
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -229,7 +295,7 @@ Begin VB.Form FrmMain
                Caption         =   "SELECT  "
                Height          =   240
                Left            =   0
-               TabIndex        =   122
+               TabIndex        =   114
                Top             =   480
                Width           =   1440
             End
@@ -242,73 +308,13 @@ Begin VB.Form FrmMain
             ScaleLeft       =   1
             ScaleMode       =   0  'User
             ScaleWidth      =   0.344
-            TabIndex        =   108
+            TabIndex        =   100
             TabStop         =   0   'False
             Top             =   240
             Width           =   550
          End
       End
-      Begin VB.ListBox LstTip 
-         Height          =   2400
-         Left            =   10680
-         TabIndex        =   106
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox LstHop 
-         Height          =   2400
-         Left            =   10080
-         TabIndex        =   105
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox LstNullsFdd 
-         Height          =   2400
-         Left            =   9480
-         TabIndex        =   104
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox LstNullsFd 
-         Height          =   2400
-         Left            =   8880
-         TabIndex        =   103
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List8 
-         Height          =   2400
-         Left            =   8280
-         TabIndex        =   102
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List6 
-         Height          =   2400
-         Left            =   7680
-         TabIndex        =   101
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox List5 
-         Height          =   2400
-         Left            =   7080
-         TabIndex        =   100
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
       Begin VB.ListBox LstNullsNumMultiFactors 
-         Height          =   2400
-         Left            =   6480
-         TabIndex        =   99
-         TabStop         =   0   'False
-         Top             =   5760
-         Width           =   615
-      End
-      Begin VB.ListBox LstNullsNumMulti 
          Height          =   2400
          Left            =   5880
          TabIndex        =   98
@@ -316,7 +322,7 @@ Begin VB.Form FrmMain
          Top             =   5760
          Width           =   615
       End
-      Begin VB.ListBox LstNullsDen 
+      Begin VB.ListBox LstNullsNumMulti 
          Height          =   2400
          Left            =   5280
          TabIndex        =   97
@@ -543,6 +549,7 @@ Begin VB.Form FrmMain
          Width           =   1695
       End
       Begin VB.ListBox LstNullsNum 
+         BackColor       =   &H80000002&
          Height          =   2400
          Left            =   4680
          TabIndex        =   43
@@ -574,7 +581,7 @@ Begin VB.Form FrmMain
             Top             =   1560
             Width           =   4575
          End
-         Begin VB.CommandButton BtnHornerSchema 
+         Begin VB.CommandButton BtnNewton 
             BackColor       =   &H0080C0FF&
             Caption         =   "Newton-Verfahren (Lücken, Pole und Nullstellen) + Linearfaktorzerlegung"
             Height          =   615
@@ -584,35 +591,35 @@ Begin VB.Form FrmMain
             Top             =   240
             Width           =   2895
          End
-         Begin VB.ListBox List12 
+         Begin VB.ListBox LstMainPolesOrder 
             Height          =   2400
             Left            =   3360
             TabIndex        =   42
             Top             =   2400
             Width           =   615
          End
-         Begin VB.ListBox List11 
+         Begin VB.ListBox LstMainPoles 
             Height          =   2400
             Left            =   2640
             TabIndex        =   41
             Top             =   2400
             Width           =   615
          End
-         Begin VB.ListBox List10 
+         Begin VB.ListBox LstMainNullsMulti 
             Height          =   2400
             Left            =   1800
             TabIndex        =   40
             Top             =   2400
             Width           =   615
          End
-         Begin VB.ListBox List9 
+         Begin VB.ListBox LstMainNulls 
             Height          =   2400
             Left            =   1080
             TabIndex        =   39
             Top             =   2400
             Width           =   615
          End
-         Begin VB.ListBox List7 
+         Begin VB.ListBox LstMainDefL 
             Height          =   2400
             Left            =   120
             TabIndex        =   38
@@ -628,6 +635,14 @@ Begin VB.Form FrmMain
             TabIndex        =   35
             Top             =   240
             Width           =   1575
+         End
+         Begin VB.Label Label10 
+            Caption         =   "Wendepunkte Sattelpunkte hebbare Difinitionlücken"
+            Height          =   1215
+            Left            =   3960
+            TabIndex        =   132
+            Top             =   2400
+            Width           =   855
          End
          Begin VB.Label Label29 
             BackStyle       =   0  'Transparent
@@ -1069,12 +1084,75 @@ Begin VB.Form FrmMain
          Max             =   10000
          TickStyle       =   3
       End
+      Begin VB.Label Label11 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "???"
+         Height          =   255
+         Left            =   8400
+         TabIndex        =   123
+         Top             =   5520
+         Width           =   450
+      End
+      Begin VB.Label Label117 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS Nx"
+         Height          =   255
+         Left            =   7800
+         TabIndex        =   122
+         Top             =   5520
+         Width           =   570
+      End
+      Begin VB.Label Label116 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS N*"
+         Height          =   255
+         Left            =   7200
+         TabIndex        =   121
+         Top             =   5520
+         Width           =   450
+      End
+      Begin VB.Label Label115 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS Zx"
+         Height          =   255
+         Left            =   6000
+         TabIndex        =   120
+         Top             =   5520
+         Width           =   570
+      End
+      Begin VB.Label Label114 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS Z*"
+         Height          =   255
+         Left            =   5400
+         TabIndex        =   119
+         Top             =   5520
+         Width           =   450
+      End
+      Begin VB.Label Label113 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS N"
+         Height          =   255
+         Left            =   6600
+         TabIndex        =   118
+         Top             =   5520
+         Width           =   450
+      End
+      Begin VB.Label Label111 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "NS Z"
+         Height          =   255
+         Left            =   4800
+         TabIndex        =   117
+         Top             =   5520
+         Width           =   450
+      End
       Begin VB.Label Label2 
          BackColor       =   &H0080C0FF&
          Caption         =   "NS f''"
          Height          =   255
          Left            =   9600
-         TabIndex        =   124
+         TabIndex        =   116
          Top             =   5520
          Width           =   375
       End
@@ -1083,7 +1161,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS f'"
          Height          =   255
          Left            =   9000
-         TabIndex        =   123
+         TabIndex        =   115
          Top             =   5520
          Width           =   375
       End
@@ -1282,7 +1360,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim X, Y, X1, Y1, Y2, X2, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY, Element
+Dim X, Y, X1, Y1, Y2, X2, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY
 Dim DragX As Integer, DragY As Integer ' For drag&drop the control panel
 Dim WXK As Boolean 'Wiederholte X-Koordinate
 Dim CoefIncr As Boolean
@@ -1404,18 +1482,22 @@ Private Sub BtnCoefIncr_MouseDown(Button As Integer, Shift As Integer, X As Sing
     TmrCoefIncrDecr.Interval = 250
 End Sub
 
+
 Private Sub BtnCoefIncr_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     TmrCoefIncrDecr.Interval = 0
 End Sub
+
 
 Private Sub BtnCoefDecr_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     CoefIncr = False
     TmrCoefIncrDecr.Interval = 250
 End Sub
 
+
 Private Sub BtnCoefDecr_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     TmrCoefIncrDecr.Interval = 0
 End Sub
+
 
 Private Sub BtnAsymptote_Click()
     If IsRationalFunction Then
@@ -1482,153 +1564,160 @@ Private Sub BtnAsymptote_Click()
     End If
 End Sub
 
-Private Sub BtnHornerSchema_Click()
+Private Sub BtnNewton_Click()
     Dim Start, Ende
     Dim Sign As String
     Dim I As Integer
-    Dim Newton1 As NewtonResult, Newton2 As NewtonResult
+    Dim NullsNum As NewtonResult, NullsDen As NewtonResult
+    Dim Found As Boolean
     'XXX Call HornerSchema
     
     If Not IsRationalFunction Then
-        Newton1 = Newton((CoefNum), True)
+        NullsNum = Newton((CoefNum), True)
     Else
-        Newton1 = Newton((CoefNum), True)
-        Newton2 = Newton((CoefDen), False)
+        NullsNum = Newton((CoefNum), True)
+        NullsDen = Newton((CoefDen), False)
     End If
 
-    ' XXX
+    ' Clear controls
     LstNullsNum.Clear
-    LstNullsDen.Clear
     LstNullsNumMulti.Clear
     LstNullsNumMultiFactors.Clear
-    List5.Clear
-    List6.Clear
+    LstNullsDen.Clear
+    LstNullsDenMulti.Clear
+    LstNullsDenMultiFactors.Clear
+    
+    LstMainDefL.Clear
+    LstMainNulls.Clear
+    LstMainNullsMulti.Clear
+    LstMainPoles.Clear
+    LstMainPolesOrder.Clear
+    
+    TxtLinFacNum.Text = ""
+    TxtLinFacDen.Text = ""
     
     If IsRationalFunction Then
-        '''''If Matrix2(0) < 0 Then
-        '''''TxtLinFacNum.Text = "Y= -"
-        '''''Else
-        '''''TxtLinFacNum.Text = "Y="
-        '''''End If
-        '''''If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & Factor1 & "*("
-        
-        For I = 1 To DegNum
-            If Newton1.Nulls(I) < 0 Then
+        ' Write factors to text box
+        For I = 0 To NullsNum.NullCnt - 1
+            If NullsNum.Nulls(I) < 0 Then
                 Sign = "+"
             Else
                 Sign = "-"
             End If
-            TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(Newton1.Nulls(I - 1))) + ")"
+            TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(NullsNum.Nulls(I))) + ")"
         Next I
         
-        If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & " )"
-        
-        '''''If Matrix3(0) < 0 Then
-        '''''TxtLinFacDen.Text = "Y= -"
-        '''''Else
-        '''''TxtLinFacDen.Text = "Y="
-        '''''End If
-        '''''If Factor2 <> 1 Then TxtLinFacDen.Text = TxtLinFacDen.Text & Factor2 & "*("
-        
-        For I = 1 To DegDen
-            If Newton2.Nulls(I) < 0 Then
+        For I = 0 To NullsDen.NullCnt - 1
+            If NullsDen.Nulls(I) < 0 Then
                 Sign = "+"
             Else
                 Sign = "-"
             End If
-            TxtLinFacDen.Text = TxtLinFacDen.Text & " (x " + Sign + Str(Abs(Newton2.Nulls(I))) + ")"
-        Next I
-        '''''If Factor2 <> 1 Then TxtLinFacDen.Text = TxtLinFacDen.Text & " )"
-        
-        For I = 1 To DegNum
-            If Newton1.Nulls(I - 1) <> "" Then LstNullsNum.AddItem (Newton1.Nulls(I - 1))
-        Next I
-        For I = 1 To DegDen
-            If Newton2.Nulls(I - 1) <> "" Then LstNullsDen.AddItem (Newton2.Nulls(I - 1))
+            TxtLinFacDen.Text = TxtLinFacDen.Text & " (x " + Sign + Str(Abs(NullsDen.Nulls(I))) + ")"
         Next I
         
-        LstNullsNumMulti.List(0) = LstNullsNum.List(0)
-        LstNullsNumMultiFactors.List(0) = 1
-        For I = 1 To LstNullsNum.ListCount - 1
-            Element = False
+        ' Add nulls to list
+        For I = 0 To NullsNum.NullCnt - 1
+            LstNullsNum.AddItem (NullsNum.Nulls(I))
+        Next I
+        For I = 0 To NullsDen.NullCnt - 1
+            LstNullsDen.AddItem (NullsDen.Nulls(I))
+        Next I
+        
+        
+        
+        ' Merge nulls to multi-nulls where possible
+        For I = 0 To LstNullsNum.ListCount - 1
+            Found = False
             For U = 0 To LstNullsNumMulti.ListCount - 1
                 If LstNullsNumMulti.List(U) = LstNullsNum.List(I) Then
                     LstNullsNumMultiFactors.List(U) = LstNullsNumMultiFactors.List(U) + 1
-                    Element = True
+                    Found = True
                     Exit For
                 End If
             Next U
-            If Element = False Then LstNullsNumMulti.AddItem (LstNullsNum.List(I)): LstNullsNumMultiFactors.AddItem (1)
-        Next I
             
-        '''    For I = 1 To DegNum - 1
-        '''        If LstNullsNum.List(I) <> LstNullsNum.List(I - 1) Then
-        '''        LstNullsNumMulti.AddItem (LstNullsNum.List(I))
-        '''        LstNullsNumMultiFactors.AddItem (1)
-        '''        Else
-        '''        LstNullsNumMultiFactors.List(LstNullsNumMultiFactors.ListCount - 1) = LstNullsNumMultiFactors.List(LstNullsNumMultiFactors.ListCount - 1) + 1
-        '''        End If
-        '''    Next I
-        
-        List5.List(0) = LstNullsDen.List(0)
-        List6.List(0) = 1
-        For I = 1 To DegDen - 1
-            If LstNullsDen.List(I) <> LstNullsDen.List(I - 1) Then
-                List5.AddItem (LstNullsDen.List(I))
-                List6.AddItem (1)
-            Else
-                List6.List(List6.ListCount - 1) = List6.List(List6.ListCount - 1) + 1
+            If Not Found Then
+                LstNullsNumMulti.AddItem (LstNullsNum.List(I))
+                LstNullsNumMultiFactors.AddItem (1)
             End If
         Next I
         
-        If LstNullsNum.ListCount > LstNullsDen.ListCount Then
-            Ende = LstNullsNum.ListCount
-        Else
-            Ende = LstNullsDen.ListCount
-        End If
         
-        For N = 0 To LstNullsNumMulti.ListCount
-            For I = 0 To Ende
-                If LstNullsNumMulti.List(N) = List5.List(I) Then
-                List7.AddItem (LstNullsNumMulti.List(N))
-                    If LstNullsNumMultiFactors.List(N) = List6.List(I) Then
-                        LstNullsNumMultiFactors.List(N) = "-"
-                        List6.List(I) = "-"
-                    ElseIf LstNullsNumMultiFactors.List(N) > List6.List(I) Then
-                        LstNullsNumMultiFactors.List(N) = LstNullsNumMultiFactors.List(N) - List6.List(I)
-                        List6.List(I) = "-"
-                    Else
-                        List6.List(I) = List6.List(I) - LstNullsNumMultiFactors.List(N)
-                        LstNullsNumMultiFactors.List(N) = "-"
-                    End If
+        ' Merge nulls to multi-nulls where possible
+        For I = 0 To LstNullsDen.ListCount - 1
+            Found = False
+            For U = 0 To LstNullsDenMulti.ListCount - 1
+                If LstNullsDenMulti.List(U) = LstNullsDen.List(I) Then
+                    LstNullsDenMultiFactors.List(U) = LstNullsDenMultiFactors.List(U) + 1
+                    Found = True
+                    Exit For
                 End If
-            Next I
-        Next N
+            Next U
+            
+            If Not Found Then
+                LstNullsDenMulti.AddItem (LstNullsDen.List(I))
+                LstNullsDenMultiFactors.AddItem (1)
+            End If
+        Next I
+
+' XXX nachfolgenden Block wieder reaktivieren
+'
+'        If LstNullsNum.ListCount > LstNullsDen.ListCount Then
+'            Ende = LstNullsNum.ListCount
+'        Else
+'            Ende = LstNullsDen.ListCount
+'        End If
+'
+'        For N = 0 To LstNullsNumMulti.ListCount
+'            For I = 0 To Ende
+'                If LstNullsNumMulti.List(N) = LstNullsDenMulti.List(I) Then
+'                LstMainDefL.AddItem (LstNullsNumMulti.List(N))
+'                    If LstNullsNumMultiFactors.List(N) = LstNullsDenMultiFactors.List(I) Then
+'                        LstNullsNumMultiFactors.List(N) = "-"
+'                        LstNullsDenMultiFactors.List(I) = "-"
+'                    ElseIf LstNullsNumMultiFactors.List(N) > LstNullsDenMultiFactors.List(I) Then
+'                        LstNullsNumMultiFactors.List(N) = LstNullsNumMultiFactors.List(N) - LstNullsDenMultiFactors.List(I)
+'                        LstNullsDenMultiFactors.List(I) = "-"
+'                    Else
+'                        LstNullsDenMultiFactors.List(I) = LstNullsDenMultiFactors.List(I) - LstNullsNumMultiFactors.List(N)
+'                        LstNullsNumMultiFactors.List(N) = "-"
+'                    End If
+'                End If
+'            Next I
+'        Next N
         
         For I = 0 To LstNullsNumMulti.ListCount - 1
-            If LstNullsNumMultiFactors.List(I) <> "-" Then List9.AddItem (LstNullsNumMulti.List(I)): List10.AddItem (LstNullsNumMultiFactors.List(I))
+            If LstNullsNumMultiFactors.List(I) <> "-" Then
+                LstMainNulls.AddItem (LstNullsNumMulti.List(I))
+                LstMainNullsMulti.AddItem (LstNullsNumMultiFactors.List(I))
+            End If
         Next I
         
-        For I = 0 To List5.ListCount - 1
-            If List6.List(I) <> "-" Then List11.AddItem (List5.List(I)): List12.AddItem (List6.List(I))
+        For I = 0 To LstNullsDenMulti.ListCount - 1
+            If LstNullsDenMultiFactors.List(I) <> "-" Then
+                LstMainPoles.AddItem (LstNullsDenMulti.List(I))
+                LstMainPolesOrder.AddItem (LstNullsDenMultiFactors.List(I))
+            End If
         Next I
-    Else
-        '''''If Matrix2(0) < 0 Then
-        '''''TxtLinFacNum.Text = "Y= -"
-        '''''Else
-        '''''TxtLinFacNum.Text = "Y="
-        '''''End If
-        '''''If Factor1 <> 1 Then TxtLinFacNum.Text = TxtLinFacNum.Text & Factor1 & "*("
+        
+        ' XXX Add definiton gaps to list
+        For I = 0 To NullsDen.NullCnt - 1
+            If GetFuncValByX(NullsDen.Nulls(I), CoefNum) <> 0 Then
+                LstMainDefL.AddItem (NullsDen.Nulls(I))
+            End If
+        Next I
     
+    Else ' Non-rational functions
         ' Write factors to text box
-        If DegNum > 0 And Newton1.NullCnt = DegNum Then
-            For I = 0 To Newton1.NullCnt - 1
-                If Newton1.Nulls(I) < 0 Then
+        If DegNum > 0 And NullsNum.NullCnt = DegNum Then
+            For I = 0 To NullsNum.NullCnt - 1
+                If NullsNum.Nulls(I) < 0 Then
                     Sign = "+"
                 Else
                     Sign = "-"
                 End If
-                TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(Newton1.Nulls(I))) + ")"
+                TxtLinFacNum.Text = TxtLinFacNum.Text & " (x " + Sign + Str(Abs(NullsNum.Nulls(I))) + ")"
             Next I
             
             ' Remove leading space in that output string
@@ -1641,44 +1730,34 @@ Private Sub BtnHornerSchema_Click()
         End If
     
         ' Add nulls to list
-        For I = 0 To Newton1.NullCnt - 1
-            'If Newton1(I) <> 0 Then LstNullsNum.AddItem (Newton1(I))
-            LstNullsNum.AddItem (Newton1.Nulls(I))
+        For I = 0 To NullsNum.NullCnt - 1
+            LstNullsNum.AddItem (NullsNum.Nulls(I))
         Next I
         
-
-        'LstNullsNumMulti.List(0) = LstNullsNum.List(0)
-        'LstNullsNumMultiFactors.List(0) = 1
-        
-        ' XXX Vllt. stimmt hier die Logik nicht mehr ganz, denn ursprünglich waren bereits Einträge in der Liste (s.o.)
+        ' Merge nulls to multi-nulls where possible
         For I = 0 To LstNullsNum.ListCount - 1
-            Element = False
+            Found = False
             For U = 0 To LstNullsNumMulti.ListCount - 1
                 If LstNullsNumMulti.List(U) = LstNullsNum.List(I) Then
                     LstNullsNumMultiFactors.List(U) = LstNullsNumMultiFactors.List(U) + 1
-                    Element = True
+                    Found = True
                     Exit For
                 End If
             Next U
-            If Element = False Then LstNullsNumMulti.AddItem (LstNullsNum.List(I)): LstNullsNumMultiFactors.AddItem (1)
+            
+            If Not Found Then
+                LstNullsNumMulti.AddItem (LstNullsNum.List(I))
+                LstNullsNumMultiFactors.AddItem (1)
+            End If
         Next I
-        
-        '    For I = 1 To DegNum - 1
-        '    If LstNullsNum.List(I) <> LstNullsNum.List(I - 1) Then
-        '    LstNullsNumMulti.AddItem (LstNullsNum.List(I))
-        '    LstNullsNumMultiFactors.AddItem (1)
-        '    Else
-        '    LstNullsNumMultiFactors.List(LstNullsNumMultiFactors.ListCount - 1) = LstNullsNumMultiFactors.List(LstNullsNumMultiFactors.ListCount - 1) + 1
-        '    End If
-        '    Next I
     
         ' XXX Copy list entries - why do we have them twice? Are the many ones just for debugging purposes and the other the proper ones?
         For I = 0 To LstNullsNumMulti.ListCount - 1
-            List9.AddItem (LstNullsNumMulti.List(I))
+            LstMainNulls.AddItem (LstNullsNumMulti.List(I))
         Next I
         
         For I = 0 To LstNullsNumMulti.ListCount - 1
-            List10.AddItem (LstNullsNumMultiFactors.List(I))
+            LstMainNullsMulti.AddItem (LstNullsNumMultiFactors.List(I))
         Next I
     End If
 End Sub
@@ -1777,63 +1856,66 @@ Private Sub BtnHornerSchemaShow_Click()
     FrmMain.DrawWidth = 3
     
     If IsRationalFunction Then
-        For I = 0 To List7.ListCount - 1
-            If List7.List(I) <> "" Then
-'                DegNum = TxtDegreeNumerator.Text
-                For G = 0 To DegNum
-                    Y1 = Y1 + CoefNum(G) * (Int(List7.List(I)) + 0.0001) ^ G
-                Next G
+        For I = 0 To LstMainDefL.ListCount - 1
+'            If LstMainDefL.List(I) <> "" Then
+'                Y1 = GetFuncValByX(Int(LstMainDefL.List(I)) + 0.0001, CoefNum)
+''                For G = 0 To DegNum
+''                    Y1 = Y1 + CoefNum(G) * (Int(LstMainDefL.List(I)) + 0.0001) ^ G
+''                Next G
+'
+'                FrmMain.Circle (LstMainDefL.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
+'                Y1 = 0
+'            Else
+                Y1 = GetFuncValByX(Int(LstMainDefL.List(I)) + 0.0001, CoefNum)
+'                For G = 0 To DegNum
+'                    Y1 = Y1 + CoefNum(G) * (Int(LstMainDefL.List(I)) + 0.0001) ^ G
+'                Next G
                 
-                FrmMain.Circle (List7.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
-                Y1 = 0
-            Else
-'                DegNum = TxtDegreeNumerator.Text
-                For G = 0 To DegNum
-                    Y1 = Y1 + CoefNum(G) * (Int(List7.List(I)) + 0.0001) ^ G
-                Next G
+                Y2 = GetFuncValByX(Int(LstMainDefL.List(I)) + 0.0001, CoefDen)
+'                For G = 0 To DegDen  'DegNum
+'                    Y2 = Y2 + CoefDen(G) * (Int(LstMainDefL.List(I)) + 0.0001) ^ G
+'                Next G
                 
-'                DegNum = TxtDegreeDenominator.Text
-                For G = 0 To DegDen  'DegNum
-                    Y2 = Y2 + CoefDen(G) * (Int(List7.List(I)) + 0.0001) ^ G
-                Next G
-                
-                FrmMain.Circle (List7.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
-                Y1 = 0
-                Y2 = 0
-            End If
+                FrmMain.Circle (LstMainDefL.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
+'                Y1 = 0
+'                Y2 = 0
+'            End If
         Next I
         
-        For I = 0 To List9.ListCount - 1
-            If List9.List(I) <> "" Then
+        For I = 0 To LstMainNulls.ListCount - 1
+'            If LstMainNulls.List(I) <> "" Then
+'                'DegNum = TxtDegreeNumerator.Text
+'                Y1 = GetFuncValByX(Int(LstMainNulls.List(I)) + 0.0001, CoefNum)
+''                For G = 0 To DegNum
+''                    Y1 = Y1 + CoefNum(G) * (Int(LstMainNulls.List(I)) + 0.0001) ^ G
+''                Next G
+'
+'                FrmMain.Circle (LstMainNulls.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
+'                Y1 = 0
+'            Else
                 'DegNum = TxtDegreeNumerator.Text
-                For G = 0 To DegNum
-                    Y1 = Y1 + CoefNum(G) * (Int(List9.List(I)) + 0.0001) ^ G
-                Next G
-                
-                FrmMain.Circle (List9.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1), 0.1, RGB(255, 0, 0)
-                Y1 = 0
-            Else
-                'DegNum = TxtDegreeNumerator.Text
-                For G = 0 To DegNum
-                    Y1 = Y1 + CoefNum(G) * (Int(List9.List(I)) + 0.0001) ^ G
-                Next G
+                Y1 = GetFuncValByX(Int(LstMainNulls.List(I)) + 0.0001, CoefNum)
+'                For G = 0 To DegNum
+'                    Y1 = Y1 + CoefNum(G) * (Int(LstMainNulls.List(I)) + 0.0001) ^ G
+'                Next G
                 
                 'DegNum = TxtDegreeDenominator.Text
-                For G = 0 To DegDen 'DegNum
-                    Y2 = Y2 + CoefDen(G) * (Int(List9.List(I)) + 0.0001) ^ G
-                Next G
+                Y2 = GetFuncValByX(Int(LstMainNulls.List(I)) + 0.0001, CoefDen)
+'                For G = 0 To DegDen 'DegNum
+'                    Y2 = Y2 + CoefDen(G) * (Int(LstMainNulls.List(I)) + 0.0001) ^ G
+'                Next G
                 
-                FrmMain.Circle (List9.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
-                Y1 = 0
-                Y2 = 0
-            End If
+                FrmMain.Circle (LstMainNulls.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2), 0.1, RGB(255, 0, 0)
+'                Y1 = 0
+'                Y2 = 0
+'            End If
         Next I
         
         FrmMain.DrawStyle = 2
         
-        For I = 0 To List11.ListCount - 1
-            If List11.List(I) <> "" Then
-                FrmMain.Line (List11.List(I) + FrmMain.ScaleWidth / 2, 0)-(List11.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight), RGB(255, 0, 0)
+        For I = 0 To LstMainPoles.ListCount - 1
+            If LstMainPoles.List(I) <> "" Then
+                FrmMain.Line (LstMainPoles.List(I) + FrmMain.ScaleWidth / 2, 0)-(LstMainPoles.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight), RGB(255, 0, 0)
                 FrmMain.DrawStyle = 0
             End If
         Next I
@@ -1938,6 +2020,12 @@ Private Sub BtnExtremum_Click()
     Dim I As Integer
     Dim Newton1 As NewtonResult
     Dim ZAbl1() As Double, ZAbl2() As Double
+    
+    ' Clear lists
+    LstNullsFd.Clear
+    LstNullsFdd.Clear
+    LstHop.Clear
+    LstTip.Clear
     
     ' Calculate 1st derivative and add nulls to list
     ZAbl1 = GetDiffFuncCoefs(CoefNum)
@@ -2133,7 +2221,7 @@ Private Sub BtnOffsetCoordSystem_Click()
 End Sub
 
 
-Private Sub Form_DragDrop(source As Control, X As Single, Y As Single)
+Private Sub Form_DragDrop(Source As Control, X As Single, Y As Single)
     Dim ScaleModeTmp
     Dim rect As POINTAPI
     GetCursorPos rect
@@ -2252,6 +2340,8 @@ End Sub
 Private Sub Form_Load()
     Me.WindowState = vbMaximized
     ChkAlwaysInForeground_Click
+    
+    PicColorMain.Tag = "Collapsed"
     
     KSX = 0
     KSY = 0
@@ -2560,21 +2650,40 @@ End Sub
 Private Sub PicColorPalette_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
     PicColorMain.BackColor = PicColorPalette(Index).BackColor
     FrmColor.Width = FrmColor.Tag
+    PicColorMain.Tag = "Collapsed"
 End Sub
 
 Private Sub PicColorMain_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     FrmColor.Width = 148
+    
+    If PicColorMain.Tag = "Collapsed" Then
+        PicColorMain.Tag = "Expanded"
+        FrmColor.Width = 148
+    Else
+        PicColorMain.Tag = "Collapsed"
+        FrmColor.Width = FrmColor.Tag
+    End If
 End Sub
 
 Private Sub LblColorSelCustom_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Dim I As Integer
-    Cdg1.ShowColor
-    PicColorMain.BackColor = Cdg1.Color
-    FrmColor.Width = FrmColor.Tag
+    On Error GoTo ShowColorError
     
+    With Cdg1
+        .CancelError = True
+        .ShowColor
+        PicColorMain.BackColor = .Color
+    End With
+    On Error GoTo 0
+    
+    FrmColor.Width = FrmColor.Tag
+    PicColorMain.Tag = "Collapsed"
+    
+    Dim I As Integer
     For I = 0 To PicColorPalette.Count - 1
         PicColorPalette(I).BorderStyle = 0
     Next I
+    
+ShowColorError:
 End Sub
 
 Private Sub SldCoef_Scroll()

@@ -88,7 +88,11 @@ Public Function Newton(Coef, N2 As Boolean) As NewtonResult
             Loop
         End If
         
-        ReDim Preserve Result.Nulls(0 To Result.NullCnt - 1)
+        If Result.NullCnt > 0 Then
+            ReDim Preserve Result.Nulls(0 To Result.NullCnt - 1)
+        Else
+            Erase Result.Nulls
+        End If
     Else
         Result.NullCnt = 0
     End If
