@@ -605,14 +605,14 @@ Begin VB.Form FrmMain
             Top             =   2400
             Width           =   615
          End
-         Begin VB.ListBox LstMainNullsMulti 
+         Begin VB.ListBox LstMainNullsMultiFactors 
             Height          =   2400
             Left            =   840
             TabIndex        =   40
             Top             =   2400
             Width           =   615
          End
-         Begin VB.ListBox LstMainNulls 
+         Begin VB.ListBox LstMainNullsMulti 
             Height          =   2400
             Left            =   120
             TabIndex        =   39
@@ -1659,29 +1659,35 @@ Private Sub AddNullsToList(Nulls As NewtonResult, LstNulls As ListBox)
 End Sub
 
 
-Call XXXX(LstNullsNumMulti, LstNullsDenMulti)
-Call XXXX(LstNullsDenMulti, LstNullsNumMulti)
-
-Private Function XXXX(LstOuter As ListBox, LstInner As ListBox)
+Private Sub DetermineNulls()
+    Dim I As Integer, U As Integer
+    Dim MultiplicityDiff As Integer
+    
     ' Determine nulls
     For I = 0 To LstNullsNumMulti.ListCount - 1 ' Check all numerator nulls
-        'Removable = False ' XXX unpassender Name in diesem Fall, oder?
-        
         ' Check if the current null is also contained in the denominator nulls
         MultiplicityDiff = LstNullsNumMultiFactors.List(I)
         For U = 0 To LstNullsDenMulti.ListCount - 1
-            If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) And LstNullsNumMultiFactors.List(I) > LstNullsDenMultiFactors.List(U) Then
-                MultiplicityDiff = LstNullsNumMultiFactors.List(I) - LstNullsDenMultiFactors.List(U)
-                'Removable = True
+            If LstNullsDenMulti.List(U) = LstNullsNumMulti.List(I) Then
+                If LstNullsNumMultiFactors.List(I) > LstNullsDenMultiFactors.List(U) Then
+                    MultiplicityDiff = LstNullsNumMultiFactors.List(I) - LstNullsDenMultiFactors.List(U)
+                End If
                 Exit For
             End If
         Next U
         
         If MultiplicityDiff > 0 Then
             LstMainNullsMulti.AddItem (LstNullsNumMulti.List(I))
-            LstMainNullsMulti.AddItem (LstNullsNumMultiFactors.List(I))
+            LstMainNullsMultiFactors.AddItem (LstNullsNumMultiFactors.List(I))
         End If
     Next I
+
+End Sub
+
+Private Sub DetermineDefinitionGaps()
+    Dim Removable As Boolean
+    Dim I As Integer, U As Integer
+    Dim MultiplicityDiff As Integer
     
     ' Determine definition gaps
     For I = 0 To LstNullsDenMulti.ListCount - 1 ' Check all denominator nulls
@@ -1690,9 +1696,11 @@ Private Function XXXX(LstOuter As ListBox, LstInner As ListBox)
         ' Check if the current null is also contained in the numerator nulls
         MultiplicityDiff = LstNullsDenMultiFactors.List(I)
         For U = 0 To LstNullsNumMulti.ListCount - 1
-            If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) And LstNullsNumMultiFactors.List(U) <= LstNullsDenMultiFactors.List(I) Then
-                MultiplicityDiff = LstNullsDenMultiFactors.List(I) - LstNullsNumMultiFactors.List(U)
-                Removable = True
+            If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) Then
+                If LstNullsNumMultiFactors.List(U) <= LstNullsDenMultiFactors.List(I) Then
+                    MultiplicityDiff = LstNullsDenMultiFactors.List(I) - LstNullsNumMultiFactors.List(U)
+                    Removable = True
+                End If
                 Exit For
             End If
         Next U
@@ -1704,11 +1712,7 @@ Private Function XXXX(LstOuter As ListBox, LstInner As ListBox)
             LstMainPolesOrder.AddItem (MultiplicityDiff)
         End If
     Next I
-        
-        
-        
-End Function
-
+End Sub
 
 
 Private Sub BtnNewton_Click()
@@ -1738,7 +1742,7 @@ Private Sub BtnNewton_Click()
     
     LstMainDefGap.Clear
     LstMainNullsMulti.Clear
-    LstMainNullsMulti.Clear
+    LstMainNullsMultiFactors.Clear
     LstMainPoles.Clear
     LstMainPolesOrder.Clear
     
@@ -1767,49 +1771,12 @@ Private Sub BtnNewton_Click()
         TxtLinFacDen.Text = GetLinearFactorString(NullsDen, DegDen)
         
         ' Determine nulls
-        For I = 0 To LstNullsNumMulti.ListCount - 1 ' Check all numerator nulls
-            'Removable = False ' XXX unpassender Name in diesem Fall, oder?
-            
-            ' Check if the current null is also contained in the denominator nulls
-            MultiplicityDiff = LstNullsNumMultiFactors.List(I)
-            For U = 0 To LstNullsDenMulti.ListCount - 1
-                If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) And LstNullsNumMultiFactors.List(I) > LstNullsDenMultiFactors.List(U) Then
-                    MultiplicityDiff = LstNullsNumMultiFactors.List(I) - LstNullsDenMultiFactors.List(U)
-                    'Removable = True
-                    Exit For
-                End If
-            Next U
-            
-            If MultiplicityDiff > 0 Then
-                LstMainNullsMulti.AddItem (LstNullsNumMulti.List(I))
-                LstMainNullsMulti.AddItem (LstNullsNumMultiFactors.List(I))
-            End If
-        Next I
+        Call DetermineNulls
         
         ' Determine definition gaps
-        For I = 0 To LstNullsDenMulti.ListCount - 1 ' Check all denominator nulls
-            Removable = False
-            
-            ' Check if the current null is also contained in the numerator nulls
-            MultiplicityDiff = LstNullsDenMultiFactors.List(I)
-            For U = 0 To LstNullsNumMulti.ListCount - 1
-                If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) And LstNullsNumMultiFactors.List(U) <= LstNullsDenMultiFactors.List(I) Then
-                    MultiplicityDiff = LstNullsDenMultiFactors.List(I) - LstNullsNumMultiFactors.List(U)
-                    Removable = True
-                    Exit For
-                End If
-            Next U
-
-            If Removable Then
-                LstMainDefGap.AddItem (LstNullsDenMulti.List(I))
-            Else
-                LstMainPoles.AddItem (LstNullsDenMulti.List(I))
-                LstMainPolesOrder.AddItem (MultiplicityDiff)
-            End If
-        Next I
+        Call DetermineDefinitionGaps
     
     Else ' Non-rational functions
-    
         ' Determine base values
         ' > Add nulls to list
         Call AddNullsToList(NullsNum, LstNullsNum)
@@ -1823,7 +1790,7 @@ Private Sub BtnNewton_Click()
         ' Copy list entries - there is no more to evaluate like it is the case with rational functions
         For I = 0 To LstNullsNumMulti.ListCount - 1
             LstMainNullsMulti.AddItem (LstNullsNumMulti.List(I))
-            LstMainNullsMulti.AddItem (LstNullsNumMultiFactors.List(I))
+            LstMainNullsMultiFactors.AddItem (LstNullsNumMultiFactors.List(I))
         Next I
     End If
 End Sub
@@ -1922,18 +1889,18 @@ Private Sub BtnNewtonShow_Click()
     FrmMain.DrawWidth = 3
     
     If IsRationalFunction Then
-        For I = 0 To LstMainDefGap.ListCount - 1
-            Y1 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefNum)
-            Y2 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefDen)
-            
-            FrmMain.Circle (LstMainDefGap.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
-        Next I
-        
         For I = 0 To LstMainNullsMulti.ListCount - 1
             Y1 = GetFuncValByX(Int(LstMainNullsMulti.List(I)) + 0.0001, CoefNum)
             Y2 = GetFuncValByX(Int(LstMainNullsMulti.List(I)) + 0.0001, CoefDen)
                 
             FrmMain.Circle (LstMainNullsMulti.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2), 0.1, RGB(255, 0, 0)
+        Next I
+        
+        For I = 0 To LstMainDefGap.ListCount - 1
+            Y1 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefNum)
+            Y2 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefDen)
+            
+            FrmMain.Circle (LstMainDefGap.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
         Next I
         
         FrmMain.DrawStyle = 2

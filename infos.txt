@@ -20,3 +20,5 @@ Bugs
 * Wieso wird z.B. bei 1/x keine Asymptote gezeichnet?
 * Das Resetten der Parameter, Listen, etc. sauber einbauen und aufrufen. Evtl. auch einen Reset-Button einbauen.
 * Bei 1/x wird die Linearfaktorzerlegung nicht richtig angezeigt, da der oebere Term nicht richtig angezeigt wird. Was ist bei 2/x?
+* Systematik reinbringen, was die Schritte der Berechnung angeht: z.B. erst Hilfswerte in den unteren Listen und dann weitere Werte  (z.B. Extrema und Main-Listen).
+* Rundungsprobleme beheben, so dass die Definitionslücken, Nullstellen, etc. sauber passen und nicht weil das eine 0.00001 und das andere 0.99999 hat, diese nicht zusammengefasst werden z.B. zu einer mehrfachen Nullstelle.
