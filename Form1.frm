@@ -2,6 +2,7 @@ VERSION 5.00
 Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "comctl32.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form FrmMain 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00FFFFFF&
@@ -18,6 +19,19 @@ Begin VB.Form FrmMain
    ScaleMode       =   0  'User
    ScaleWidth      =   9.021
    StartUpPosition =   3  'Windows Default
+   Begin RichTextLib.RichTextBox RichTextBox1 
+      Height          =   375
+      Left            =   5040
+      TabIndex        =   137
+      Top             =   240
+      Width           =   4575
+      _ExtentX        =   8070
+      _ExtentY        =   661
+      _Version        =   393217
+      Enabled         =   0   'False
+      MultiLine       =   0   'False
+      TextRTF         =   $"Form1.frx":0442
+   End
    Begin VB.Timer TmrMouseCoordinates 
       Left            =   0
       Top             =   0
@@ -1709,10 +1723,12 @@ Private Sub DetermineDefinitionGaps()
             
             ' Differentiate between definition gaps with value 0 or p(x)/q(x)
             If LstNullsNumMultiFactors.List(N) = LstNullsDenMultiFactors.List(D) Then
-                LstMainDefGapZero.AddItem ("-")
+                'LstMainDefGapZero.AddItem ("-")
+                LstMainDefGapZero.AddItem (LstNullsNumMultiFactors.List(N))
             Else
                 If LstNullsNumMultiFactors.List(N) > LstNullsDenMultiFactors.List(D) Then
-                    LstMainDefGapZero.AddItem ("0")
+                    'LstMainDefGapZero.AddItem ("0")
+                    LstMainDefGapZero.AddItem (0)
                 End If
             End If
         Else
@@ -1892,9 +1908,16 @@ End Sub
 
 
 Private Sub BtnNewtonShow_Click()
-    Dim I As Integer
+    ' XXX
+    RichTextBox1.TextRTF = "{x{\super 2}}{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;}} \f0\fs60 Hello, World!}"
+    'RichTextBox1.SelIndent = 1
+    
+    
+    Dim I As Integer, J As Integer
     Dim X As Double
     Dim FormDrawSettings As DrawSettings
+    Dim CoefNumTmp() As Double
+    Dim CoefDenTmp() As Double
     
     FormDrawSettings = GetDrawSettings(FrmMain)
     
@@ -1908,19 +1931,24 @@ Private Sub BtnNewtonShow_Click()
         
         ' Draw definition gaps
         For I = 0 To LstMainDefGap.ListCount - 1
-            If LstMainDefGapZero.List(I) = "0" Then
+            If CInt(LstMainDefGapZero.List(I)) = 0 Then ' Definition gap with value 0
                 FrmMain.Circle (LstMainDefGap.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2), 0.1, RGB(255, 0, 0)
-            Else
-                ' XXX Eigtl. müsste man hier erst den Bruch kürzen und dann ganz normal ausrechnen - evtl. Horner Schema oder Nullstellendivision verwenden
-                Y1 = (GetFuncValByX(LstMainDefGap.List(I) - 0.0001, CoefNum) + GetFuncValByX(LstMainDefGap.List(I) + 0.0001, CoefNum)) / 2
-                Y2 = (GetFuncValByX(LstMainDefGap.List(I) - 0.0001, CoefDen) + GetFuncValByX(LstMainDefGap.List(I) + 0.0001, CoefDen)) / 2
+            Else ' Reduce fraction to prevent calculation of 0/0
+                ' Create temp. helper coefficient arrays
+                ReDim CoefNumTmp(0 To UBound(CoefNum))
+                ReDim CoefNumTmp(0 To UBound(CoefDen))
+                CoefNumTmp = CoefNum
+                CoefDenTmp = CoefDen
                 
-                ' XXX Nullstellendivision
+                ' Divide polynomials N times by the null in the current definition gap
+                For J = 0 To CInt(LstMainDefGapZero.List(J)) - 1 '  Repeat N times where N is the multiplicity of this null
+                    Call Nullstellendivision(CoefNumTmp, CInt(LstMainDefGap.List(I)))
+                    Call Nullstellendivision(CoefDenTmp, CInt(LstMainDefGap.List(I)))
+                Next J
                 
+                Y1 = GetFuncValByX(LstMainDefGap.List(I), CoefNumTmp)
+                Y2 = GetFuncValByX(LstMainDefGap.List(I), CoefDenTmp)
                 
-                ' XXX Ori:
-                'Y1 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefNum)
-                'Y2 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefDen)
                 FrmMain.Circle (LstMainDefGap.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
             End If
         Next I
