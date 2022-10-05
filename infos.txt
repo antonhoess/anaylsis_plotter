@@ -10,6 +10,12 @@ ToDo
   Nicht nur mir ganzzahligen Exponenten arbeiten, sondern über ein zweites Array einmal Koeffizienten und über das zweite die Exponenten speichern und ganz normal in der Schleife durchrechnen lassen - das gleiche glit dann auch für das Differenzieren.
 * Button einbauen, der direkt die gesamten Koeffizienten (vermutl. am besten in der Form ax^n + bx^n-1 + ...) anzeigt.
 * Auch für gebrochen rationale Funktionen müssen Wendepunkte Sattelpunkte Hochpunkte, Tiefpunkte, etc. berechnet werden (dies geht anders und ist komplexer als bei nicht gebrochen rationalen Funktionen).
+* Schreibweise in TextBox als Vielfaches von (x +/- n) darstellen, z.B. so 5(x-2)^2
+* RichTextBox-OCR mit in Projektordner aufnehmen und in Git hinzufügen
+* FrmMain.DrawStyle = 2 und Co. korrekt als Zustandsautomat implementieren
+* GetLinearFactorString in GetLinearFactorRTFString() umbauen. Nachfolgend etwas Test-Code:
+  -> RichTextBox1.TextRTF = "{\sb3{ x{\super 2}}}{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;}} \f0\fs60 Hello, World!}"
+  -> RichTextBox1.TextRTF = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;}} x{\super 2}}"
 
 
 Bugs

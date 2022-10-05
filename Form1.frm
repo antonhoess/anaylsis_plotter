@@ -19,19 +19,6 @@ Begin VB.Form FrmMain
    ScaleMode       =   0  'User
    ScaleWidth      =   9.021
    StartUpPosition =   3  'Windows Default
-   Begin RichTextLib.RichTextBox RichTextBox1 
-      Height          =   375
-      Left            =   5040
-      TabIndex        =   137
-      Top             =   240
-      Width           =   4575
-      _ExtentX        =   8070
-      _ExtentY        =   661
-      _Version        =   393217
-      Enabled         =   0   'False
-      MultiLine       =   0   'False
-      TextRTF         =   $"Form1.frx":0442
-   End
    Begin VB.Timer TmrMouseCoordinates 
       Left            =   0
       Top             =   0
@@ -579,6 +566,16 @@ Begin VB.Form FrmMain
          TabIndex        =   66
          Top             =   240
          Width           =   4815
+         Begin VB.CheckBox ChkLinDecompShortForm 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "Short"
+            Height          =   615
+            Left            =   3000
+            Style           =   1  'Graphical
+            TabIndex        =   138
+            Top             =   240
+            Width           =   615
+         End
          Begin VB.ListBox LstMainDefGapZero 
             Height          =   2400
             Left            =   2520
@@ -651,11 +648,11 @@ Begin VB.Form FrmMain
             BackColor       =   &H0080C0FF&
             Caption         =   "Anzeigen"
             Height          =   615
-            Left            =   3120
+            Left            =   3720
             Style           =   1  'Graphical
             TabIndex        =   35
             Top             =   240
-            Width           =   1575
+            Width           =   975
          End
          Begin VB.Label Label2941 
             BackStyle       =   0  'Transparent
@@ -1124,6 +1121,19 @@ Begin VB.Form FrmMain
          Max             =   10000
          TickStyle       =   3
       End
+      Begin RichTextLib.RichTextBox RichTextBox1 
+         Height          =   375
+         Left            =   4800
+         TabIndex        =   137
+         Top             =   0
+         Width           =   4575
+         _ExtentX        =   8070
+         _ExtentY        =   661
+         _Version        =   393217
+         Enabled         =   0   'False
+         MultiLine       =   0   'False
+         TextRTF         =   $"Form1.frx":0442
+      End
       Begin VB.Label Label29 
          BackStyle       =   0  'Transparent
          Caption         =   "Ordnung"
@@ -1423,6 +1433,10 @@ Private Sub ChkGridSpacingLock_Click()
     End If
 End Sub
 
+Private Sub ChkLinDecompShortForm_Click()
+    Call BtnNewton_Click
+End Sub
+
 Private Sub ChkProportional_Click()
     If ChkProportional.Value = 0 Then
         FrmMain.ScaleHeight = Int(TxtUnitsWidth.Text / STPX * STPY * 100) / 100
@@ -1621,24 +1635,45 @@ Private Sub BtnAsymptote_Click()
 End Sub
 
 
-Private Function GetLinearFactorString(Nulls As NewtonResult, Degree As Integer) As String
+Private Function GetLinearFactorString(Nulls As NewtonResult, Degree As Integer, Optional ShortForm As Boolean = False) As String
     Dim I As Integer
     Dim Sign As String
     Dim LFS As String
-    
+        
     If Degree > 0 And Nulls.NullCnt = Degree Then
         ' Write main factor
         LFS = Nulls.Factor
-        
+    
         ' Write linear factors to text box
-        For I = 0 To Nulls.NullCnt - 1
-            If Nulls.Nulls(I) < 0 Then
-                Sign = "+"
-            Else
-                Sign = "-"
+        If ShortForm Then
+            Dim MultiNumbers() As Double
+    
+            MultiNumbers = MergeNumbersToMultiNumbers(Nulls.Nulls)
+            
+            If Not IsArrayEmpty(MultiNumbers) Then
+                For I = 0 To CInt((UBound(MultiNumbers) - 1) \ 2)
+                    If MultiNumbers(I * 2) < 0 Then
+                        Sign = "+"
+                    Else
+                        Sign = "-"
+                    End If
+                    If MultiNumbers(I * 2 + 1) > 1 Then
+                        LFS = LFS & " (x " & Sign & Str(Abs(MultiNumbers(I * 2))) & ")^" & MultiNumbers(I * 2 + 1)
+                    Else
+                        LFS = LFS & " (x " & Sign & Str(Abs(MultiNumbers(I * 2))) & ")"
+                    End If
+                Next I
             End If
-            LFS = LFS & " (x " + Sign + Str(Abs(Nulls.Nulls(I))) + ")"
-        Next I
+        Else
+            For I = 0 To Nulls.NullCnt - 1
+                If Nulls.Nulls(I) < 0 Then
+                    Sign = "+"
+                Else
+                    Sign = "-"
+                End If
+                LFS = LFS & " (x " + Sign + Str(Abs(Nulls.Nulls(I))) + ")"
+            Next I
+        End If
     Else
         LFS = "Cannot calculate linear factors!"
     End If
@@ -1647,26 +1682,65 @@ Private Function GetLinearFactorString(Nulls As NewtonResult, Degree As Integer)
 End Function
 
 
+Private Function MergeNumbersToMultiNumbers(Numbers() As Double) As Double()
+    Dim I As Integer, K As Integer
+    Dim Found As Boolean
+    Dim ResCount As Integer
+    Dim Result() As Double
+    
+    If Not IsArrayEmpty(Numbers) Then
+        ' We ist this result list for the Numbers and their multiplicity in this format: Null0, Mult0, Null1, Mult1, ...
+        ReDim Result(0 To UBound(Numbers) * 2 + 1)
+    
+        ' Check all numbers in list
+        For I = 0 To UBound(Numbers)
+            Found = False
+            ' Check the current number against possible entries in the result list
+            For K = 0 To ResCount - 1
+                If Numbers(I) = Result(K * 2) Then
+                    Found = True
+                    Exit For
+                End If
+            Next K
+            
+            If Not Found Then
+                ' Add new result entry (number + multiplicity=1)
+                Result(ResCount * 2) = Numbers(I)
+                Result(ResCount * 2 + 1) = 1
+                ResCount = ResCount + 1
+            Else
+                ' Increment multiplicity of existing result
+                Result(K * 2 + 1) = Result(K * 2 + 1) + 1
+            End If
+        Next I
+        
+        ' Shrink array to results only
+        ReDim Preserve Result(0 To ResCount * 2 - 1)
+    End If
+    
+    MergeNumbersToMultiNumbers = Result
+End Function
+
+
 Private Sub MergeNullsToMultiNulls(LstNulls As ListBox, LstNullsMulti As ListBox, LstNullsMultiFactors As ListBox)
     Dim I As Integer
-    Dim Found As Boolean
-
-    ' Merge nulls to multi-nulls where possible
+    Dim MultiNumbers() As Double
+    Dim Numbers() As Double
+    
+    ' Fill list with numbers from list box
+    ReDim Numbers(0 To LstNulls.ListCount - 1)
     For I = 0 To LstNulls.ListCount - 1
-        Found = False
-        For U = 0 To LstNullsMulti.ListCount - 1
-            If LstNullsMulti.List(U) = LstNulls.List(I) Then
-                LstNullsMultiFactors.List(U) = LstNullsMultiFactors.List(U) + 1
-                Found = True
-                Exit For
-            End If
-        Next U
-        
-        If Not Found Then
-            LstNullsMulti.AddItem (LstNulls.List(I))
-            LstNullsMultiFactors.AddItem (1)
-        End If
+        Numbers(I) = CDbl(LstNulls.List(I))
     Next I
+    
+    MultiNumbers = MergeNumbersToMultiNumbers(Numbers)
+
+    If Not IsArrayEmpty(MultiNumbers) Then
+        For I = 0 To CInt((UBound(MultiNumbers) - 1) \ 2)
+            LstNullsMulti.AddItem (MultiNumbers(I * 2))
+            LstNullsMultiFactors.AddItem (MultiNumbers(I * 2 + 1))
+        Next I
+    End If
 End Sub
 
 
@@ -1723,11 +1797,9 @@ Private Sub DetermineDefinitionGaps()
             
             ' Differentiate between definition gaps with value 0 or p(x)/q(x)
             If LstNullsNumMultiFactors.List(N) = LstNullsDenMultiFactors.List(D) Then
-                'LstMainDefGapZero.AddItem ("-")
                 LstMainDefGapZero.AddItem (LstNullsNumMultiFactors.List(N))
             Else
                 If LstNullsNumMultiFactors.List(N) > LstNullsDenMultiFactors.List(D) Then
-                    'LstMainDefGapZero.AddItem ("0")
                     LstMainDefGapZero.AddItem (0)
                 End If
             End If
@@ -1792,8 +1864,8 @@ Private Sub BtnNewton_Click()
         Call MergeNullsToMultiNulls(LstNullsDen, LstNullsDenMulti, LstNullsDenMultiFactors)
         
         ' Write linear factor decomposition to text box
-        TxtLinFacNum.Text = GetLinearFactorString(NullsNum, DegNum)
-        TxtLinFacDen.Text = GetLinearFactorString(NullsDen, DegDen)
+        TxtLinFacNum.Text = GetLinearFactorString(NullsNum, DegNum, ChkLinDecompShortForm.Value = 1)
+        TxtLinFacDen.Text = GetLinearFactorString(NullsDen, DegDen, ChkLinDecompShortForm.Value = 1)
         
         ' Determine nulls
         Call DetermineNulls
@@ -1810,7 +1882,7 @@ Private Sub BtnNewton_Click()
         Call MergeNullsToMultiNulls(LstNullsNum, LstNullsNumMulti, LstNullsNumMultiFactors)
     
         ' Write linear factor decomposition to text box
-        TxtLinFacNum.Text = GetLinearFactorString(NullsNum, DegNum)
+        TxtLinFacNum.Text = GetLinearFactorString(NullsNum, DegNum, ChkLinDecompShortForm.Value = 1)
         
         ' Copy list entries - there is no more to evaluate like it is the case with rational functions
         For I = 0 To LstNullsNumMulti.ListCount - 1
@@ -1908,11 +1980,6 @@ End Sub
 
 
 Private Sub BtnNewtonShow_Click()
-    ' XXX
-    RichTextBox1.TextRTF = "{x{\super 2}}{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;}} \f0\fs60 Hello, World!}"
-    'RichTextBox1.SelIndent = 1
-    
-    
     Dim I As Integer, J As Integer
     Dim X As Double
     Dim FormDrawSettings As DrawSettings
@@ -2290,6 +2357,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Click()
+'XXX
 'On Error Resume Next
 'If Check7.Value = 1 Then
 '

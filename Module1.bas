@@ -1,4 +1,6 @@
 Attribute VB_Name = "Module1"
+Option Explicit
+
 Public CoefNum() As Double, CoefDen() As Double, DegNum As Integer, DegDen As Integer, GRF As Boolean, IsRationalFunction As Boolean, Dimension, Factor, C1(), D1(), U, S, M(), O()
 
 Public Type GRP
@@ -51,4 +53,14 @@ Public Function SetDrawSettings(ByRef Frm As Form, ByRef Settings As DrawSetting
     Frm.DrawMode = Settings.DrawMode
     Frm.DrawStyle = Settings.DrawStyle
     Frm.DrawWidth = Settings.DrawWidth
+End Function
+
+
+Public Function IsArrayEmpty(Arr) As Boolean
+    Dim rv As Long
+
+    On Error Resume Next
+    
+    rv = UBound(Arr)
+    IsArrayEmpty = (Err.Number <> 0)
 End Function
