@@ -10,16 +10,16 @@ End Type
 
 
 ' N2 = Store Result to array Newton2. There is Result and Newton2, which are global and get processed alter by the calling function
-Public Function Newton(Coef, N2 As Boolean) As NewtonResult
+Public Function Newton(Coef, N2 As Boolean, Optional Precision As Long = 3) As NewtonResult
     Dim I As Integer
     Dim Xneu As Double
     Dim Degree As Integer
     Dim Result As NewtonResult
     Dim DegZero
     Dim X As Double ', Factor2
-    Dim NullsPrecision As Integer
     Dim Fertig As Boolean
     Dim IterCnt As Integer
+    Dim NullsPrecision As Long
     
     If UBound(Coef) > 0 Then
         Xneu = 10 ^ 10
@@ -27,7 +27,7 @@ Public Function Newton(Coef, N2 As Boolean) As NewtonResult
         Degree = UBound(Coef)
         ReDim Result.Nulls(0 To Degree - 1)
         DegZero = 0
-        NullsPrecision = 4
+        NullsPrecision = Precision + 1 ' +1 to account for rounding
         
         ' XXX ? Remove all first 0-coefficients beginning from degree 0 upwards
         For I = 0 To Degree

@@ -13,9 +13,6 @@ ToDo
 * Schreibweise in TextBox als Vielfaches von (x +/- n) darstellen, z.B. so 5(x-2)^2
 * RichTextBox-OCR mit in Projektordner aufnehmen und in Git hinzufügen
 * FrmMain.DrawStyle = 2 und Co. korrekt als Zustandsautomat implementieren
-* GetLinearFactorString in GetLinearFactorRTFString() umbauen. Nachfolgend etwas Test-Code:
-  -> RichTextBox1.TextRTF = "{\sb3{ x{\super 2}}}{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;}} \f0\fs60 Hello, World!}"
-  -> RichTextBox1.TextRTF = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;}} x{\super 2}}"
 
 
 Bugs
@@ -27,6 +24,5 @@ Bugs
 * Wieso wird z.B. bei 1/x nur der linke Teil des Graphen gezeichnet?
 * Wieso wird z.B. bei 1/x keine Asymptote gezeichnet?
 * Das Resetten der Parameter, Listen, etc. sauber einbauen und aufrufen. Evtl. auch einen Reset-Button einbauen.
-* Bei 1/x wird die Linearfaktorzerlegung nicht richtig angezeigt, da der oebere Term nicht richtig angezeigt wird. Was ist bei 2/x?
+* Bei 1/x wird die Linearfaktorzerlegung nicht richtig angezeigt, da der obere Term nicht richtig angezeigt wird. Was ist bei 2/x?
 * Systematik reinbringen, was die Schritte der Berechnung angeht: z.B. erst Hilfswerte in den unteren Listen und dann weitere Werte  (z.B. Extrema und Main-Listen).
-* Rundungsprobleme beheben, so dass die Definitionslücken, Nullstellen, etc. sauber passen und nicht weil das eine 0.00001 und das andere 0.99999 hat, diese nicht zusammengefasst werden z.B. zu einer mehrfachen Nullstelle.

@@ -28,8 +28,10 @@ Begin VB.Form FrmMain
       Top             =   0
    End
    Begin VB.PictureBox FrmControl 
+      Appearance      =   0  'Flat
       BackColor       =   &H0080C0FF&
       BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
       Height          =   8415
       Left            =   240
       ScaleHeight     =   561
@@ -38,11 +40,43 @@ Begin VB.Form FrmMain
       TabIndex        =   0
       Top             =   600
       Width           =   11655
+      Begin VB.Frame Frame3 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Precision"
+         Height          =   615
+         Left            =   9600
+         TabIndex        =   139
+         Top             =   2280
+         Width           =   1935
+         Begin MSComCtl2.FlatScrollBar ScrPrecision 
+            Height          =   255
+            Left            =   600
+            TabIndex        =   140
+            Top             =   240
+            Width           =   1215
+            _ExtentX        =   2143
+            _ExtentY        =   450
+            _Version        =   393216
+            Arrows          =   65536
+            Max             =   8
+            Orientation     =   1638401
+            Value           =   3
+         End
+         Begin VB.Label LblPrecision 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "?"
+            Height          =   255
+            Left            =   240
+            TabIndex        =   141
+            Top             =   240
+            Width           =   375
+         End
+      End
       Begin VB.ListBox LstTip 
          BackColor       =   &H00FF0000&
          Height          =   2400
          Left            =   10680
-         TabIndex        =   131
+         TabIndex        =   129
          Top             =   5760
          Width           =   615
       End
@@ -50,7 +84,7 @@ Begin VB.Form FrmMain
          BackColor       =   &H0000FF00&
          Height          =   2400
          Left            =   10080
-         TabIndex        =   130
+         TabIndex        =   128
          Top             =   5760
          Width           =   615
       End
@@ -58,7 +92,7 @@ Begin VB.Form FrmMain
          BackColor       =   &H00E0E0E0&
          Height          =   2400
          Left            =   9480
-         TabIndex        =   129
+         TabIndex        =   127
          Top             =   5760
          Width           =   615
       End
@@ -66,7 +100,7 @@ Begin VB.Form FrmMain
          BackColor       =   &H00C0C0C0&
          Height          =   2400
          Left            =   8880
-         TabIndex        =   128
+         TabIndex        =   126
          Top             =   5760
          Width           =   615
       End
@@ -74,7 +108,7 @@ Begin VB.Form FrmMain
          Enabled         =   0   'False
          Height          =   2400
          Left            =   8280
-         TabIndex        =   127
+         TabIndex        =   125
          TabStop         =   0   'False
          Top             =   5760
          Width           =   615
@@ -82,7 +116,7 @@ Begin VB.Form FrmMain
       Begin VB.ListBox LstNullsDenMultiFactors 
          Height          =   2400
          Left            =   7680
-         TabIndex        =   126
+         TabIndex        =   124
          TabStop         =   0   'False
          Top             =   5760
          Width           =   615
@@ -90,7 +124,7 @@ Begin VB.Form FrmMain
       Begin VB.ListBox LstNullsDenMulti 
          Height          =   2400
          Left            =   7080
-         TabIndex        =   125
+         TabIndex        =   123
          TabStop         =   0   'False
          Top             =   5760
          Width           =   615
@@ -99,7 +133,7 @@ Begin VB.Form FrmMain
          BackColor       =   &H80000002&
          Height          =   2400
          Left            =   6480
-         TabIndex        =   124
+         TabIndex        =   122
          TabStop         =   0   'False
          Top             =   5760
          Width           =   615
@@ -109,7 +143,7 @@ Begin VB.Form FrmMain
          Caption         =   "Color"
          Height          =   1095
          Left            =   600
-         TabIndex        =   99
+         TabIndex        =   97
          Top             =   5280
          Width           =   675
          Begin VB.PictureBox PicColorSelArea 
@@ -118,7 +152,7 @@ Begin VB.Form FrmMain
             ScaleHeight     =   48
             ScaleMode       =   3  'Pixel
             ScaleWidth      =   96
-            TabIndex        =   101
+            TabIndex        =   99
             Top             =   240
             Width           =   1500
             Begin VB.PictureBox PicColorPalette 
@@ -130,7 +164,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   113
+               TabIndex        =   111
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -144,7 +178,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   112
+               TabIndex        =   110
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -158,7 +192,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   111
+               TabIndex        =   109
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -172,7 +206,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   110
+               TabIndex        =   108
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -186,7 +220,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   109
+               TabIndex        =   107
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -200,7 +234,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   108
+               TabIndex        =   106
                TabStop         =   0   'False
                Top             =   240
                Width           =   240
@@ -214,7 +248,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   107
+               TabIndex        =   105
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -228,7 +262,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   106
+               TabIndex        =   104
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -242,7 +276,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   105
+               TabIndex        =   103
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -256,7 +290,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   104
+               TabIndex        =   102
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -270,7 +304,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   103
+               TabIndex        =   101
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -284,7 +318,7 @@ Begin VB.Form FrmMain
                ScaleHeight     =   16
                ScaleMode       =   3  'Pixel
                ScaleWidth      =   16
-               TabIndex        =   102
+               TabIndex        =   100
                TabStop         =   0   'False
                Top             =   0
                Width           =   240
@@ -296,7 +330,7 @@ Begin VB.Form FrmMain
                Caption         =   "SELECT  "
                Height          =   240
                Left            =   0
-               TabIndex        =   114
+               TabIndex        =   112
                Top             =   480
                Width           =   1440
             End
@@ -309,7 +343,7 @@ Begin VB.Form FrmMain
             ScaleLeft       =   1
             ScaleMode       =   0  'User
             ScaleWidth      =   0.344
-            TabIndex        =   100
+            TabIndex        =   98
             TabStop         =   0   'False
             Top             =   240
             Width           =   550
@@ -318,7 +352,7 @@ Begin VB.Form FrmMain
       Begin VB.ListBox LstNullsNumMultiFactors 
          Height          =   2400
          Left            =   5880
-         TabIndex        =   98
+         TabIndex        =   96
          TabStop         =   0   'False
          Top             =   5760
          Width           =   615
@@ -326,7 +360,7 @@ Begin VB.Form FrmMain
       Begin VB.ListBox LstNullsNumMulti 
          Height          =   2400
          Left            =   5280
-         TabIndex        =   97
+         TabIndex        =   95
          TabStop         =   0   'False
          Top             =   5760
          Width           =   615
@@ -336,22 +370,21 @@ Begin VB.Form FrmMain
          Caption         =   "Funktionswert"
          Height          =   1095
          Left            =   2040
-         TabIndex        =   91
+         TabIndex        =   89
          Top             =   5880
          Width           =   2175
          Begin VB.TextBox TxtCalcFuncValueY 
-            Enabled         =   0   'False
             Height          =   285
             Left            =   1140
             Locked          =   -1  'True
-            TabIndex        =   96
+            TabIndex        =   94
             Top             =   720
             Width           =   615
          End
          Begin VB.TextBox TxtCalcFuncValueX 
             Height          =   285
             Left            =   360
-            TabIndex        =   94
+            TabIndex        =   92
             Top             =   720
             Width           =   495
          End
@@ -361,7 +394,7 @@ Begin VB.Form FrmMain
             Height          =   375
             Left            =   120
             Style           =   1  'Graphical
-            TabIndex        =   92
+            TabIndex        =   90
             Top             =   240
             Width           =   1935
          End
@@ -370,7 +403,7 @@ Begin VB.Form FrmMain
             Caption         =   ") ="
             Height          =   255
             Left            =   900
-            TabIndex        =   95
+            TabIndex        =   93
             Top             =   720
             Width           =   255
          End
@@ -379,7 +412,7 @@ Begin VB.Form FrmMain
             Caption         =   "f ("
             Height          =   255
             Left            =   180
-            TabIndex        =   93
+            TabIndex        =   91
             Top             =   720
             Width           =   255
          End
@@ -389,7 +422,7 @@ Begin VB.Form FrmMain
          Caption         =   "Plot-Settings"
          Height          =   1455
          Left            =   2040
-         TabIndex        =   86
+         TabIndex        =   84
          Top             =   4320
          Width           =   2175
          Begin VB.CheckBox ChkAlwaysInForeground 
@@ -397,7 +430,7 @@ Begin VB.Form FrmMain
             Caption         =   "Immer im Vordergrund"
             Height          =   255
             Left            =   120
-            TabIndex        =   90
+            TabIndex        =   88
             Top             =   1080
             Width           =   1935
          End
@@ -406,7 +439,7 @@ Begin VB.Form FrmMain
             Caption         =   "Koordinaten"
             Height          =   255
             Left            =   120
-            TabIndex        =   89
+            TabIndex        =   87
             Top             =   840
             Value           =   1  'Checked
             Width           =   1455
@@ -416,7 +449,7 @@ Begin VB.Form FrmMain
             Caption         =   "Achsenkreuz"
             Height          =   195
             Left            =   120
-            TabIndex        =   88
+            TabIndex        =   86
             Top             =   600
             Value           =   1  'Checked
             Width           =   1335
@@ -426,7 +459,7 @@ Begin VB.Form FrmMain
             Caption         =   "Raster"
             Height          =   195
             Left            =   120
-            TabIndex        =   87
+            TabIndex        =   85
             Top             =   360
             Value           =   1  'Checked
             Width           =   855
@@ -435,29 +468,29 @@ Begin VB.Form FrmMain
       Begin VB.Frame FmCalcIntegral 
          BackColor       =   &H0080C0FF&
          Caption         =   "Integral"
-         Height          =   1935
+         Height          =   1815
          Left            =   9600
-         TabIndex        =   75
+         TabIndex        =   73
          Top             =   360
          Width           =   1935
          Begin VB.TextBox TxtIntAbs 
             Height          =   375
-            Left            =   1100
-            TabIndex        =   84
-            Top             =   1440
+            Left            =   1080
+            TabIndex        =   82
+            Top             =   1320
             Width           =   735
          End
          Begin VB.TextBox TxtIntSum 
             Height          =   375
             Left            =   120
-            TabIndex        =   82
-            Top             =   1440
+            TabIndex        =   80
+            Top             =   1320
             Width           =   735
          End
          Begin VB.TextBox TxtIntUpperBound 
             Height          =   285
             Left            =   1200
-            TabIndex        =   80
+            TabIndex        =   78
             Text            =   "0"
             Top             =   720
             Width           =   615
@@ -465,7 +498,7 @@ Begin VB.Form FrmMain
          Begin VB.TextBox TxtIntLowerBound 
             Height          =   285
             Left            =   1200
-            TabIndex        =   78
+            TabIndex        =   76
             Text            =   "0"
             Top             =   360
             Width           =   615
@@ -473,10 +506,10 @@ Begin VB.Form FrmMain
          Begin VB.CommandButton BtnCalcIntegral 
             BackColor       =   &H0080C0FF&
             Caption         =   "Integral errechnen"
-            Height          =   855
+            Height          =   735
             Left            =   120
             Style           =   1  'Graphical
-            TabIndex        =   76
+            TabIndex        =   74
             Top             =   240
             Width           =   855
          End
@@ -486,8 +519,8 @@ Begin VB.Form FrmMain
             Caption         =   "Betrag"
             Height          =   195
             Left            =   1080
-            TabIndex        =   83
-            Top             =   1200
+            TabIndex        =   81
+            Top             =   1080
             Width           =   465
          End
          Begin VB.Label Label31 
@@ -496,8 +529,8 @@ Begin VB.Form FrmMain
             Caption         =   "Summe"
             Height          =   195
             Left            =   120
-            TabIndex        =   81
-            Top             =   1200
+            TabIndex        =   79
+            Top             =   1080
             Width           =   525
          End
          Begin VB.Label Label26 
@@ -506,7 +539,7 @@ Begin VB.Form FrmMain
             Caption         =   "b"
             Height          =   195
             Left            =   1080
-            TabIndex        =   79
+            TabIndex        =   77
             Top             =   720
             Width           =   90
          End
@@ -516,7 +549,7 @@ Begin VB.Form FrmMain
             Caption         =   "a"
             Height          =   195
             Left            =   1080
-            TabIndex        =   77
+            TabIndex        =   75
             Top             =   375
             Width           =   90
          End
@@ -526,7 +559,7 @@ Begin VB.Form FrmMain
          Caption         =   "Lock"
          Height          =   375
          Left            =   2160
-         TabIndex        =   74
+         TabIndex        =   72
          Top             =   2040
          Width           =   1335
       End
@@ -536,16 +569,16 @@ Begin VB.Form FrmMain
          Height          =   375
          Left            =   9600
          Style           =   1  'Graphical
-         TabIndex        =   69
+         TabIndex        =   67
          Top             =   4440
-         Width           =   1815
+         Width           =   1935
       End
       Begin VB.CheckBox Check7 
          BackColor       =   &H0080C0FF&
          Caption         =   "Graph erklicken"
          Height          =   375
          Left            =   9600
-         TabIndex        =   44
+         TabIndex        =   42
          Top             =   4800
          Width           =   1695
       End
@@ -553,7 +586,7 @@ Begin VB.Form FrmMain
          BackColor       =   &H80000002&
          Height          =   2400
          Left            =   4680
-         TabIndex        =   43
+         TabIndex        =   41
          TabStop         =   0   'False
          Top             =   5760
          Width           =   615
@@ -563,41 +596,37 @@ Begin VB.Form FrmMain
          Caption         =   "Eigenschaften"
          Height          =   4935
          Left            =   4680
-         TabIndex        =   66
+         TabIndex        =   64
          Top             =   240
          Width           =   4815
+         Begin VB.CheckBox ChkRtf 
+            BackColor       =   &H0080C0FF&
+            Caption         =   "RTF"
+            Height          =   255
+            Left            =   3000
+            Style           =   1  'Graphical
+            TabIndex        =   137
+            Top             =   600
+            Value           =   1  'Checked
+            Width           =   615
+         End
          Begin VB.CheckBox ChkLinDecompShortForm 
             BackColor       =   &H0080C0FF&
             Caption         =   "Short"
-            Height          =   615
+            Height          =   375
             Left            =   3000
             Style           =   1  'Graphical
-            TabIndex        =   138
+            TabIndex        =   135
             Top             =   240
+            Value           =   1  'Checked
             Width           =   615
          End
          Begin VB.ListBox LstMainDefGapZero 
             Height          =   2400
             Left            =   2520
-            TabIndex        =   136
+            TabIndex        =   134
             Top             =   2400
             Width           =   375
-         End
-         Begin VB.TextBox TxtLinFacNum 
-            Enabled         =   0   'False
-            Height          =   375
-            Left            =   120
-            TabIndex        =   36
-            Top             =   960
-            Width           =   4575
-         End
-         Begin VB.TextBox TxtLinFacDen 
-            Enabled         =   0   'False
-            Height          =   375
-            Left            =   120
-            TabIndex        =   37
-            Top             =   1560
-            Width           =   4575
          End
          Begin VB.CommandButton BtnNewton 
             BackColor       =   &H0080C0FF&
@@ -612,35 +641,35 @@ Begin VB.Form FrmMain
          Begin VB.ListBox LstMainPolesOrder 
             Height          =   2400
             Left            =   3840
-            TabIndex        =   42
+            TabIndex        =   40
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox LstMainPoles 
             Height          =   2400
             Left            =   3120
-            TabIndex        =   41
+            TabIndex        =   39
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox LstMainNullsMultiFactors 
             Height          =   2400
             Left            =   840
-            TabIndex        =   40
+            TabIndex        =   38
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox LstMainNullsMulti 
             Height          =   2400
             Left            =   120
-            TabIndex        =   39
+            TabIndex        =   37
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox LstMainDefGap 
             Height          =   2400
             Left            =   1800
-            TabIndex        =   38
+            TabIndex        =   36
             Top             =   2400
             Width           =   615
          End
@@ -654,12 +683,42 @@ Begin VB.Form FrmMain
             Top             =   240
             Width           =   975
          End
+         Begin RichTextLib.RichTextBox RtbLinFacNum 
+            Height          =   375
+            Left            =   120
+            TabIndex        =   136
+            Top             =   960
+            Width           =   4575
+            _ExtentX        =   8070
+            _ExtentY        =   661
+            _Version        =   393217
+            BorderStyle     =   0
+            Enabled         =   0   'False
+            MultiLine       =   0   'False
+            ReadOnly        =   -1  'True
+            TextRTF         =   $"Form1.frx":0442
+         End
+         Begin RichTextLib.RichTextBox RtbLinFacDen 
+            Height          =   375
+            Left            =   120
+            TabIndex        =   138
+            Top             =   1560
+            Width           =   4575
+            _ExtentX        =   8070
+            _ExtentY        =   661
+            _Version        =   393217
+            BorderStyle     =   0
+            Enabled         =   0   'False
+            MultiLine       =   0   'False
+            ReadOnly        =   -1  'True
+            TextRTF         =   $"Form1.frx":04C4
+         End
          Begin VB.Label Label2941 
             BackStyle       =   0  'Transparent
             Caption         =   "Ordnung"
             Height          =   255
             Left            =   3840
-            TabIndex        =   135
+            TabIndex        =   133
             Top             =   2160
             Width           =   615
          End
@@ -668,7 +727,7 @@ Begin VB.Form FrmMain
             Caption         =   "Vielfachheit"
             Height          =   255
             Left            =   720
-            TabIndex        =   134
+            TabIndex        =   132
             Top             =   2160
             Width           =   975
          End
@@ -677,7 +736,7 @@ Begin VB.Form FrmMain
             Caption         =   "NS"
             Height          =   255
             Left            =   240
-            TabIndex        =   132
+            TabIndex        =   130
             Top             =   2160
             Width           =   375
          End
@@ -686,7 +745,7 @@ Begin VB.Form FrmMain
             Caption         =   "Pole"
             Height          =   255
             Left            =   3240
-            TabIndex        =   68
+            TabIndex        =   66
             Top             =   2160
             Width           =   375
          End
@@ -695,13 +754,13 @@ Begin VB.Form FrmMain
             Caption         =   "Def.-lücken"
             Height          =   255
             Left            =   1920
-            TabIndex        =   67
+            TabIndex        =   65
             Top             =   2160
             Width           =   855
          End
          Begin VB.Line Line1 
             X1              =   240
-            X2              =   4440
+            X2              =   4560
             Y1              =   1440
             Y2              =   1440
          End
@@ -714,8 +773,8 @@ Begin VB.Form FrmMain
          Left            =   9600
          Style           =   1  'Graphical
          TabIndex        =   24
-         Top             =   3840
-         Width           =   1815
+         Top             =   3960
+         Width           =   1935
       End
       Begin VB.CommandButton BtnIntegrate 
          BackColor       =   &H0080C0FF&
@@ -724,8 +783,8 @@ Begin VB.Form FrmMain
          Left            =   9600
          Style           =   1  'Graphical
          TabIndex        =   32
-         Top             =   2640
-         Width           =   1815
+         Top             =   3000
+         Width           =   1935
       End
       Begin VB.TextBox TxtLineWidth 
          Height          =   285
@@ -738,7 +797,7 @@ Begin VB.Form FrmMain
       Begin MSComCtl2.FlatScrollBar ScrLineWidth 
          Height          =   495
          Left            =   1320
-         TabIndex        =   64
+         TabIndex        =   62
          Top             =   5880
          Width           =   615
          _ExtentX        =   1085
@@ -757,8 +816,8 @@ Begin VB.Form FrmMain
          Left            =   9600
          Style           =   1  'Graphical
          TabIndex        =   33
-         Top             =   3240
-         Width           =   1815
+         Top             =   3480
+         Width           =   1935
       End
       Begin VB.TextBox TxtDegreeDenominator 
          Enabled         =   0   'False
@@ -833,7 +892,7 @@ Begin VB.Form FrmMain
          Caption         =   "Grad = Koeffizient"
          Height          =   975
          Left            =   600
-         TabIndex        =   56
+         TabIndex        =   54
          Top             =   240
          Width           =   1455
          Begin VB.OptionButton OptDenominator 
@@ -878,7 +937,7 @@ Begin VB.Form FrmMain
             Caption         =   "="
             Height          =   255
             Left            =   480
-            TabIndex        =   57
+            TabIndex        =   55
             Top             =   280
             Width           =   255
          End
@@ -887,7 +946,7 @@ Begin VB.Form FrmMain
          Caption         =   "-"
          Height          =   255
          Left            =   120
-         TabIndex        =   54
+         TabIndex        =   52
          Top             =   8040
          Width           =   375
       End
@@ -895,7 +954,7 @@ Begin VB.Form FrmMain
          Caption         =   "+"
          Height          =   255
          Left            =   120
-         TabIndex        =   53
+         TabIndex        =   51
          Top             =   240
          Width           =   375
       End
@@ -948,7 +1007,7 @@ Begin VB.Form FrmMain
             Caption         =   "Höheneinheiten"
             Height          =   255
             Left            =   120
-            TabIndex        =   47
+            TabIndex        =   45
             Top             =   720
             Width           =   1215
          End
@@ -957,7 +1016,7 @@ Begin VB.Form FrmMain
             Caption         =   "Breiteneinheiten"
             Height          =   255
             Left            =   120
-            TabIndex        =   46
+            TabIndex        =   44
             Top             =   360
             Width           =   1215
          End
@@ -1041,7 +1100,7 @@ Begin VB.Form FrmMain
          Caption         =   "Intervall"
          Height          =   1815
          Left            =   600
-         TabIndex        =   45
+         TabIndex        =   43
          Top             =   6480
          Width           =   1335
          Begin VB.CommandButton BtnCalcCodomain 
@@ -1050,7 +1109,7 @@ Begin VB.Form FrmMain
             Height          =   495
             Left            =   120
             Style           =   1  'Graphical
-            TabIndex        =   85
+            TabIndex        =   83
             Top             =   240
             Width           =   1095
          End
@@ -1091,7 +1150,7 @@ Begin VB.Form FrmMain
             Caption         =   "Wertebereich:"
             Height          =   255
             Left            =   120
-            TabIndex        =   55
+            TabIndex        =   53
             Top             =   1200
             Width           =   1215
          End
@@ -1109,7 +1168,7 @@ Begin VB.Form FrmMain
       Begin ComctlLib.Slider SldCoef 
          Height          =   7695
          Left            =   120
-         TabIndex        =   52
+         TabIndex        =   50
          Top             =   360
          Width           =   375
          _ExtentX        =   661
@@ -1121,25 +1180,12 @@ Begin VB.Form FrmMain
          Max             =   10000
          TickStyle       =   3
       End
-      Begin RichTextLib.RichTextBox RichTextBox1 
-         Height          =   375
-         Left            =   4800
-         TabIndex        =   137
-         Top             =   0
-         Width           =   4575
-         _ExtentX        =   8070
-         _ExtentY        =   661
-         _Version        =   393217
-         Enabled         =   0   'False
-         MultiLine       =   0   'False
-         TextRTF         =   $"Form1.frx":0442
-      End
       Begin VB.Label Label29 
          BackStyle       =   0  'Transparent
          Caption         =   "Ordnung"
          Height          =   255
          Left            =   6960
-         TabIndex        =   133
+         TabIndex        =   131
          Top             =   2280
          Width           =   735
       End
@@ -1148,7 +1194,7 @@ Begin VB.Form FrmMain
          Caption         =   "???"
          Height          =   255
          Left            =   8400
-         TabIndex        =   123
+         TabIndex        =   121
          Top             =   5520
          Width           =   450
       End
@@ -1157,7 +1203,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS Nx"
          Height          =   255
          Left            =   7800
-         TabIndex        =   122
+         TabIndex        =   120
          Top             =   5520
          Width           =   570
       End
@@ -1166,7 +1212,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS N*"
          Height          =   255
          Left            =   7200
-         TabIndex        =   121
+         TabIndex        =   119
          Top             =   5520
          Width           =   450
       End
@@ -1175,7 +1221,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS Zx"
          Height          =   255
          Left            =   6000
-         TabIndex        =   120
+         TabIndex        =   118
          Top             =   5520
          Width           =   570
       End
@@ -1184,7 +1230,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS Z*"
          Height          =   255
          Left            =   5400
-         TabIndex        =   119
+         TabIndex        =   117
          Top             =   5520
          Width           =   450
       End
@@ -1193,7 +1239,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS N"
          Height          =   255
          Left            =   6600
-         TabIndex        =   118
+         TabIndex        =   116
          Top             =   5520
          Width           =   450
       End
@@ -1202,7 +1248,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS Z"
          Height          =   255
          Left            =   4800
-         TabIndex        =   117
+         TabIndex        =   115
          Top             =   5520
          Width           =   450
       End
@@ -1211,7 +1257,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS f''"
          Height          =   255
          Left            =   9600
-         TabIndex        =   116
+         TabIndex        =   114
          Top             =   5520
          Width           =   375
       End
@@ -1220,7 +1266,7 @@ Begin VB.Form FrmMain
          Caption         =   "NS f'"
          Height          =   255
          Left            =   9000
-         TabIndex        =   115
+         TabIndex        =   113
          Top             =   5520
          Width           =   375
       End
@@ -1229,7 +1275,7 @@ Begin VB.Form FrmMain
          Caption         =   "Y:"
          Height          =   255
          Left            =   2120
-         TabIndex        =   73
+         TabIndex        =   71
          Top             =   1120
          Width           =   135
       End
@@ -1238,7 +1284,7 @@ Begin VB.Form FrmMain
          Caption         =   "Y:"
          Height          =   255
          Left            =   840
-         TabIndex        =   72
+         TabIndex        =   70
          Top             =   4200
          Width           =   135
       End
@@ -1248,7 +1294,7 @@ Begin VB.Form FrmMain
          Caption         =   "Tip"
          Height          =   195
          Left            =   10800
-         TabIndex        =   71
+         TabIndex        =   69
          Top             =   5520
          Width           =   225
       End
@@ -1258,7 +1304,7 @@ Begin VB.Form FrmMain
          Caption         =   "Hop"
          Height          =   195
          Left            =   10200
-         TabIndex        =   70
+         TabIndex        =   68
          Top             =   5520
          Width           =   300
       End
@@ -1267,7 +1313,7 @@ Begin VB.Form FrmMain
          Caption         =   "Dicke"
          Height          =   255
          Left            =   1320
-         TabIndex        =   65
+         TabIndex        =   63
          Top             =   5280
          Width           =   495
       End
@@ -1277,7 +1323,7 @@ Begin VB.Form FrmMain
          Enabled         =   0   'False
          Height          =   255
          Left            =   720
-         TabIndex        =   63
+         TabIndex        =   61
          Top             =   3480
          Width           =   615
       End
@@ -1287,7 +1333,7 @@ Begin VB.Form FrmMain
          Caption         =   "0"
          Height          =   255
          Left            =   1080
-         TabIndex        =   62
+         TabIndex        =   60
          Top             =   3960
          Width           =   615
       End
@@ -1297,7 +1343,7 @@ Begin VB.Form FrmMain
          Caption         =   "0"
          Height          =   255
          Left            =   1080
-         TabIndex        =   61
+         TabIndex        =   59
          Top             =   4200
          Width           =   615
       End
@@ -1306,7 +1352,7 @@ Begin VB.Form FrmMain
          Caption         =   "Grad(Z)"
          Height          =   255
          Left            =   720
-         TabIndex        =   60
+         TabIndex        =   58
          Top             =   2760
          Width           =   615
       End
@@ -1315,7 +1361,7 @@ Begin VB.Form FrmMain
          Caption         =   "X:"
          Height          =   255
          Left            =   840
-         TabIndex        =   59
+         TabIndex        =   57
          Top             =   3960
          Width           =   135
       End
@@ -1333,7 +1379,7 @@ Begin VB.Form FrmMain
          EndProperty
          Height          =   255
          Left            =   840
-         TabIndex        =   58
+         TabIndex        =   56
          Top             =   3720
          Width           =   1095
       End
@@ -1353,7 +1399,7 @@ Begin VB.Form FrmMain
          EndProperty
          Height          =   375
          Left            =   2280
-         TabIndex        =   51
+         TabIndex        =   49
          Top             =   240
          Width           =   2175
       End
@@ -1362,7 +1408,7 @@ Begin VB.Form FrmMain
          Caption         =   "X:"
          Height          =   255
          Left            =   2120
-         TabIndex        =   50
+         TabIndex        =   48
          Top             =   750
          Width           =   135
       End
@@ -1380,7 +1426,7 @@ Begin VB.Form FrmMain
          EndProperty
          Height          =   255
          Left            =   2040
-         TabIndex        =   49
+         TabIndex        =   47
          Top             =   1440
          Width           =   1455
       End
@@ -1398,7 +1444,7 @@ Begin VB.Form FrmMain
          EndProperty
          Height          =   255
          Left            =   2040
-         TabIndex        =   48
+         TabIndex        =   46
          Top             =   1800
          Width           =   1455
       End
@@ -1423,8 +1469,12 @@ Dim X, Y, X1, Y1, Y2, X2, V, G, B As Boolean, W, KSX, KSY, SFX, SFY, STPX, STPY
 Dim DragX As Integer, DragY As Integer ' For drag&drop the control panel
 Dim WXK As Boolean 'Wiederholte X-Koordinate
 Dim CoefIncr As Boolean
-
 Dim aX, aY, aY2, dx, dy
+Dim Precision As Long
+
+Private Sub ChkRtf_Click()
+    Call BtnNewton_Click
+End Sub
 
 Private Sub ChkGridSpacingLock_Click()
     If ChkGridSpacingLock.Value = 1 Then
@@ -1435,6 +1485,7 @@ End Sub
 
 Private Sub ChkLinDecompShortForm_Click()
     Call BtnNewton_Click
+    ChkRtf.Enabled = ChkLinDecompShortForm.Value
 End Sub
 
 Private Sub ChkProportional_Click()
@@ -1635,14 +1686,14 @@ Private Sub BtnAsymptote_Click()
 End Sub
 
 
-Private Function GetLinearFactorString(Nulls As NewtonResult, Degree As Integer, Optional ShortForm As Boolean = False) As String
+Private Function GetLinearFactorString(Nulls As NewtonResult, Degree As Integer, Optional ShortForm As Boolean = False, Optional Rtf As Boolean = False) As String
     Dim I As Integer
     Dim Sign As String
     Dim LFS As String
         
     If Degree > 0 And Nulls.NullCnt = Degree Then
         ' Write main factor
-        LFS = Nulls.Factor
+        LFS = Round(Nulls.Factor, Precision)
     
         ' Write linear factors to text box
         If ShortForm Then
@@ -1657,12 +1708,25 @@ Private Function GetLinearFactorString(Nulls As NewtonResult, Degree As Integer,
                     Else
                         Sign = "-"
                     End If
+                    
                     If MultiNumbers(I * 2 + 1) > 1 Then
-                        LFS = LFS & " (x " & Sign & Str(Abs(MultiNumbers(I * 2))) & ")^" & MultiNumbers(I * 2 + 1)
+                        If Not Rtf Then
+                            LFS = LFS & " (x " & Sign & Str(Abs(MultiNumbers(I * 2))) & ")^" & MultiNumbers(I * 2 + 1)
+                        Else
+                            LFS = LFS & " · (x " & Sign & Str(Abs(MultiNumbers(I * 2))) & "){\super " & MultiNumbers(I * 2 + 1) & "}"
+                        End If
                     Else
-                        LFS = LFS & " (x " & Sign & Str(Abs(MultiNumbers(I * 2))) & ")"
+                        If Not Rtf Then
+                            LFS = LFS & " (x " & Sign & Str(Abs(MultiNumbers(I * 2))) & ")"
+                        Else
+                            LFS = LFS & " · (x " & Sign & Str(Abs(MultiNumbers(I * 2))) & ")"
+                        End If
                     End If
                 Next I
+                
+                If Rtf Then
+                    LFS = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}" & LFS & "}"
+                End If
             End If
         Else
             For I = 0 To Nulls.NullCnt - 1
@@ -1811,6 +1875,20 @@ Private Sub DetermineDefinitionGaps()
 End Sub
 
 
+Private Sub SetLinFacTxt(RtbLinFac As RichTextBox, Nulls As NewtonResult, Degree As Integer)
+    ' Write linear factor decomposition to (RTF) text box
+    If ChkRtf.Value = 1 And ChkLinDecompShortForm.Value = 1 Then
+        RtbLinFac.TextRTF = GetLinearFactorString(Nulls, Degree, ChkLinDecompShortForm.Value = 1, True)
+    Else
+        ' Reset Font
+        RtbLinFac.Font.Name = "MS Sans Serif"
+        RtbLinFac.Font.Size = 8
+        
+        RtbLinFac.Text = GetLinearFactorString(Nulls, Degree, ChkLinDecompShortForm.Value = 1, False)
+    End If
+End Sub
+
+
 Private Sub BtnNewton_Click()
     Dim I As Integer
     Dim NullsNum As NewtonResult, NullsDen As NewtonResult
@@ -1821,11 +1899,20 @@ Private Sub BtnNewton_Click()
     Dim DenValueAtX As Double
     'XXX Call HornerSchema
     
+    If IsArrayEmpty(CoefNum) Then Exit Sub
+    
     If Not IsRationalFunction Then
-        NullsNum = Newton((CoefNum), True)
+        NullsNum = Newton((CoefNum), True, Precision)
     Else
-        NullsNum = Newton((CoefNum), True)
-        NullsDen = Newton((CoefDen), False)
+        NullsNum = Newton((CoefNum), True, Precision)
+        NullsDen = Newton((CoefDen), False, Precision)
+    End If
+    
+    If Not IsRationalFunction Then
+        If NullsNum.NullCnt = 0 Then Exit Sub
+    Else
+        If NullsNum.NullCnt = 0 Then Exit Sub
+        If NullsDen.NullCnt = 0 Then Exit Sub
     End If
 
     ' Clear controls
@@ -1842,9 +1929,6 @@ Private Sub BtnNewton_Click()
     LstMainNullsMultiFactors.Clear
     LstMainPoles.Clear
     LstMainPolesOrder.Clear
-    
-    TxtLinFacNum.Text = ""
-    TxtLinFacDen.Text = ""
     
     If IsRationalFunction Then
         ' f(x) = p(x) / q(x)
@@ -1863,9 +1947,9 @@ Private Sub BtnNewton_Click()
         Call MergeNullsToMultiNulls(LstNullsNum, LstNullsNumMulti, LstNullsNumMultiFactors)
         Call MergeNullsToMultiNulls(LstNullsDen, LstNullsDenMulti, LstNullsDenMultiFactors)
         
-        ' Write linear factor decomposition to text box
-        TxtLinFacNum.Text = GetLinearFactorString(NullsNum, DegNum, ChkLinDecompShortForm.Value = 1)
-        TxtLinFacDen.Text = GetLinearFactorString(NullsDen, DegDen, ChkLinDecompShortForm.Value = 1)
+        ' Write linear factor decomposition to (RTF) text box
+        Call SetLinFacTxt(RtbLinFacNum, NullsNum, DegNum)
+        Call SetLinFacTxt(RtbLinFacDen, NullsDen, DegDen)
         
         ' Determine nulls
         Call DetermineNulls
@@ -1880,9 +1964,11 @@ Private Sub BtnNewton_Click()
         
         ' > Merge nulls to multi-nulls where possible
         Call MergeNullsToMultiNulls(LstNullsNum, LstNullsNumMulti, LstNullsNumMultiFactors)
-    
-        ' Write linear factor decomposition to text box
-        TxtLinFacNum.Text = GetLinearFactorString(NullsNum, DegNum, ChkLinDecompShortForm.Value = 1)
+        
+        ' Write linear factor decomposition to (RTF) text box
+        Call SetLinFacTxt(RtbLinFacNum, NullsNum, DegNum)
+        
+        RtbLinFacNum.TextRTF = GetLinearFactorString(NullsNum, DegNum, ChkLinDecompShortForm.Value = 1, True)
         
         ' Copy list entries - there is no more to evaluate like it is the case with rational functions
         For I = 0 To LstNullsNumMulti.ListCount - 1
@@ -2138,7 +2224,7 @@ Private Sub BtnExtremum_Click()
     
     ' Calculate 1st derivative and add nulls to list
     ZAbl1 = GetDiffFuncCoefs(CoefNum)
-    Newton1 = Newton((ZAbl1), True)
+    Newton1 = Newton((ZAbl1), True, Precision)
     
     For I = 0 To Newton1.NullCnt - 1
         LstNullsFd.AddItem (Newton1.Nulls(I))
@@ -2146,7 +2232,7 @@ Private Sub BtnExtremum_Click()
     
     ' Calculate 2nd derivative and add nulls to list
     ZAbl2 = GetDiffFuncCoefs(ZAbl1)
-    Newton1 = Newton((ZAbl2), True)
+    Newton1 = Newton((ZAbl2), True, Precision)
     
     For I = 0 To Newton1.NullCnt - 1
         LstNullsFdd.AddItem (Newton1.Nulls(I))
@@ -2330,6 +2416,13 @@ Private Sub BtnOffsetCoordSystem_Click()
 End Sub
 
 
+Private Sub ScrPrecision_Change()
+    Precision = ScrPrecision.Value
+    LblPrecision.Caption = Precision
+    
+    Call BtnNewton_Click
+End Sub
+
 Private Sub Form_DragDrop(source As Control, X As Single, Y As Single)
     Dim ScaleModeTmp
     Dim rect As POINTAPI
@@ -2449,7 +2542,8 @@ End Sub
 
 Private Sub Form_Load()
     Me.WindowState = vbMaximized
-    ChkAlwaysInForeground_Click
+    Call ChkAlwaysInForeground_Click
+    Call ScrPrecision_Change
     
     PicColorMain.Tag = "Collapsed"
     
