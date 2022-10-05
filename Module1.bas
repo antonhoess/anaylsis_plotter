@@ -23,3 +23,32 @@ Public Type RationalFunction
     CoefNum() As Double
     CoefDen() As Double
 End Type
+
+
+Public Type DrawSettings
+    DrawMode As Integer
+    DrawStyle As Integer
+    DrawWidth As Integer
+    FillColor As Long
+    ForeColor As Long
+End Type
+
+
+Public Function GetDrawSettings(ByRef Frm As Form) As DrawSettings
+    Dim Settings As DrawSettings
+    
+    Settings.DrawMode = Frm.DrawMode
+    Settings.DrawStyle = Frm.DrawStyle
+    Settings.DrawWidth = Frm.DrawWidth
+    Settings.FillColor = Frm.FillColor
+    Settings.ForeColor = Frm.ForeColor
+    
+    GetDrawSettings = Settings
+End Function
+
+
+Public Function SetDrawSettings(ByRef Frm As Form, ByRef Settings As DrawSettings)
+    Frm.DrawMode = Settings.DrawMode
+    Frm.DrawStyle = Settings.DrawStyle
+    Frm.DrawWidth = Settings.DrawWidth
+End Function

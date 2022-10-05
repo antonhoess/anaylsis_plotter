@@ -8,6 +8,8 @@ ToDo
 * Form1.BorderStyle=0 (evtl.)   Koordinaten mitstrecken
 * Über Ableitung Wendepunkte, Extremwerte und über Horner-Schema Nullpunkte, Definitionslücken, Pole, hebbare Lücken errechnen.
   Nicht nur mir ganzzahligen Exponenten arbeiten, sondern über ein zweites Array einmal Koeffizienten und über das zweite die Exponenten speichern und ganz normal in der Schleife durchrechnen lassen - das gleiche glit dann auch für das Differenzieren.
+* Button einbauen, der direkt die gesamten Koeffizienten (vermutl. am besten in der Form ax^n + bx^n-1 + ...) anzeigt.
+* Auch für gebrochen rationale Funktionen müssen Wendepunkte Sattelpunkte Hochpunkte, Tiefpunkte, etc. berechnet werden (dies geht anders und ist komplexer als bei nicht gebrochen rationalen Funktionen).
 
 
 Bugs

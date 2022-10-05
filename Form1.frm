@@ -565,6 +565,13 @@ Begin VB.Form FrmMain
          TabIndex        =   66
          Top             =   240
          Width           =   4815
+         Begin VB.ListBox LstMainDefGapZero 
+            Height          =   2400
+            Left            =   2520
+            TabIndex        =   136
+            Top             =   2400
+            Width           =   375
+         End
          Begin VB.TextBox TxtLinFacNum 
             Enabled         =   0   'False
             Height          =   375
@@ -593,14 +600,14 @@ Begin VB.Form FrmMain
          End
          Begin VB.ListBox LstMainPolesOrder 
             Height          =   2400
-            Left            =   3480
+            Left            =   3840
             TabIndex        =   42
             Top             =   2400
             Width           =   615
          End
          Begin VB.ListBox LstMainPoles 
             Height          =   2400
-            Left            =   2760
+            Left            =   3120
             TabIndex        =   41
             Top             =   2400
             Width           =   615
@@ -640,8 +647,8 @@ Begin VB.Form FrmMain
             BackStyle       =   0  'Transparent
             Caption         =   "Ordnung"
             Height          =   255
-            Left            =   3600
-            TabIndex        =   136
+            Left            =   3840
+            TabIndex        =   135
             Top             =   2160
             Width           =   615
          End
@@ -650,7 +657,7 @@ Begin VB.Form FrmMain
             Caption         =   "Vielfachheit"
             Height          =   255
             Left            =   720
-            TabIndex        =   135
+            TabIndex        =   134
             Top             =   2160
             Width           =   975
          End
@@ -659,23 +666,15 @@ Begin VB.Form FrmMain
             Caption         =   "NS"
             Height          =   255
             Left            =   240
-            TabIndex        =   133
+            TabIndex        =   132
             Top             =   2160
             Width           =   375
-         End
-         Begin VB.Label Label10 
-            Caption         =   "Wendepunkte Sattelpunkte hebbare Difinitionlücken"
-            Height          =   1215
-            Left            =   4080
-            TabIndex        =   132
-            Top             =   2640
-            Width           =   855
          End
          Begin VB.Label Label29412 
             BackStyle       =   0  'Transparent
             Caption         =   "Pole"
             Height          =   255
-            Left            =   2880
+            Left            =   3240
             TabIndex        =   68
             Top             =   2160
             Width           =   375
@@ -684,7 +683,7 @@ Begin VB.Form FrmMain
             BackStyle       =   0  'Transparent
             Caption         =   "Def.-lücken"
             Height          =   255
-            Left            =   1680
+            Left            =   1920
             TabIndex        =   67
             Top             =   2160
             Width           =   855
@@ -1116,7 +1115,7 @@ Begin VB.Form FrmMain
          Caption         =   "Ordnung"
          Height          =   255
          Left            =   6960
-         TabIndex        =   134
+         TabIndex        =   133
          Top             =   2280
          Width           =   735
       End
@@ -1502,6 +1501,8 @@ End Sub
 
 Private Sub BtnCalcFuncValue_Click()
     Dim Value As Double
+    
+    On Error GoTo CalcValueError
 
     Value = GetFuncValByX(CDbl(TxtCalcFuncValueX.Text), CoefNum)
     
@@ -1510,6 +1511,11 @@ Private Sub BtnCalcFuncValue_Click()
     End If
     
     TxtCalcFuncValueY.Text = Value
+    
+    Exit Sub
+    
+CalcValueError:
+    TxtCalcFuncValueY.Text = "Undefined"
 End Sub
 
 
@@ -1660,58 +1666,60 @@ End Sub
 
 
 Private Sub DetermineNulls()
-    Dim I As Integer, U As Integer
-    Dim MultiplicityDiff As Integer
+    Dim N As Integer, D As Integer
+    Dim Found As Boolean
     
     ' Determine nulls
-    For I = 0 To LstNullsNumMulti.ListCount - 1 ' Check all numerator nulls
+    For N = 0 To LstNullsNumMulti.ListCount - 1 ' Check all numerator nulls
         ' Check if the current null is also contained in the denominator nulls
-        MultiplicityDiff = LstNullsNumMultiFactors.List(I)
-        For U = 0 To LstNullsDenMulti.ListCount - 1
-            If LstNullsDenMulti.List(U) = LstNullsNumMulti.List(I) Then
-                If LstNullsNumMultiFactors.List(I) > LstNullsDenMultiFactors.List(U) Then
-                    MultiplicityDiff = LstNullsNumMultiFactors.List(I) - LstNullsDenMultiFactors.List(U)
-                End If
+        Found = False
+        For D = 0 To LstNullsDenMulti.ListCount - 1
+            If LstNullsNumMulti.List(N) = LstNullsDenMulti.List(D) Then
+                Found = True
                 Exit For
             End If
-        Next U
+        Next D
         
-        If MultiplicityDiff > 0 Then
-            LstMainNullsMulti.AddItem (LstNullsNumMulti.List(I))
-            LstMainNullsMultiFactors.AddItem (LstNullsNumMultiFactors.List(I))
+        If Not Found Then
+            LstMainNullsMulti.AddItem (LstNullsNumMulti.List(N))
+            LstMainNullsMultiFactors.AddItem (LstNullsNumMultiFactors.List(N))
         End If
-    Next I
-
+    Next N
 End Sub
 
 Private Sub DetermineDefinitionGaps()
-    Dim Removable As Boolean
-    Dim I As Integer, U As Integer
+    Dim Found As Boolean
+    Dim N As Integer, D As Integer
     Dim MultiplicityDiff As Integer
     
     ' Determine definition gaps
-    For I = 0 To LstNullsDenMulti.ListCount - 1 ' Check all denominator nulls
-        Removable = False
+    For D = 0 To LstNullsDenMulti.ListCount - 1 ' Check all denominator nulls
+        Found = False
         
         ' Check if the current null is also contained in the numerator nulls
-        MultiplicityDiff = LstNullsDenMultiFactors.List(I)
-        For U = 0 To LstNullsNumMulti.ListCount - 1
-            If LstNullsDenMulti.List(I) = LstNullsNumMulti.List(U) Then
-                If LstNullsNumMultiFactors.List(U) <= LstNullsDenMultiFactors.List(I) Then
-                    MultiplicityDiff = LstNullsDenMultiFactors.List(I) - LstNullsNumMultiFactors.List(U)
-                    Removable = True
-                End If
+        For N = 0 To LstNullsNumMulti.ListCount - 1
+            If LstNullsDenMulti.List(D) = LstNullsNumMulti.List(N) Then
+                Found = True
                 Exit For
             End If
-        Next U
+        Next N
 
-        If Removable Then
-            LstMainDefGap.AddItem (LstNullsDenMulti.List(I))
+        If Found Then
+            LstMainDefGap.AddItem (LstNullsDenMulti.List(D))
+            
+            ' Differentiate between definition gaps with value 0 or p(x)/q(x)
+            If LstNullsNumMultiFactors.List(N) = LstNullsDenMultiFactors.List(D) Then
+                LstMainDefGapZero.AddItem ("-")
+            Else
+                If LstNullsNumMultiFactors.List(N) > LstNullsDenMultiFactors.List(D) Then
+                    LstMainDefGapZero.AddItem ("0")
+                End If
+            End If
         Else
-            LstMainPoles.AddItem (LstNullsDenMulti.List(I))
-            LstMainPolesOrder.AddItem (MultiplicityDiff)
+            LstMainPoles.AddItem (LstNullsDenMulti.List(D))
+            LstMainPolesOrder.AddItem (LstNullsDenMultiFactors.List(D))
         End If
-    Next I
+    Next D
 End Sub
 
 
@@ -1741,6 +1749,7 @@ Private Sub BtnNewton_Click()
     LstNullsDenMultiFactors.Clear
     
     LstMainDefGap.Clear
+    LstMainDefGapZero.Clear
     LstMainNullsMulti.Clear
     LstMainNullsMultiFactors.Clear
     LstMainPoles.Clear
@@ -1885,26 +1894,40 @@ End Sub
 Private Sub BtnNewtonShow_Click()
     Dim I As Integer
     Dim X As Double
-    ' XXX Das ganze '0.0001' kann wahrscheinlich weggelassen werden, da Definitionslücken ja jetzt übersprungen werden
+    Dim FormDrawSettings As DrawSettings
+    
+    FormDrawSettings = GetDrawSettings(FrmMain)
+    
     FrmMain.DrawWidth = 3
     
     If IsRationalFunction Then
+        ' Draw nulls
         For I = 0 To LstMainNullsMulti.ListCount - 1
-            Y1 = GetFuncValByX(Int(LstMainNullsMulti.List(I)) + 0.0001, CoefNum)
-            Y2 = GetFuncValByX(Int(LstMainNullsMulti.List(I)) + 0.0001, CoefDen)
-                
             FrmMain.Circle (LstMainNullsMulti.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2), 0.1, RGB(255, 0, 0)
         Next I
         
+        ' Draw definition gaps
         For I = 0 To LstMainDefGap.ListCount - 1
-            Y1 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefNum)
-            Y2 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefDen)
-            
-            FrmMain.Circle (LstMainDefGap.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
+            If LstMainDefGapZero.List(I) = "0" Then
+                FrmMain.Circle (LstMainDefGap.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2), 0.1, RGB(255, 0, 0)
+            Else
+                ' XXX Eigtl. müsste man hier erst den Bruch kürzen und dann ganz normal ausrechnen - evtl. Horner Schema oder Nullstellendivision verwenden
+                Y1 = (GetFuncValByX(LstMainDefGap.List(I) - 0.0001, CoefNum) + GetFuncValByX(LstMainDefGap.List(I) + 0.0001, CoefNum)) / 2
+                Y2 = (GetFuncValByX(LstMainDefGap.List(I) - 0.0001, CoefDen) + GetFuncValByX(LstMainDefGap.List(I) + 0.0001, CoefDen)) / 2
+                
+                ' XXX Nullstellendivision
+                
+                
+                ' XXX Ori:
+                'Y1 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefNum)
+                'Y2 = GetFuncValByX(Int(LstMainDefGap.List(I)) + 0.0001, CoefDen)
+                FrmMain.Circle (LstMainDefGap.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight / 2 - Y1 / Y2), 0.1, RGB(255, 0, 0)
+            End If
         Next I
         
         FrmMain.DrawStyle = 2
         
+        ' Draw poles
         For I = 0 To LstMainPoles.ListCount - 1
             FrmMain.Line (LstMainPoles.List(I) + FrmMain.ScaleWidth / 2, 0)-(LstMainPoles.List(I) + FrmMain.ScaleWidth / 2, FrmMain.ScaleHeight), RGB(255, 0, 0)
             FrmMain.DrawStyle = 0
@@ -1950,6 +1973,8 @@ Private Sub BtnNewtonShow_Click()
             End If
         Next I
     End If
+    
+    Call SetDrawSettings(FrmMain, FormDrawSettings)
 End Sub
 
 Private Sub BtnCalcIntegral_Click()

@@ -58,7 +58,7 @@ Public Function Newton(Coef, N2 As Boolean) As NewtonResult
                 IterCnt = 0
                 Do While True
                     X = Xneu
-                    Xneu = Xneu - GetFuncValByX(Xneu, Coef) / GetFuncValByX(Xneu, GetDiffFuncCoefs(Coef))
+                    Xneu = Xneu - GetFuncValByX(Xneu, Coef) / GetFuncValByX(Xneu, GetDiffFuncCoefs(Coef)) ' XXX GetDiffFuncCoefs() vor die While-Loop ziehen
                     
                     If Round(Xneu, NullsPrecision) = Round(X, NullsPrecision) Then
                         Exit Do
@@ -71,12 +71,18 @@ Public Function Newton(Coef, N2 As Boolean) As NewtonResult
                     End If
                 Loop
                 
+                ' Check with integer value
+                If GetFuncValByX(CLng(Xneu), Coef) = 0 Then
+                    Xneu = CLng(Xneu)
+                    Fertig = False
+                End If
+                
                 If Fertig Then
                     Exit Do
                 End If
                 
                 ' Add null to list, divide polynomial by found null and decrease degree
-                Result.Nulls(Result.NullCnt) = Round(Xneu, 6)
+                Result.Nulls(Result.NullCnt) = Round(Xneu, NullsPrecision - 1)
                 Result.NullCnt = Result.NullCnt + 1
                 
                 Call Nullstellendivision(Coef, Xneu)

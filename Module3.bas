@@ -18,3 +18,4 @@ Public Type POINTAPI
     X As Long
     Y As Long
 End Type
+
